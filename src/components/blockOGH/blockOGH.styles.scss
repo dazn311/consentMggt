@@ -1,0 +1,38 @@
+.admin-list-graphics {
+    display: flex;
+}
+
+.graphics-activeCompany {
+    padding-bottom: 20px;
+    padding-right: 25px;
+}
+
+
+
+.char-wrap {
+    width: 540px;
+    height: 320px;
+    padding: 10px;
+}
+
+.graphic-desc {
+    margin: 3px;
+    padding: 5px 2px;
+}
+.wrap-graphic-desc {
+    margin: 30px 0 5px 5px;
+    display: flex;
+}
+.graphic-desc.users {
+    color: #4ab5eb;
+
+}
+.graphic-desc.events {
+    color: #fc6868;
+}
+.graphic-desc.orders {
+    color: #decf3e;
+}
+.mr-m20-twig {
+    margin-right: -20px;
+}

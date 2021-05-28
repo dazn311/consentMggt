@@ -1,0 +1,43 @@
+// .MuiTableRow-root:hover {
+//   background-color: dimgrey;
+  
+//   .MuiTableCell-body {
+//     color: white;
+//   }
+// }
+
+ 
+.recharts-legend-wrapper {
+    bottom: 0px !important;
+    position: relative !important;
+    height: auto !important;
+}
+.MuiTableHead-root {
+    bottom: 10px !important;
+}
+.recharts-wrapper {
+    height: auto !important;
+}
+
+.MuiDataGrid-row.Mui-even {
+    // background-color: aliceblue;
+}
+
+.MuiPaper-rounded {
+    position: relative;
+    h6 {
+        text-align: center;
+        position: absolute;
+        margin-top: -15px;
+        left: 0px;
+        right: 0;
+    }
+}
+
+.MuiGrid-item {
+    // padding: 12px 0 !important;
+}
+.arrow-prev:hover {
+    // background-color: aquamarine;
+    color: #4dbf39;
+}

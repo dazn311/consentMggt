@@ -1,0 +1,57 @@
+.wrap-form {
+  // max-width: 90%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border: 1px solid gray;
+  padding: 10px;
+}
+
+.content {
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-list ul {
+  margin: 5px;
+}
+
+.header-tab {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+
+.admin-list__header {
+  border: 1px solid gray;
+  margin: 5px;
+  padding: 5px 10px;
+  background-color: aliceblue;
+}
+
+.list-objects {
+  list-style: none;
+  padding-left: 0;
+
+}
+
+.admin-list {
+  width: 50%;
+  align-self: baseline;
+}
+
+.admin-list-detail {
+  width: 50%;
+}
+.MuiButton-root {
+  margin-right: 15px; 
+}
+
+.MuiButton-text {
+  padding: 6px 8px;
+  border: 1px solid;
+}

@@ -1,0 +1,20 @@
+
+//270521
+export const userFetch = {
+  SET_ERROR_AUTH_USER_FOR_CONSENT_PAGE: 'SET_ERROR_AUTH_USER_FOR_CONSENT_PAGE', //   for consent Page 210521
+  SET_ERROR_OBJ_OF_AUTH_USER_FOR_CONSENT_PAGE: 'SET_ERROR_OBJ_OF_AUTH_USER_FOR_CONSENT_PAGE', //   for consent Page 210521
+  GET_AUTH_USER_FOR_CONSENT_PAGE: 'GET_AUTH_USER_FOR_CONSENT_PAGE', //   for consent Page 210521
+  GET_ORG_OF_AUTH_USER_FOR_CONSENT_PAGE: 'GET_ORG_OF_AUTH_USER_FOR_CONSENT_PAGE', //   for consent Page 210521
+  GET_OBJS_OF_AUTH_USER_FOR_CONSENT_PAGE: 'GET_OBJS_OF_AUTH_USER_FOR_CONSENT_PAGE', //   for consent Page 210521
+
+};
+
+//270521
+export const objsData = {
+  SET_ACTIVE_OBJ_FOR_CONSENT_PAGE: 'SET_ACTIVE_OBJ_FOR_CONSENT_PAGE', //   выделенный объект - выбранный пользователем /consent page 270521
+  UPDATE_SME_OBJS_FOR_CONSENT_PAGE: 'UPDATE_SME_OBJS_FOR_CONSENT_PAGE', //   выделенный объект - выбранный пользователем /consent page 270521
+
+};
+
+
+
