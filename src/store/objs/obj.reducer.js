@@ -1,23 +1,10 @@
 import { objData, objFilter } from './obj.types';
-import USERS_DATA from "../user/userPage.data";
 
-
-const initionalDateEnd = () => {
-  let newDate = new Date();//.toISOString().split('T')[0];
-  return newDate.toISOString().split('T')[0];
-}
 //
-// const INITIAL_STATE = {
-//   errorFetchUserData: null, // for user page info
-//   curUserAllData: {}, // for user page info
-//   curUserShort: USERS_DATA.curUserShort , // for user page info
-//   curUserStatsData: {} , // for user page info
-//   filterRecStatus: 0 , // for curUserStatsData for active tab2 for userDetails
-//   filterRecDateStart: '2021-01-01' , // for curUserStatsData for active tab2 for userDetails
-//   filterFieldObj: '' , // for curUserStatsData for active tab2 for userDetails
-//   filterRecDateEnd: initionalDateEnd() , // for curUserStatsData for active tab2 for userDetails
-//   curUser: USERS_DATA.curUser // in login
-// };
+// const initionalDateEnd = () => {
+//   let newDate = new Date();//.toISOString().split('T')[0];
+//   return newDate.toISOString().split('T')[0];
+// }
 
 const INITIAL_STATE = {
   errorFetchObjsData: null, // FOR OBJS PAGE TAB1 210521

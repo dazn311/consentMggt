@@ -99,7 +99,7 @@ const TabMenuConsent = ({idObj, currObj, selectCurrentObj}) => {
                   scrollButtons="auto"
                   aria-label="scrollable auto tabs example"
                 >
-                  <Tab label="Создать событие" {...a11yProps(0)} />
+                  <Tab label="Согласование событий" {...a11yProps(0)} />
                   {showTab2 && <Tab  label="События объекта" {...a11yProps(1)} />}
                 </Tabs>
               <TabPanel   value={value} index={0}>

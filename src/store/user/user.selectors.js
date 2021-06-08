@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect';
-import {formatDateISO} from "../../hoc/formatDate";
 
 const selectUser = state => state.curUser;
 const selectCurUserShort = state => state.user;

@@ -8,7 +8,7 @@ import Link from '@material-ui/core/Link';
 // import {formatDateISO} from '../../hoc/formatDate'
 // import PicImg from '../../static/images/images.png'
 // import mon from '../../static/images/mon.JPG'
-import {buildVersion} from './buildVersion'
+import {buildVersion} from '../buildVirsion/buildVersion'
 export default function Copyright() {
     // const newDate = new Date().toLocaleDateString() + ' (' + new Date().getHours() + ':' + new Date().getMinutes() + ')';
 

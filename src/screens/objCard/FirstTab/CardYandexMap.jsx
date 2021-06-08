@@ -12,14 +12,15 @@ import './paintOnMap';
 import { setObjCurrForDetailPageAsync  } from '../../../store/adminPanelTrest/adminPanelTrest.actions';
 import {setCurObjAsync} from "../../../store/objs/obj.actions";
 import { selectObjCurrObj } from '../../../store/adminPanelTrest/objspages.selectors';
-import { activeObjDataOfAuthUserSelector } from '../../../store/consent/cons.selectors';
+import { fullDataOfActiveObForMapForRelativesSelector } from '../../../store/consent/cons.selectors';
 
 
 const positionInit  = [55.7796, 37.5118];
+const boundsInit  = [[55.975113, 37.274017],[55.541198, 37.996513]];
 
 let localMap;
 
-const CardYandexMap = ({selectObjCurr, objAdress = 'Зорге, 1',setCurObj, activeObjDataOfAuthUser}) => {
+const CardYandexMap = ({selectObjCurr, objAdress = 'Зорге, 1',setCurObj, fullDataOfActiveObForMapForRelatives}) => {
   // const [draggable, setDraggable] = useState(false)
   const [position, setPosition] = useState(positionInit)
 
@@ -139,8 +140,12 @@ const CardYandexMap = ({selectObjCurr, objAdress = 'Зорге, 1',setCurObj, ac
 
         window.ymaps.ready(() => {
             // localMap.destroy();// Деструктор карты
-            // const adress = activeObjDataOfAuthUser ? activeObjDataOfAuthUser : objAdress;
-            window.ymaps.geocode(objAdress, { results: 1 }).then(function (res) {
+            // const adress = fullDataOfActiveObForMapForRelatives ? fullDataOfActiveObForMapForRelatives : objAdress;
+            window.ymaps.geocode(objAdress, {
+                boundedBy: boundsInit,
+                // boundedBy: localMap.getBounds(),
+                strictBounds: true,
+                results: 1 }).then(function (res) {
                 let firstGeoObject = res.geoObjects.get(0);
                 let centerCurObj = firstGeoObject.geometry.getCoordinates();
                 if ( position !== centerCurObj){
@@ -151,7 +156,7 @@ const CardYandexMap = ({selectObjCurr, objAdress = 'Зорге, 1',setCurObj, ac
                 alert(err.message);
             });
         });
-  }, [activeObjDataOfAuthUser])
+  }, [fullDataOfActiveObForMapForRelatives])
 
 
   return (
@@ -164,7 +169,7 @@ const CardYandexMap = ({selectObjCurr, objAdress = 'Зорге, 1',setCurObj, ac
  
 const mapStateToProps = createStructuredSelector ({
   selectObjCurr: selectObjCurrObj, // события короткие данные для таблицы
-    activeObjDataOfAuthUser: activeObjDataOfAuthUserSelector, // события короткие данные для таблицы
+    fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector, // события короткие данные для таблицы
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -68,7 +68,7 @@ const userLoginInitial = (userName) => {
 
 /////////////////////////////////////////////////////
 
-const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUserData }) => {
+const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUserData, userAllStatsData }) => {
     const [state, setState] = React.useState(selectAllOrgFromUsers);
 
 
@@ -232,6 +232,34 @@ const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUs
         }
 
     },[userData]);
+
+    useEffect(() => {
+
+        if (userData && userData !== {}){
+            // console.log('9999 userData',userData)
+            const {  user_role, user_status, user_email, user_tel, user_reg_date, user_end_date, user_last_seen, user_org_id, org_name, user_shortname } = userData ;
+            setUserShortName(user_shortname);
+            if(userAllStatsData && userAllStatsData.user){
+                setUserLogin(userAllStatsData.user.login)
+            }
+
+            setUserTel(refPhoneNumber(user_tel));
+            setUserMail(user_email);
+            setOrgID(user_org_id);
+            setOrg(org_name);
+            setUserEndDate((user_end_date || '2021-01-01T15:15').split('T')[0]);
+            if ( user_status === 'Аккаунт активен'){
+                setUserStatus(true);
+            }
+            setUserLastSeen(user_last_seen);
+            setUserRole(user_role);
+        }else {
+            history.push({
+                pathname: '/stats/users'
+            })
+        }
+
+    },[userAllStatsData]);
 
 
     let newArr = [];

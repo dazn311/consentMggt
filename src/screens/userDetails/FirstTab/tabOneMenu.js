@@ -46,6 +46,7 @@ const TabOneMenu =  ({ selectCurrentUserShort, selectCurrentUserAllData,  orgRow
     // user_status: "Аккаунт активен"
     // user_tel: "8-985-912-23-39"
 
+    // console.log('selectUserAllStats',selectUserAllStats)
     return (
         <div style={{display:'flex',flexDirection: window.innerWidth < 500 ? 'column' : 'row', justifyContent:'start'}} >
             <div  style={{boxShadow: '1px solid #e4dfdf2e',margin: window.innerWidth < 500 ? '0' :'10px', minWidth: 300, width: window.innerWidth < 500 ? '100%': 400,  border: '1px solid #e2e2e2',

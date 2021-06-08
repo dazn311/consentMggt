@@ -26,6 +26,20 @@
     </script>
 <!--    <script src="static/paintOnMap.js" type="text/javascript"></script>-->
 <!--    <script src="static/polygon_custom.js" type="text/javascript"></script>-->
+    <!-- Set up constants such as APP ID and token -->
+    <script type="text/javascript" src="../libs/hereAppIdAndToken.js"></script>
+    <!-- Bootstrap jQuery Library -->
+    <script type="text/javascript" src="../libs/jQl.min.js"></script>
+
+    <!-- Asynchronously the HERE Maps API for JavaScript -->
+    <script type="text/javascript" src="../libs/hereAsyncLoader.js"
+            id="HereMapsLoaderScript"
+            data-params="maps"
+            data-map-container="mapContainer"
+            data-callback="afterHereMapLoad"
+            data-libs="wkt-parser"
+            data-parent="demos/wkt-parser/">
+    </script>
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <title>МГГТ статистика</title>
   </head>

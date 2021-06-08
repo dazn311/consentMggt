@@ -11,8 +11,8 @@ import { fetchObjRectListAsync } from '../../../store/adminPanelTrest/adminPanel
 import './eventDetail.styles.scss';
 import './map-widget.css';
 import CartGenInfo from './CardGenInfo';
-import CardEventInfo from './CardEventInfo';
-import CardMapInfo from "./CardMapInfo";
+// import CardEventInfo from './CardEventInfo';
+// import CardMapInfo from "./CardMapInfo";
 import CardYandexMap from "./CardYandexMap";
 import {useHistory} from "react-router-dom";
 
@@ -43,7 +43,8 @@ const TabOneMenu = ({ idObj,currObj, fetchObjRectList, selectObjRect  }) => {
         // <CardEventInfo currObj={currObj} objRect={selectObjRect} ></CardEventInfo>
         }
       <div  style={{display:'flex',flexWrap:'nowrap', justifyContent:'center', position: 'relative', overflow: 'unset'}} >
-        {currObj && <CardYandexMap objAdress={currObj.objName} />}
+        {currObj && <CardYandexMap objAdress={ 'Москва, ' + currObj.objName} />}
+        {/*{currObj && <CardYandexMap objAdress={currObj.objName} />}*/}
       </div>
 
     </div>

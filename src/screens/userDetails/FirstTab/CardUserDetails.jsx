@@ -24,10 +24,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const CardUserDetails = ({ curUser, selectUserAllStats }) => {
+const CardUserDetails = ({ selectUserAllStats }) => {
     const classes = useStyles();
     const themess =  useTheme();
-
  
   return (
     <div className="row">
@@ -132,31 +131,63 @@ const CardUserDetails = ({ curUser, selectUserAllStats }) => {
                                 <td style={{minWidth: 174, color: themess.palette.type === 'dark' && 'bisque' }} >Всего созданных</td>
                                 <td> <i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>{selectUserAllStats ? (selectUserAllStats.resUserEvents || '25(*)') : '25(*)'}</td>
                             </tr>
-                            <tr>
-                                <td> <span className="fa fa-microphone text-primary"></span></td>
-                                <td style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque' }} >Участников</td>
-                                <td> <i className="fa fa-caret-down text-danger pr10"  style={{paddingRight:10}}/>28(*)</td>
-                            </tr>
-                            <tr>
-                                <td> <span className="fa fa-newspaper-o text-info"></span></td>
-                                <td  style={{minWidth: 174, color: themess.palette.type === 'dark' && 'bisque', borderBottom: '1px solid #ffe4c469', paddingBottom: 4}}  >Закрытых собственных</td>
-                                <td style={{minWidth: 140, borderBottom: '1px solid #7c985b', paddingBottom: 4}}> <i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>21(*)</td>
-                            </tr>
-                            <tr>
-                                <td> <span className="fa fa-newspaper-o text-info"></span></td>
-                                <td  style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque' }} >Внутри своего объекта</td>
-                                <td> <i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>2(*)</td>
-                            </tr>
-                            <tr>
-                                <td> <span className="fa fa-newspaper-o text-info"></span></td>
-                                <td  style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque', borderBottom: '1px solid #ffe4c469', paddingBottom: 4}}  >К смежному объекту</td>
-                                <td style={{minWidth: 140, borderBottom: '1px solid #7c985b', paddingBottom: 4}}><i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>9(*)</td>
-                            </tr>
-                            <tr>
-                                <td> <span className="fa fa-newspaper-o text-info"></span> </td>
-                                <td  style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque' }} >За сутки созданных</td>
-                                <td> <i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>5(*)</td>
-                            </tr>
+                            {selectUserAllStats && (selectUserAllStats.resUserEvents !== '0')
+                                ?
+                                <tr>
+                                    <td> <span className="fa fa-microphone text-primary"></span></td>
+                                    <td style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque' }} >Участников</td>
+                                    <td> <i className="fa fa-caret-down text-danger pr10"  style={{paddingRight:10}}/>28(*)</td>
+                                </tr>
+                                : ''
+
+
+                            }
+                            {selectUserAllStats && (selectUserAllStats.resUserEvents !== '0')
+                                ?
+                                <tr>
+                                    <td> <span className="fa fa-newspaper-o text-info"></span></td>
+                                    <td  style={{minWidth: 174, color: themess.palette.type === 'dark' && 'bisque', borderBottom: '1px solid #ffe4c469', paddingBottom: 4}}  >Закрытых собственных</td>
+                                    <td style={{minWidth: 140, borderBottom: '1px solid #7c985b', paddingBottom: 4}}> <i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>21(*)</td>
+                                </tr>
+                                : ''
+
+
+                            }
+                            {selectUserAllStats && (selectUserAllStats.resUserEvents !== '0')
+                                ?
+                                <tr>
+                                    <td> <span className="fa fa-newspaper-o text-info"></span></td>
+                                    <td  style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque' }} >Внутри своего объекта</td>
+                                    <td> <i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>2(*)</td>
+                                </tr>
+                                : ''
+
+
+                            }
+
+                            {selectUserAllStats && (selectUserAllStats.resUserEvents !== '0')
+                                ?
+                                <tr>
+                                    <td> <span className="fa fa-newspaper-o text-info"></span></td>
+                                    <td  style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque', borderBottom: '1px solid #ffe4c469', paddingBottom: 4}}  >К смежному объекту</td>
+                                    <td style={{minWidth: 140, borderBottom: '1px solid #7c985b', paddingBottom: 4}}><i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>9(*)</td>
+                                </tr>
+                                : ''
+
+
+                            }
+                            {selectUserAllStats && (selectUserAllStats.resUserEvents !== '0')
+                                ?
+                                <tr>
+                                    <td> <span className="fa fa-newspaper-o text-info"></span> </td>
+                                    <td  style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque' }} >За сутки созданных</td>
+                                    <td> <i className="fa fa-caret-up text-info pr10" style={{paddingRight:10}}/>5(*)</td>
+                                </tr>
+                                : ''
+
+
+                            }
+
                         </tbody>
                     </table>
                 </div>

@@ -37,7 +37,6 @@ export const selectCurrentObj = createSelector(
         if (selectAdmin.objRect.data ){
             if ( selectAdmin.objRect.data.recs && selectAdmin.objRect.data.recs.length  ) {
                     let filter01 = [];
-                    let filter02 = [];
                     const filter0 = selectAdmin.objRect.data.recs.filter(elem => {
                         const recDate = new Date(elem.rec_date);
                         const startDate = new Date(selectObj.curObjFilterDateStart);
