@@ -12,7 +12,10 @@ export const convertWT = (multPolGeo) => {
     let strX = ''
     let strY = ''
     let keyX = true
-    const brackets = [].map.call(multPolGeo, (char, index) => {
+
+    let multiPol = multPolGeo.replace(')(','),(')
+
+    const brackets = [].map.call(multiPol, (char, index) => {
         switch (char) {
             case '(':
                 strX = ''

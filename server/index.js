@@ -1,119 +1,222 @@
-import dotenv from 'dotenv';
-import express from 'express';
-import cors from 'cors';
-import socket from 'socket.io';
-import path from 'path';
-import morgan from 'morgan';
+// sever for chat events
 
-import E from './events';
-import { readFile, updateFile } from './helpers/fs';
+// const express = require('express');
+import express from "express";
+import http from "http";
+import {Server} from "socket.io"
+import cors from "cors";
 
-dotenv.config();
-const port = process.env.SOCKET_PORT || 5000;
+// import  Pool  from 'pg'
+// import * as pg from 'pg'
+// const { Pool } = pg
+
+import PG from 'pg';
+
+const Pool = PG.Pool;
+
+
+const pool = new Pool({
+    user: "mggt_alex",
+    password: "79y7BdJFtmqJVtJn",
+    host: "176.53.160.74",
+    port: "5432",
+    // database: "ismggt_geo",
+    database: "test_polygon_2",
+    max: 25,
+    idleTimeoutMillis: 30000,
+    connectionTimeoutMillis: 2000
+})
+
+//При ошибке переподключаемся к базе
+pool.on('error', (err, client) => {
+    console.error('Unexpected error on idle client', err)
+    process.exit(-1)
+})
+
+//Нормализированная функция для создания запросов
+async function query(q,data){
+    const client = await pool.connect()
+    let res;
+    try {
+        await client.query('BEGIN')
+        try {
+            res = await client.query(q,data)
+            await client.query('COMMIT')
+        } catch (err) {
+            await client.query('ROLLBACK')
+            throw err
+        }
+    } finally {
+        client.release()
+    }
+    return res
+}
+
+
+async function getMessagesByEventId(evId){
+    console.log('getMessagesByEventId start', evId)
+    return new Promise ((resolve, reject) => {
+        //SELECT * FROM public.mggt_message WHERE msg_rec_id = 9750;
+        let queryText  = ` SELECT * FROM public.mggt_message WHERE msg_rec_id = 3265;`; // good
+        // let queryText  = ` SELECT * FROM public.mggt_message WHERE msg_rec_id = ${evId};`; // good
+        query(queryText)
+            .then(function(data){
+                console.log('21data.rows',data.rows)
+                let result = {
+                    evMes: data.rows
+                }
+                resolve(result);
+                // if(data.rows){
+                //     resolve({data: data.rows});
+                // }else {
+                //     resolve([])
+                // }
+
+
+            })
+            .catch(function(err){console.log(err)});
+    });
+}
+
+
+
+
 const app = express();
+app.use(cors())
+app.use(express.json()); //work
 
-app
-  .use('/static', express.static(path.resolve(__dirname, 'public')))
-  .use(cors())
-  .use(morgan('dev'));
+const server = http.createServer(app);
 
-app.get('/users', async function(req, res) {
-  const users = await getUsersData();
-  res.send(JSON.stringify(users));
-});
 
-const server = app.listen(port, function() {
-  console.log('server up and running on port ' + port);
-});
 
-const io = socket(server);
+// const { Pool } = require('pg');
 
-io.on('connection', function(socket) {
-  console.log('a user connected', socket.id);
 
-  socket.on(E.CHOOSE_USER_FROM_CLIENT, async ({ id }) => {
-    socket.broadcast.emit(E.CHOOSE_USER_FROM_SERVER, { id });
-    const users = await getUsersData();
-    const userAliases = await readFile('socket-user-aliases.json');
-    const changedUsers = disableUser(id, users);
-    const aliasObject = {
-      cocketId: socket.id,
-      userId: id
-    };
-    const changedAliases = [...userAliases, aliasObject];
-    await updateUsersData(changedUsers);
-    await updateAliases(changedAliases);
-  });
+//API endpoint 180521 Для Карточки пользователя Tab1
+app.post('/query/event/messages', cors(), async function(req, res){
+    const { evId } = req.body;
 
-  socket.on(E.ADD_MESSAGE_FROM_CLIENT, ({ message }) => {
-    socket.broadcast.emit(E.ADD_MESSAGE_FROM_SERVER, { message });
-  });
+    try {
+        let resEventMessages = await getMessagesByEventId(evId);
+        console.log('resEventMessages',resEventMessages)
+        let result = {
+            eventId: evId,
+            test: evId,
+            messages: resEventMessages.evMes
+        }
+        res.send(result);
+    } catch (e){
+        console.log(' error - ',e);
+    }
+})
 
-  socket.on('disconnect', async function() {
-    let UID = null;
-    console.log('user disconnected', socket.id);
-    const userAliases = await readFile('socket-user-aliases.json');
+const io = new Server(server, {cors: {origin: '*'}});
 
-    userAliases.forEach(({ cocketId, userId }) => {
-      if (cocketId === socket.id) {
-        UID = userId;
-      }
+//for rooms2 chat
+const PORT = 4000;
+const NEW_CHAT_MESSAGE_EVENT = "newChatMessage";
+const GET_ALL_MESSAGES_OF_ROOM = 'allMessages';
+const WHO_IS_IN_ROOM = 'who is in the room';
+let messagesAllRoom = [] // [{idRoom: data: [{senderId,body,userName},{senderId,body,userName},{senderId,body,userName},]  },...]
+const messMap = new Map();
+console.log('messMap.size',messMap.size) //3
+
+
+io.on("connection", async (socket) => {
+    // console.log(`Client ${socket.id} connected`);
+
+    // Join a conversation
+    const {roomId, userName} = socket.handshake.query;
+    console.log(`Client ${socket.id} - ${userName} connected to room ${roomId}`);
+    socket.join(roomId);
+
+
+
+    // получить данные из бд
+    let resEventMessages = await getMessagesByEventId(roomId);
+    console.log('resEventMessages', resEventMessages)
+    socket.to(roomId).to(socket.id).emit('salut-event',   resEventMessages.evMes);
+
+
+    // socket.to(roomId).to(socket.id).emit('salut-event', 'Привет');
+
+    // send all message of this room
+    let MessOfRoom = getMessagesOfRoom(roomId, messagesAllRoom);
+    if (MessOfRoom) {
+        io.to(roomId).emit(GET_ALL_MESSAGES_OF_ROOM, MessOfRoom);
+    }
+
+
+    // Listen for new messages
+    socket.on(NEW_CHAT_MESSAGE_EVENT, (data) => {
+        let newData = {...data, date: new Date()}
+        setMessagesOfRoom(roomId, newData, messagesAllRoom)
+        // console.log(`NEW_CHAT_MESSAGE_EVENT messagesAllRoom`, messagesAllRoom);
+
+        io.to(roomId).emit(NEW_CHAT_MESSAGE_EVENT, newData);
     });
 
-    if (UID) {
-      socket.broadcast.emit(E.ENABLE_USER_FROM_SERVER, { id: UID });
-      const users = await getUsersData();
-      const changedUsers = enableUser(UID, users);
-      await updateUsersData(changedUsers);
-      const changedAliases = [...userAliases.filter(obj => obj.userId !== UID)];
-      await updateAliases(changedAliases);
-    }
-  });
+    // Leave the room if the user closes the socket
+    socket.on("disconnect", () => {
+        console.log(`Client ${socket.id} disconnected`);
+        socket.leave(roomId);
+    });
 });
 
-async function getUsersData() {
-  const data = await readFile('users.json');
-  return data;
+
+server.listen(PORT, () => {
+    console.log(`Listening on port ${PORT}`);
+});
+
+function getMessagesOfRoom(roomId, messages) {
+    let idxMes = messages.findIndex(mes => mes.idRoom === roomId);
+    if (idxMes > -1) {
+        return messages[idxMes] ? messages[idxMes].data : null //data: [{senderId,body,userName},{senderId,body,userName},{senderId,body,userName},]
+    } else {
+        return null
+    }
+
 }
 
-async function updateUsersData(usersData) {
-  try {
-    await updateFile('users.json', usersData);
-    return true;
-  } catch (err) {
-    console.log('Error update users', err);
-    return false;
-  }
+function setMessagesOfRoom(roomId, data, messages) {
+    let idxMes = messages.findIndex(mes => mes.idRoom === roomId);
+
+    if (idxMes > -1) {
+        let dataOfRoom = messages[idxMes].data // []
+        dataOfRoom.push(data)
+        // let newMessages = {idRoom: roomId, data: dataOfRoom  };
+        messages[idxMes] = {...messages[idxMes], data: dataOfRoom};
+
+    } else {
+
+        let newMessToState = {idRoom: roomId, data: [data]};
+        messages.push(newMessToState);
+
+    }
+
+    return messages
 }
 
-async function updateAliases(aliasesData) {
-  try {
-    await updateFile('socket-user-aliases.json', aliasesData);
-    return true;
-  } catch (err) {
-    console.log('Error update aliases', err);
-    return false;
-  }
-}
 
-function enableUser(id, users) {
-  return users.map(user => {
-    return user.id === id
-      ? {
-          ...user,
-          available: true
-        }
-      : user;
-  });
-}
+// console.log(` socket.on NEW_CHAT_MESSAGE_EVENT data `,data);
+// io.in(roomId).emit(NEW_CHAT_MESSAGE_EVENT, data);
+// let newMessToState = {idRoom: roomId, data: data  };
+// messagesAllRoom.push(newMessToState);
 
-function disableUser(id, users) {
-  return users.map(user => {
-    return user.id === id
-      ? {
-          ...user,
-          available: false
-        }
-      : user;
-  });
-}
+// data: {
+//       userName: userName,
+//       body: messageBody,
+//       senderId: socketRef.current.id,
+//     }
+
+
+// messagesAllRoom [
+//   {
+//     idRoom: '10102',
+//     data: {
+//       userName: 'ЖКХиБ ВАО',
+//       body: 'sdf',
+//       senderId: 'xasxQOUOLd2HNupdAAAB'
+//     }
+//   }
+// ]

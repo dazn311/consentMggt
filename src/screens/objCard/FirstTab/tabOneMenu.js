@@ -43,7 +43,7 @@ const TabOneMenu = ({ idObj,currObj, fetchObjRectList, selectObjRect  }) => {
         // <CardEventInfo currObj={currObj} objRect={selectObjRect} ></CardEventInfo>
         }
       <div  style={{display:'flex',flexWrap:'nowrap', justifyContent:'center', position: 'relative', overflow: 'unset'}} >
-        {currObj && <CardYandexMap objAdress={ 'Москва, ' + currObj.objName} />}
+        {currObj && <CardYandexMap objAdress={ 'Москва, ' + currObj.objName} orgName={ currObj.organization.orgname} />}
         {/*{currObj && <CardYandexMap objAdress={currObj.objName} />}*/}
       </div>
 

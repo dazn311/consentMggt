@@ -1,4 +1,4 @@
-import {userFetch, objsData, objsFetch, relObjs} from './cons.types';
+import {userFetch, objsData, objsFetch, relObjs, eventsObj} from './cons.types';
 
 //
 // const initionalDateEnd = () => {
@@ -20,6 +20,10 @@ const INITIAL_STATE = {
     relData: [], // выделенный объект - выбранный пользователем /consent page 270521
     curObjId: null, // выделенный объект - выбранный пользователем /consent page 270521
     activeRelId: null, // выделенный объект - выбранный пользователем /consent page 270521
+    activeObjAndRel: [{id: 0, objName: ''},{id: 1, relName: ''}], // выделенный объект - выбранный пользователем /consent page 270521
+    eventsActiveObj:  null, // выделенный объект - выбранный пользователем /consent page 270521
+    // eventsActiveObj: {data: {recs:null}}, // выделенный объект - выбранный пользователем /consent page 270521
+    visibleEventsObj: true, // выделенный объект - выбранный пользователем /consent page 270521
     // curObjFilterDateStart: '2021-01-01',
     // curObjFilterDateEnd: new Date().toISOString().split('T')[0],
 };
@@ -98,6 +102,40 @@ const consentReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 activeObjDataOfAuthUser: action.payload
             };
+
+        case objsData.SET_ACTIVE_TWO_OBJS_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
+            //setActiveObjAndRel([{id: 0, objName: ''},{id: relId, relName: ''}])
+            let objID = action.payload[0].id
+            let objName = action.payload[0].objName
+            let obj = action.payload[0]
+            let relID = action.payload[1].id
+            let relName = action.payload[1].relName
+            let rel = action.payload[1]
+            let lastState = state.activeObjAndRel
+
+            if(objID > 1 && relID > 1){
+                return {
+                    ...state,
+                    activeObjAndRel: action.payload
+                }
+            }else if(objID > 1){
+                if(!objName){
+                    objName = lastState[0].objName
+                }
+                lastState[0] = {id: objID, objName: objName}
+                return { ...state , lastState }
+            }else if(relID > 1){
+                if(!relName){
+                    relName = lastState[1].relName
+                }
+                lastState[1] = {id: relID, relName: relName}
+                return { ...state , lastState }
+            }else {
+                return {
+                    ...state,
+                    activeObjAndRel: action.payload
+                }
+            }
         case objsData.SET_CUR_OBJ_ID_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
             return {
                 ...state,
@@ -124,6 +162,15 @@ const consentReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 objsData: newArr2
             };
+        case objsFetch.EVENTS_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E: // FOR OBJS PAGE TAB1 080621
+            let newArr3 = state.eventsActiveObj //
+            console.log('action.payload: ',action.payload)
+            return state
+            // newArr3[action.payload.obj_id] = action.payload
+            // return {
+            //     ...state,
+            //     eventsActiveObj: newArr3
+            // };
         case objsData.UPDATE_SME_OBJS_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
             // console.log(action.payload.objName.objName,action.payload.objId)
             let newAdress = action.payload.objName.objName;
@@ -153,8 +200,16 @@ const consentReducer = (state = INITIAL_STATE, action) => {
                 return state
             }
 
-
-        // return { ...state, dataOfObjsForList: newObjArr };
+        case eventsObj.FETCH_EVENT_OF_OBJ: // FOR OBJS PAGE TAB1 210521
+            return {
+                ...state,
+                eventsActiveObj: action.payload
+            }
+        case eventsObj.SWITCH_EVENT_SHOW: // FOR OBJS PAGE TAB1 210521
+            return {
+                ...state,
+                visibleEventsObj: action.payload
+            }
 
         default:
             return state;

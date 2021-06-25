@@ -1,5 +1,6 @@
-import {objsData, objsFetch, relObjs, userFetch} from './cons.types';
+import {eventsObj, objsData, objsFetch, relObjs, userFetch} from './cons.types';
 import memoize from "lodash/_memoizeCapped";
+import {visibleEventsObjSelector} from "./cons.selectors";
 
 export const setErrorFetchAuthUser = (errorMessage) => ({
     type: userFetch.SET_ERROR_AUTH_USER_FOR_CONSENT_PAGE,
@@ -67,9 +68,30 @@ export const fetchRelObjById = obj => ({
     payload: obj
 });
 
+// FOR event block
+export const fetchEventObjById = obj => ({
+    type: objsFetch.EVENTS_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E,
+    payload: obj
+});
+
 export const setActiveRelObjIdForConsentPage = objId => ({
     type: relObjs.SET_ACTIVE_REL_OBJ_FOR_CONSENT_PAGE,
     payload: objId
+});
+
+export const setActiveObjAndRelForConsentPage = objData => ({
+    type: objsData.SET_ACTIVE_TWO_OBJS_FOR_CONSENT_PAGE,
+    payload: objData
+});
+
+export const putEventsObjToStatsForConsentPage = eventData => ({
+    type: eventsObj.FETCH_EVENT_OF_OBJ,
+    payload: eventData
+});
+
+export const switchEventsObjForConsentPage = yn => ({
+    type: eventsObj.SWITCH_EVENT_SHOW,
+    payload: yn
 });
 
 /////////////////////////
@@ -97,11 +119,23 @@ export const fetchAuthUserAsync = (userID) => dispatch => {
     _fetchAuthUserAsync(dispatch, userID);
 };
 const _fetchAuthUserAsync = memoize(async (dispatch, userID) => {
-    await postData('https://ismggt.ru/query/user/info', {'userID': userID})
-        .then((data) => {
-            dispatch(fetchAuthUser(data[0]));
-        })
-        .catch(error => dispatch(setErrorFetchAuthUser(error.message)));
+    try {
+        let userData = sessionStorage.getItem('userOfAuthData')
+        // console.log('fetchAuthUser -- userData)',userData)
+        if(JSON.stringify(userData) === '{}' || userData === null) { //This will check if the object is empty
+            await postData('https://ismggt.ru/query/user/info', {'userID': userID})
+                .then((data) => {
+                    console.log('fetchAuthUser(data[0])',data[0])
+                    dispatch(fetchAuthUser(data[0]));
+                })
+                .catch(error => dispatch(setErrorFetchAuthUser(error.message)));
+        }else {
+            dispatch(fetchAuthUser(JSON.parse(userData)));
+        }
+    }catch (e) {
+        console.log('fetchAuthUser -- catch)',e.message)
+    }
+
 });
 
 export const fetchOrgOfAuthUserAsync = (userID) => dispatch => {
@@ -121,17 +155,46 @@ export const fetchObjsOfAuthUserAsync = (orgName) => dispatch => {
 };
 const _fetchObjsOfAuthUserAsync = memoize(async (dispatch, orgName) => {
     const endDate = new Date().toISOString();
+    try {
+        let objsData = sessionStorage.getItem('objsDataOfAuthUser')
+        // console.log('fetchAuthUser -- userData',objsData)
+        if(JSON.stringify(objsData) === '{}' || objsData === null) { //This will check if the object is empty
+            await postData('https://ismggt.ru/query/objects/list', {
+                "objectType": 2, "organization": 0, "limit": 100, "offset": 0, "startDate": "2021-01-01",
+                "endDate": endDate, "objName": "", "orgName": orgName, "objKind": "", "objStatus": 10,
+                "sortCol": "date", "sortType": "desc"
+            })
+                .then((data) => {
+                    sessionStorage.setItem('objsDataOfAuthUser', JSON.stringify(data))
+                    dispatch(fetchObjsOfAuthUser(data));
+                })
+                .catch(error => dispatch(setErrorFetchAuthUser(error.message)));
+
+        }else {
+            dispatch(fetchObjsOfAuthUser(JSON.parse(objsData)));
+        }
+    }catch (e) {
+        // console.log('fetchObjsOfAuthUser -- catch)',e.message)
+        dispatch(setErrorFetchAuthUser(e.message))
+    }
+
+    // const endDate = new Date().toISOString();
     // console.log('_fetchObjsOfAuthUserAsync -- orgName',orgName)
-    await postData('https://ismggt.ru/query/objects/list', {
-        "objectType": 2, "organization": 0, "limit": 100, "offset": 0, "startDate": "2021-01-01T10:00:00.000Z",
-        "endDate": endDate, "objName": "", "orgName": orgName, "objKind": "", "objStatus": 10,
-        "sortCol": "date", "sortType": "desc"
-    })
-        .then((data) => {
-            dispatch(fetchObjsOfAuthUser(data));
-        })
-        .catch(error => dispatch(setErrorFetchAuthUser(error.message)));
+
 });
+// const _fetchObjsOfAuthUserAsync = memoize(async (dispatch, orgName) => {
+//     const endDate = new Date().toISOString();
+//     // console.log('_fetchObjsOfAuthUserAsync -- orgName',orgName)
+//     await postData('https://ismggt.ru/query/objects/list', {
+//         "objectType": 2, "organization": 0, "limit": 100, "offset": 0, "startDate": "2021-01-01T10:00:00.000Z",
+//         "endDate": endDate, "objName": "", "orgName": orgName, "objKind": "", "objStatus": 10,
+//         "sortCol": "date", "sortType": "desc"
+//     })
+//         .then((data) => {
+//             dispatch(fetchObjsOfAuthUser(data));
+//         })
+//         .catch(error => dispatch(setErrorFetchAuthUser(error.message)));
+// });
 
 
 export const setActiveObjOfAuthUserAsync = (objName) => dispatch => {
@@ -201,7 +264,7 @@ const _fetchEventsPointShortAsync = async (limit, offset, dispatch) => {
 
 
 // 020621 from Dashboard page
-export const fetchObjByIdToObjsDataAsync = (objId = 9748) => dispatch => {
+export const fetchObjByIdToObjsDataAsync = (objId ) => dispatch => {
     // console.log('1255v fetchObjByIdToObjsDataAsync',objId)
     _fetchObjByIdToObjsData(objId, dispatch);
 };
@@ -211,6 +274,7 @@ const _fetchObjByIdToObjsData = async (objId, dispatch) => {
         objID: objId,
     })
         .then((objData) => {
+            // console.log('1255v _fetchObjByIdToObjsData',objData.data)
             dispatch(fetchObjByIdToObjsData(objData.data));
         })
         .catch(error => dispatch(setErrorFetchObjOfAuthUser('нет данных для объекта. Ошибка:', error.message)))

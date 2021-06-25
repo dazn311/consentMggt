@@ -24,6 +24,8 @@ const MainListItems = ( {location,  drawerClose} ) => {
 
     if (location.pathname === '/stats/gen') {
         activePage = 'gen';
+    }else if (location.pathname === '/stats/dash') {
+        activePage = 'dash';
     }else if (location.pathname === '/stats/consent') {
         activePage = 'consent';
     }else if (location.pathname === '/stats/users') {
@@ -41,11 +43,11 @@ const MainListItems = ( {location,  drawerClose} ) => {
     return(
 
         <div>
-            <MenuItem component={Link} to="/stats" selected={activePage === 'consent'}>
+            <MenuItem component={Link} to="/stats/dash" selected={activePage === 'dash'}>
                 <ListItemIcon>
                     <DashboardIcon color={activePage === 'dash' ? "primary" : "inherit"}/>
                 </ListItemIcon>
-                <ListItemText primary="Главная" onClick={drawerClose}/>
+                <ListItemText primary="Общая статистика" onClick={drawerClose}/>
             </MenuItem>
 
             <MenuItem component={Link} to="/stats/objs" selected={activePage === 'obj' || activePage === 'objs' }>

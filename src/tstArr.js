@@ -13,10 +13,29 @@ arrayD[100] = 800
 //====
 
 const polygon = "POLYGON((-49 52,123 52,123 -4,-49 -4,-49 52))"
+let polygonWithError = "POLYGON((-49 52,123 52,123 -4,-49 -4,-49 52)(-23 52,123 52,123 -4,-49 -4,-49 22))"
+polygonWithError = polygonWithError.replace(')(','),(')
+// let newP = polygonWithError.replace(')(','),(')
+
+// polygonWithError = polygonWithError.split('').map(el => {
+//return el = '-' ? '*' : el
+// })
+
+// polygonWithError = polygonWithError.split('').forEach(el => {
+//     return el = '-' ? '*' : el
+// })
+
+// [...polygonWithError].map(el => el = '*' ? '-': el)
 
 
-console.log(polygon.length);
+// console.log(polygonWithError.length);
+// console.log(newP.length);
+console.log(polygonWithError );
+// console.log(newP );
 
-for (let i of polygon ) {
-    console.log(i)
-}
+// for (let i of polygon ) {
+//     console.log(i)
+// }
+
+
+console.log('Date.now()',Date.now())

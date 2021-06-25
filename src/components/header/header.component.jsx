@@ -201,7 +201,7 @@ const Header = React.memo(({ currentUser, children, window, setTheme }) => {
         const headTitleCur2 = location.pathname.split('/')[2];
         const headTitleCur = location.pathname.split('/').pop();
 
-        // console.log('headTitleCur2',headTitleCur2);
+        console.log('headTitleCur2',headTitleCur2);
 
         if (headTitleCur2 === 'ogh') {
             setHeaderTitle('События')
@@ -215,7 +215,11 @@ const Header = React.memo(({ currentUser, children, window, setTheme }) => {
             setHeaderTitle('Карточка пользователя')
         } else if (headTitleCur2 === 'obj') {
             setHeaderTitle('Карточка объекта')
-        } else if (headTitleCur === 'stats') {
+        } else if (headTitleCur === 'dash') {
+            setHeaderTitle('Основная статистика')
+        }else if (headTitleCur === 'consent') {
+            setHeaderTitle('Согласование объектов')
+        }else if (headTitleCur === 'stats') {
             setHeaderTitle('Главная страница')
         }
 

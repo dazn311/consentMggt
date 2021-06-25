@@ -32,16 +32,40 @@ export const curObjIdSelector = createSelector(
 
 export const activeRelIdSelector = createSelector(
   [consentSelector],
-    consRed => consRed.activeRelId
+    consRed => consRed.activeObjAndRel[1].id
+);
+//
+// export const activeRelIdSelector = createSelector(
+//   [consentSelector],
+//     consRed => consRed.activeRelId
+// );
+
+export const activeObjAndRelSelector = createSelector(
+  [consentSelector],
+    consRed => consRed.activeObjAndRel
 );
 
+//
+// export const fullDataOfActiveObForMapForRelativesSelector = createSelector(
+//   [consentSelector,curObjIdSelector],
+//     (consRed,curObjId) => {
+//       if(consRed.objsData){
+//           if (consRed.objsData.length) {
+//               return consRed.objsData[curObjId]
+//           }
+//       }else {
+//           return null
+//       }
+//
+//     }
+// );
 
 export const fullDataOfActiveObForMapForRelativesSelector = createSelector(
-  [consentSelector,curObjIdSelector],
+  [consentSelector,activeObjAndRelSelector],
     (consRed,curObjId) => {
       if(consRed.objsData){
           if (consRed.objsData.length) {
-              return consRed.objsData[curObjId]
+              return consRed.objsData[curObjId[0].id ]
           }
       }else {
           return null
@@ -51,11 +75,11 @@ export const fullDataOfActiveObForMapForRelativesSelector = createSelector(
 );
 
 export const relFullDataOfActiveObjSelector = createSelector(
-  [consentSelector,activeRelIdSelector],
+  [consentSelector,activeObjAndRelSelector],
     (consRed,curObjId) => {
       if(consRed.objsData){
           if (consRed.objsData.length) {
-              return consRed.objsData[curObjId]
+              return consRed.objsData[curObjId[1].id ]
           }
       }else {
           return null
@@ -63,6 +87,20 @@ export const relFullDataOfActiveObjSelector = createSelector(
 
     }
 );
+//
+// export const relFullDataOfActiveObjSelector = createSelector(
+//   [consentSelector,activeRelIdSelector],
+//     (consRed,curObjId) => {
+//       if(consRed.objsData){
+//           if (consRed.objsData.length) {
+//               return consRed.objsData[curObjId]
+//           }
+//       }else {
+//           return null
+//       }
+//
+//     }
+// );
 
 export const bndRelActiveObjSelector = createSelector(
   [consentSelector,activeRelIdSelector],
@@ -121,85 +159,29 @@ export const objRelativesSelector = createSelector(
     consRed => consRed.objRelatives
 );
 
-export const relObjsOfActiveObjSelector = createSelector(
+
+export const eventsActiveObjSelector = createSelector(
   [consentSelector],
-    (consRed) => consRed.objRelatives //activeObj.objID
+    (consRed) => consRed.eventsActiveObj //activeObj.objID
+);
+
+export const recsDataSelector = createSelector(
+  [consentSelector],
+    (consRed) => {
+
+      return consRed.eventsActiveObj ? consRed.eventsActiveObj.data.recs : []
+    } //activeObj.objID
+);
+
+export const visibleEventsObjSelector = createSelector(
+  [consentSelector],
+    (consRed) => consRed.visibleEventsObj //activeObj.objID
 );
 
 
+//////////////for event block /////////////
 
-
-
-
-
-
-
-
-
-// export const selectCurrentObj2 = createSelector(
-//     [selectAdmin, selectObjFilterSender],
-//     selectAdmin => selectAdmin.objRect.data.recs.filter(rec => rec.sender.orgname.includes(selectObjFilterSender))
-// );
-//
-//
-// export const selectObjList = createSelector(
-//     [selectAdmin, selectFilterFieldObjs],
-//     (selectAdmin, selectFilterFieldObjs) => selectAdmin.obj.objs.filter(obj => obj.obj_name.includes(selectFilterFieldObjs))
-// );
-
-//
-// export const selectCurrentObj = createSelector(
-//     [selectAdmin, selectObj],
-//     (selectAdmin, selectObj) => {
-//         if (selectAdmin.objRect.data ){
-//             if ( selectAdmin.objRect.data.recs && selectAdmin.objRect.data.recs.length  ) {
-//                     let filter01 = [];
-//                     let filter02 = [];
-//                     const filter0 = selectAdmin.objRect.data.recs.filter(elem => {
-//                         const recDate = new Date(elem.rec_date);
-//                         const startDate = new Date(selectObj.curObjFilterDateStart);
-//                         const endDate = new Date(selectObj.curObjFilterDateEnd + 'T23:23');
-//
-//                         return recDate >= startDate && recDate <= endDate && elem
-//                     });
-//
-//                     const filter11 = filter0.filter(elem => (elem.sender.objname || '').toLowerCase().includes(selectObj.curObjFilterSender));
-//                     const filter12 = filter0.filter(elem => (elem.sender.orgname || '').toLowerCase().includes(selectObj.curObjFilterSender));
-//                     const filter13 = filter0.filter(elem => (elem.sender.username || '').toLowerCase().includes(selectObj.curObjFilterSender));
-//
-//                     if (filter11.length) {
-//                         filter01 = filter11;
-//                     } else if (filter12.length) {
-//                         filter01 = filter12;
-//                     } else if (filter13.length) {
-//                         filter01 = filter13
-//                     }
-//
-//                     if (filter01.length) {
-//                         const filter21 = filter01.filter(elem => (elem.receip.objname || '').toLowerCase().includes(selectObj.curObjFilterOwn));
-//                         const filter22 = filter01.filter(elem => (elem.receip.orgname || '').toLowerCase().includes(selectObj.curObjFilterOwn));
-//                         const filter23 = filter01.filter(elem => (elem.receip.username || '').toLowerCase().includes(selectObj.curObjFilterOwn));
-//
-//                         if (filter21.length) {
-//                             filter01 = filter21;
-//                         } else if (filter22.length) {
-//                             filter01 = filter22;
-//                         } else if (filter23.length) {
-//                             filter01 = filter23
-//                         }
-//
-//                         if (filter21.length === 0 && filter22.length === 0 && filter23.length === 0) {
-//                             return []
-//                         } else {
-//                             return filter01
-//                         }
-//                     }
-//         }
-//         }else { return []; }
-//     }
-// )
-
-
-
+//curObjId: null, // выделенный объект - выбранный пользователем /consent page 270521
+//     activeRelId: null, // выделенный объект - выбранный пользователем /consent page 270521
 
 

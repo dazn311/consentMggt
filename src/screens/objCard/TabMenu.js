@@ -103,7 +103,8 @@ const TabMenu = ({idObj, currObj, selectCurrentObj}) => {
                   aria-label="scrollable auto tabs example"
                 >
                   <Tab label="Карточка объекта" {...a11yProps(0)} />
-                  {showTab2 && <Tab  label="События объекта" {...a11yProps(1)} />}
+                  {showTab2 ? <Tab  label="События объекта" {...a11yProps(1)} />
+                  : <Tab disabled={true}  label="События объекта" {...a11yProps(1)} /> }
                 </Tabs>
               <TabPanel   value={value} index={0}>
                   <TabOneMenu idObj={idObj} currObj={currObj} />

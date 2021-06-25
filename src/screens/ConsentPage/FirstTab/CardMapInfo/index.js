@@ -1,27 +1,63 @@
 import React, {useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import {convertWT} from "../services/reMapBnd";
-import {ObjCard} from "./CardMapComponents/objCard";
 import {createStructuredSelector} from "reselect";
 import {
-      fullDataOfActiveObForMapForRelativesSelector,
+    activeObjAndRelSelector,
+    fullDataOfActiveObForMapForRelativesSelector, recsDataSelector,
     relFullDataOfActiveObjSelector //
 } from "../../../../store/consent/cons.selectors";
+import CardMapInfo from "./CardMapComponents/CardMapInfo";
 
-// import {
-//     fetchAuthUserAsync, fetchEventsPointShortAsync,
-//     fetchObjsOfAuthUserAsync, fetchRelObjsOfAuthUserAsync,
-//     setActiveObjOfAuthUserAsync, updateSmeObjsOfAuthUserAsync
-// } from "../../../../store/consent/cons.actions";
+import flatten from 'lodash/flatten'
+
+const reMapRecsDataS = (firstPointOfBnd, recsLength) => {
+    // console.log('reMapRecsDataS - firstPointOfBnd', firstPointOfBnd)
+    // console.log('reMapRecsDataS - recsLength', recsLength)
+
+    let newArr = []
+    let lat = firstPointOfBnd[0]
+    let lng = firstPointOfBnd[1]
+    let x = 0
+    let xRadius = (4 / 3000.0)
+    let yRadius = (6 / 3000.0)
+    let y = 0
+
+    for (let i = 0; i < recsLength; i++) {
+        // x = (i / 3000.0) *  Math.cos(i*5)
+        x = xRadius *  Math.cos(i*15)
+        y = yRadius *  Math.sin(i*15)
+        // y = radius *  sin(angle)
+        lat = firstPointOfBnd[0] + x
+        lng = firstPointOfBnd[1] + y
+        lat = parseFloat(lat.toFixed(5))
+        lng = parseFloat(lng.toFixed(5))
+
+        let newPoint = [lat, lng]
+
+        x += 1
+        y += 1
+
+        newArr.push(newPoint)
+    }
+    return newArr
+}
 
 
-const CardMapInfo = ({ fullDataOfActiveObForMapForRelatives ,    relFullDataOfActiveObjS}) => {
+const CardMapInfoWrap = ({
+                             fullDataOfActiveObForMapForRelatives,
+                             relFullDataOfActiveObjS,
+                             activeObjAndRelS,
+                             recsDataS
+                         }) => {
 
-    let [newMapObj, setNewMapObj] = useState(<div>loading..</div>)
-
-    const geoBnd = ( objData ) => {
+    // let [newMapObj, setNewMapObj] = useState(<div>loading..</div>)
+    let [objBndS, setObjBndS] = useState([])
+    let [relBndS, setRelBndS] = useState([])
+    let objAddress = ''
+    const geoBnd = (objData) => {
         if (relFullDataOfActiveObjS) {
-            if(objData && objData.obj_bounds){
+            if (objData && objData.obj_bounds) {
                 let objBndTmp = objData.obj_bounds;
                 let objName = objData.obj_name;
                 // console.log('25 geoBnd',objData.obj_id)
@@ -31,12 +67,12 @@ const CardMapInfo = ({ fullDataOfActiveObForMapForRelatives ,    relFullDataOfAc
                     let objCoordinate = geoArr.coordinates;
                     return {objName, objCoordinate, objId}
                 }
-            }else {
-                console.log('56 geoBnd not data' )
+            } else {
+                // console.log('56 geoBnd not data' )
                 return null
             }
-        }else {
-            console.log('567 geoBnd not data' )
+        } else {
+            // console.log('567 geoBnd not data' )
             return null
         }
 
@@ -46,59 +82,74 @@ const CardMapInfo = ({ fullDataOfActiveObForMapForRelatives ,    relFullDataOfAc
         console.log('setCurObj')
     }
 
+
     useEffect(() => {
         let newMapObj77 = null
-        // let newMapRel77 = null
-        let objName, objCoordinate, objId , relCoordinate
+        let objName, objCoordinate, objId, relCoordinate = []
 
-        if (fullDataOfActiveObForMapForRelatives && relFullDataOfActiveObjS) {
-            let geoBndObj = geoBnd( fullDataOfActiveObForMapForRelatives )
-            if(geoBndObj){
-                objName  = geoBndObj.objName
-                objCoordinate  = geoBndObj.objCoordinate
-                objId  = geoBndObj.objId
+        if (fullDataOfActiveObForMapForRelatives) {
+            let geoBndObj = geoBnd(fullDataOfActiveObForMapForRelatives)
+            if (geoBndObj) {
+                objAddress = objName = geoBndObj.objName
+                objCoordinate = geoBndObj.objCoordinate
+                setObjBndS(objCoordinate)
+                objId = geoBndObj.objId
             }
+            //let objBnd = [ ]
+            //     let relBnd = [ ]
+            //     let objAddress = ''
 
-
-            let geoBndRel = geoBnd( relFullDataOfActiveObjS )
-            if(geoBndRel){
-                // console.log('5777 geoBndRel', !!geoBndRel )
-                relCoordinate  = geoBndRel.objCoordinate
+            if (relFullDataOfActiveObjS) {
+                let geoBndRel = geoBnd(relFullDataOfActiveObjS)
+                if (geoBndRel) {
+                    // console.log('5777 geoBndRel', !!geoBndRel )
+                    relCoordinate = geoBndRel.objCoordinate
+                    setRelBndS(relCoordinate)
+                }
+                // newMapObj77 = ObjCard(objName, objCoordinate, relCoordinate, recsDataS, objId, setCurObj)
+                // setNewMapObj(newMapObj77)
+            } else {
+                // newMapObj77 = ObjCard(objName, objCoordinate, objCoordinate, recsDataS, objId, setCurObj)
             }
-
-            newMapObj77 = ObjCard(objName, objCoordinate, relCoordinate, objId, setCurObj)
-            setNewMapObj(newMapObj77)
 
         }
-        // if (fullDataOfActiveObForMapForRelatives){
-        //     console.log('else if fullDataOfActiveObForMapForRelatives')
-        //     let geoBndObj2 = geoBnd( fullDataOfActiveObForMapForRelatives )
-        //     if(geoBndObj2){
-        //         objName  = geoBndObj2.objName
-        //         objCoordinate  = geoBndObj2.objCoordinate
-        //         objId  = geoBndObj2.objId
-        //     }
-        //
-        //     newMapObj77 = ObjCard(objName, objCoordinate, [], objId, setCurObj)
-        //     setNewMapObj(newMapObj77)
-        //
-        // }
 
-    }, [fullDataOfActiveObForMapForRelatives, relFullDataOfActiveObjS])
 
-    // console.log('relFullDataOfActiveObjS',relFullDataOfActiveObjS)
-    return ( newMapObj )
+    }, [fullDataOfActiveObForMapForRelatives, relFullDataOfActiveObjS, activeObjAndRelS, recsDataS])
 
+    if (!objBndS.length && !relBndS.length) {
+        return (<div>Loading..</div>)
+    }
+
+    // let fletenArr = flatten(flatten(objBndS));
+    let flattenArr1 = objBndS[0][0];
+    let flatArr = typeof flattenArr1[0] === "number" ? flattenArr1 : flattenArr1[0]
+    // console.log('77555 flatten objBndS', fFletArr)
+    // console.log('77555   recsDataS', recsDataS)
+
+    if ( !flatArr.length) {
+        return (<div>Loading2..</div>)
+    }
+    return (<CardMapInfo
+        objAddress={objAddress}
+        objBnd={objBndS}
+        relBnd={relBndS}
+        recsDataP={recsDataS}
+        recsBnd={reMapRecsDataS(flatArr, recsDataS.length)}
+        setCurObj={setCurObj}
+    />)
 };
 
 
 const mapStateToProps = createStructuredSelector({
     fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector,
     relFullDataOfActiveObjS: relFullDataOfActiveObjSelector, // данные для карты выделенного смежного объекта
+    activeObjAndRelS: activeObjAndRelSelector, // данные для карты выделенного смежного объекта
+    recsDataS: recsDataSelector, // события короткие данные для таблицы
 });
 
 const mapDispatchToProps = (dispatch) => ({
     // fetchAuthUser: (userID) => dispatch(fetchAuthUserAsync(userID)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardMapInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(CardMapInfoWrap);

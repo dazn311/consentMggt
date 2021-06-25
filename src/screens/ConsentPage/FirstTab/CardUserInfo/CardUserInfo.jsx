@@ -17,7 +17,7 @@ import HomeWorkIcon from '@material-ui/icons/HomeWork';
 import {CircularProgress} from "@material-ui/core";
 
 import {listObjs} from "./cardUserComponents/listObjs";
-import {useStyles} from "./cardUserComponents/objStatus";
+import {useStyles} from "./cardUserComponents/ElemObj";
 import ListItemRel from "./cardUserComponents/relatives";
 
 import {
@@ -47,7 +47,8 @@ const CardUserInfo = ({
                           setCurObjIdForConsentPage,
                           dataOfObjsForList,
                           fetchObjByIdToObjsData,
-                          curObjIdSel, setActiveRelId
+                          curObjIdSel, setActiveRelId,
+                          setActiveObjAndRel
                       }) => {
     const [objectsOfCurOrg, setObjsOfCurOrg] = useState(loaderForList(' Загрузка списка объектов..'));
     const classes = useStyles();
@@ -56,26 +57,40 @@ const CardUserInfo = ({
 ////////////////////////////////////
     const updateObjsList = (objID) => {
         if (dataOfObjsForList) {
+            // console.log('7789 setObjsOfCurOrg ' )
             setObjsOfCurOrg(listObjs(dataOfObjsForList, objID, setIdOfActiveObj))
         }
     }
+
     ////////////////////////////////////
     useEffect(() => {
         if (dataOfObjsForList) {
             updateObjsList(dataOfObjsForList[0].objID)
+            //080621
+            // console.log('7789 dataOfObjsForList.objRelatives[0]', dataOfObjsForList[0].objRelatives[0])
+            // setActiveRelId(dataOfObjsForList[0].objRelatives[0])
         }
-    }, [dataOfObjsForList, curObjIdSel])
+    }, [dataOfObjsForList])
 
     //040621
     useEffect(() => {
         if (dataOfObjsForList) {
             fetchObjByIdToObjsData(dataOfObjsForList[0].objID)
             setIdOfActiveObj(dataOfObjsForList[0].objID)
-            //080621
-            // console.log('7789 dataOfObjsForList.objRelatives[0]', dataOfObjsForList[0].objRelatives[0])
-            setActiveRelId(dataOfObjsForList[0].objID)
+            // console.log('7789 dataOfObjsForList[0].objID ' , dataOfObjsForList[0].objID)
+            // console.log('7789 dataOfObjsForList[0].objRelatives[0] ' , dataOfObjsForList[0].objRelatives[0])
+            if(dataOfObjsForList[0].objRelatives.length){
+                let relID = dataOfObjsForList[0].objRelatives[0].obj_rel_id
+                if(!relID){
+                    relID = dataOfObjsForList[0].objRelatives[1].obj_rel_id
+                }
+                fetchObjByIdToObjsData(relID)
+
+            }
+
         }
     }, [dataOfObjsForList, fetchObjByIdToObjsData])
+
 
 
     if (!userOfAuthData) {
@@ -83,22 +98,23 @@ const CardUserInfo = ({
     }
 ////////////////////////////////////
 
+
     const setIdOfActiveObj = (objId) => {
+        // console.log('783 setIdOfActiveObj objId ',objId)
         fetchObjByIdToObjsData(objId)
         setCurObjIdForConsentPage(objId)
-        //080621
-        // console.log('2289 dataOfObjsForList.objRelatives[0]', objId)//[0].objRelatives[0])
-        // console.log('2289 dataOfObjsForList.objRelatives[0]', dataOfObjsForList.slice(0,4))//[0].objRelatives[0])
-        // let obj1 = dataOfObjsForList.filter(obj => obj.objID === objId)
-        //
-        //
-        // if (obj1.length === 1) {
-        //     let relID = obj1[0].objRelatives[0];
-        //     console.log('9988 obj1[0]', relID)//[0].objRelatives[0]) .objRelatives
-        //     setActiveRelId(relID)
-        // }
-        // setActiveRelId(0)
-        relObjsList.fetchRelById(objId)
+
+        //activeObjAndRel: [{id: 0, objName: 'FistObj'},{id: 1, relName: 'SecondObj'}],
+        let idObj = dataOfObjsForList[0].objID
+        let nameObj = dataOfObjsForList[0].objName
+        let idRel = dataOfObjsForList[0].objRelatives[0] | dataOfObjsForList[0].objRelatives[1]
+        // fetchObjByIdToObjsData(idRel)
+        setActiveObjAndRel([{id: objId, objName: nameObj},{id: idRel, relName: ''}])
+
+        // console.log('78300 dataOfObjsForList ',dataOfObjsForList.slice(0,5))
+        // console.log('78300 objId ',objId)
+        // console.log('78300 idObj ',idObj)
+        // setRel(objId)
     }
 
     // console.log('155 objsData', objsData)
@@ -167,9 +183,14 @@ const CardUserInfo = ({
                         <ListItemText style={{position: 'absolute', color: 'yellowgreen', bottom: -24}}
                                       secondary={dataOfObjsForList && dataOfObjsForList.length}/>
                     </Avatar>
-
+                    <div style={{marginLeft: 4, borderLeft: '1px solid grey', paddingLeft: 4,  transform: 'rotate(-90deg)', position: 'absolute',
+                        left: 25,
+                        top: 150,
+                    }}>Объекты</div>
                 </ListItemAvatar>
-                <ListItemText style={{maxHeight: 280, overflow: 'auto'}} primary="Объекты" secondary={objectsOfCurOrg}/>
+                <ListItemText style={{maxHeight: 280, overflow: 'auto'}}
+                              // primary="Объекты"
+                              secondary={objectsOfCurOrg}/>
 
 
             </ListItem>
@@ -193,6 +214,7 @@ const mapDispatchToProps = (dispatch) => ({
     setIdOfActiveObjOfAuthUser: (obj) => dispatch(setActiveObjOfAuthUserAsync(obj)),
     setCurObjIdForConsentPage: (objId) => dispatch(setCurObjIdForConsentPageAsync(objId)),
     setActiveRelId: (objId) => dispatch(relObjsList.setActiveRelIdAsync(objId)),
+    setActiveObjAndRel: (objData) => dispatch(relObjsList.setActiveObjAndRelAsync(objData)),
 });
 // export default CardUserInfo;
 export default connect(mapStateToProps, mapDispatchToProps)(CardUserInfo);

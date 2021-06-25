@@ -16,10 +16,12 @@ export const objsFetch = {
   EVENTS_OF_OBJS_FOR_AUTH_USER_FOR_CONSENT_PAGE: 'EVENTS_OF_OBJS_FOR_AUTH_USER_FOR_CONSENT_PAGE', //   for consent Page 280521
   LOCAL_DATA_OF_OBJS_FOR_AUTH_USER_FOR_CONSENT_PAGE: 'LOCAL_DATA_OF_OBJS_FOR_AUTH_USER_FOR_CONSENT_PAGE', //   for consent Page 280521
   DATA_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E: 'DATA_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E', //   for consent Page 280521
+  EVENTS_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E: 'EVENTS_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E', //   for consent Page 280521
 };
 
 //270521
 export const objsData = {
+  SET_ACTIVE_TWO_OBJS_FOR_CONSENT_PAGE: 'SET_ACTIVE_TWO_OBJS_FOR_CONSENT_PAGE', //   выделенный объект - выбранный пользователем /consent page 270521
   SET_ACTIVE_OBJ_FOR_CONSENT_PAGE: 'SET_ACTIVE_OBJ_FOR_CONSENT_PAGE', //   выделенный объект - выбранный пользователем /consent page 270521
   SET_CUR_OBJ_ID_FOR_CONSENT_PAGE: 'SET_CUR_OBJ_ID_FOR_CONSENT_PAGE', //   выделенный объект - выбранный пользователем /consent page 270521
   UPDATE_SME_OBJS_FOR_CONSENT_PAGE: 'UPDATE_SME_OBJS_FOR_CONSENT_PAGE', //   выделенный объект - выбранный пользователем /consent page 270521
@@ -31,6 +33,12 @@ export const objsData = {
 export const relObjs = {
   FETCH_REL_OBJ_FOR_CONSENT_PAGE: 'FETCH_REL_OBJ_FOR_CONSENT_PAGE',
   SET_ACTIVE_REL_OBJ_FOR_CONSENT_PAGE: 'SET_ACTIVE_REL_OBJ_FOR_CONSENT_PAGE',
+};
+
+//100621
+export const eventsObj = {
+  FETCH_EVENT_OF_OBJ: 'FETCH_EVENT_OF_OBJ',
+  SWITCH_EVENT_SHOW: 'SWITCH_EVENT_SHOW',
 };
 
 

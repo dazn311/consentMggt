@@ -375,9 +375,9 @@ let convertWT = (polyStr) => {
 //
 // console.log('res',res)
 
-const myMap = new Map();
-myMap.set(9750, 'podolsk');
-myMap.set(235, ['moscow','moscow','moscow']);
-for (let [key, value] of myMap) {
-    console.log(key + ': ' + value);
-}
+// const myMap = new Map();
+// myMap.set(9750, 'podolsk');
+// myMap.set(235, ['moscow','moscow','moscow']);
+// for (let [key, value] of myMap) {
+//     console.log(key + ': ' + value);
+// }

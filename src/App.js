@@ -132,7 +132,7 @@ const App = () => {
                     <Route path="/stats/gen">
                       <GeneralPage />
                     </Route>
-                    <Route exact path="/stats">
+                    <Route exact path="/stats/dash">
                       <Dashboard />
                     </Route>
                     <Route >

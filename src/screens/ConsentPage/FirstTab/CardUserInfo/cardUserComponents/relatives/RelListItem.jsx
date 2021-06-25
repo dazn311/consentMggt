@@ -1,6 +1,6 @@
 import React from "react";
 import {connect} from "react-redux";
-import {useStyles} from "../objStatus";
+import {useStyles} from "../ElemObj";
 
 
 import ListItem from "@material-ui/core/ListItem";
@@ -10,8 +10,7 @@ import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import ListItemText from "@material-ui/core/ListItemText";
 
 
-
-import RelObjItemsWrapper from "./relObjItemsWrapper";
+import RelObjItemsWrapper from "./RelObjItemsWrapper";
 
 
 import {createStructuredSelector} from "reselect";
@@ -28,11 +27,23 @@ const RelListItem = ({relListShortDataS}) => {
                 <ListItemAvatar>
                     <Avatar className={classes.MuiAvatarRoot}>
                         <HomeWorkIcon/>
-                         <ListItemText className={classes.ListItemTextRelObjs}
-                            secondary={relListShortDataS && relListShortDataS.length}/>
+                        <ListItemText className={classes.ListItemTextRelObjs}
+                                      secondary={relListShortDataS && relListShortDataS.length}/>
                     </Avatar>
+                    <div style={{
+                        marginLeft: 4,
+                        borderLeft: '1px solid grey',
+                        paddingLeft: 4,
+                        transform: 'rotate(-90deg)',
+                        position: 'absolute',
+                        left: -10,
+                        top: 100,
+                    }}>Смежные объекты
+                    </div>
                 </ListItemAvatar>
-                <ListItemText style={{maxHeight: 200, overflow: 'auto'}} primary="Смежные объекты" secondary={<RelObjItemsWrapper />}/>
+                <ListItemText style={{maxHeight: 200, overflow: 'auto'}}
+                    // primary="Смежные объекты"
+                              secondary={<RelObjItemsWrapper/>}/>
             </ListItem>
         </>
     );
