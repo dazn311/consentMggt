@@ -112,7 +112,7 @@ const CardUserInfo = ({userOfAuthData, setActiveObjOfAuthUser,  updateObjsDataOf
             <ListItem>
                 <ListItemAvatar>
                     <Avatar>
-                        <ApartmentIcon color={'rgb(229 160 30)'} style={{backgroundColor: '#904a4a'}}/>
+                        <ApartmentIcon color='secondary' style={{backgroundColor: '#904a4a'}}/>
                     </Avatar>
                 </ListItemAvatar>
                 <div style={{display: 'flex', flexDirection: 'column'}}>
@@ -128,7 +128,8 @@ const CardUserInfo = ({userOfAuthData, setActiveObjOfAuthUser,  updateObjsDataOf
             <ListItem>
                 <ListItemAvatar>
                     <Avatar>
-                        <UserIcon color={'rgb(229 160 30)'} style={{backgroundColor: '#988a4a'}}/>
+                        <UserIcon color='primary'
+                            style={{backgroundColor: '#988a4a'}}/>
                     </Avatar>
                 </ListItemAvatar>
                 <div style={{display: 'flex', flexDirection: 'column'}}>

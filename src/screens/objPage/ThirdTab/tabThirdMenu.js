@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import DatePicker from './DatePicker.thirdTab';
 import DatePickerEnd from './DatePickerEnd.thirdTab';
  
-import ColomsChart from './ColomsChart';
+// import ColomsChart from './ColomsChart';
 
 
 import { fetchNewOGHThirdTabStaticPageGraphicAsync } from '../../../store/adminPanelTrest/adminPanelTrest.actions';

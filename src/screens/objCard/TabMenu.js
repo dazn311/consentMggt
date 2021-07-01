@@ -17,10 +17,12 @@ import Box from '@material-ui/core/Box';
 // import TabOGH from './TabOGH' 
 import TabOneMenu from './FirstTab/tabOneMenu'
 import TabTwoMenu from './TwoTab/tabTwoMenu'
-import {selectObjsInfoPage, selectObjsPage} from "../../store/adminPanelTrest/StatisticPage.selectors";
+import {selectObjsInfoPage
+    // , selectObjsPage
+} from "../../store/adminPanelTrest/StatisticPage.selectors";
 import {selectCurrentObj} from "../../store/objs/obj.selectors";
 import {selectErrorFetch} from "../../store/adminPanelTrest/adminPanelTrest.selectors";
-import {fetchObjectsListAsync, setMessageError} from "../../store/adminPanelTrest/adminPanelTrest.actions";
+// import {fetchObjectsListAsync, setMessageError} from "../../store/adminPanelTrest/adminPanelTrest.actions";
 // import TabThirdMenu from './ThirdTab/tabThirdMenu'
 
 

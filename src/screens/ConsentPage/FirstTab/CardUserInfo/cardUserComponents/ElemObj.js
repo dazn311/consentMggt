@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import {connect} from "react-redux";
 
 import {Tooltip} from "@material-ui/core";
@@ -90,33 +90,33 @@ const ElemObj = ({ obj,  setIdOfActiveObj,    setActiveObjAndRel, activeObjAndRe
         if (activeObjAndRelS && activeObjAndRelS[0].id === objIdS) {setColorS('grey')
         } else {setColorS(null)}
 
-    }, [activeObjAndRelS])
+    }, [activeObjAndRelS, objIdS])
 
-    const showDetail = () => {
-        // console.log('show idxS activeObjInx', idxS, activeObjInx)
-        // console.log('show objStatus')
-    }
+    // const showDetail = () => {
+    //     // console.log('show idxS activeObjInx', idxS, activeObjInx)
+    //     // console.log('show objStatus')
+    // }
 
-    const setActiveObjAndRelHendler = (objID, objName) => {
+    const setActiveObjAndRelHandler = useCallback((objID, objName) => {
         setActiveObjAndRel([{id: objID, objName: objName},{id: 1, relName: ''}])
-    }
+    },[setActiveObjAndRel])
 
-    const objStatus2 = () => {
+    const objStatus2 = useCallback(() => {
         if (objStatus === 'в работе') { return 'darkblue'
         } else if (objStatus === 'согласован') {return 'green'
         } else if (objStatus === 'нет событий') {return 'grey' }
-    }
+    },[objStatus])
 
     // console.log('4343 obj',obj)
     return (<Tooltip title={longText} classes={{tooltip: classes.customWidth}}>
         <div style={{display: 'flex'}}
              onClick={() => {
                  setIdOfActiveObj(obj.objID)
-                 setActiveObjAndRelHendler(obj.objID, obj.objName)
+                 setActiveObjAndRelHandler(obj.objID, obj.objName)
                  // setIdOfActiveObj(idxS)
              }}
             // onMouseOut={hideDetail}
-             onMouseOver={showDetail}
+            //  onMouseOver={showDetail}
         >
             <div style={{width: 4, backgroundColor: objStatus2()}}></div>
             <div
@@ -135,7 +135,6 @@ const ElemObj = ({ obj,  setIdOfActiveObj,    setActiveObjAndRel, activeObjAndRe
 }
 
 const mapStateToProps = createStructuredSelector({
-
     activeObjAndRelS: activeObjAndRelSelector, // данные для карты выделенного смежного объекта
 });
 

@@ -1,7 +1,7 @@
 
 import React from 'react';
 // import { connect } from 'react-redux';
-import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';  
+// import { createMuiTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 // import { selectEventShortPoints } from '../../store/adminPanelTrest/adminPanelTrest.selectors'; 
 
 import ObjPage from './ObjPage';

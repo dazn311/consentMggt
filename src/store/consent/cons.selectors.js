@@ -1,57 +1,57 @@
 import { createSelector } from 'reselect';
 
-const consentSelector = state => state.consRed;
+const stateCons = state => state.consRed;
 
 ///////////// FOR OBJ Card Details page//////////////
 export const errorFetchUserDataSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.errorFetchUserData
 );
 export const errorFetchObjsDataSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.errorFetchObjsData
 );
 
 export const userOfAuthDataSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.userOfAuthData
 );
 export const orgDataOfAuthUserSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.orgDataOfAuthUser
 );
 export const objsDataOfAuthUserSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.objsDataOfAuthUser
 );
 
 export const curObjIdSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.curObjId
 );
 
 export const activeRelIdSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.activeObjAndRel[1].id
 );
 //
 // export const activeRelIdSelector = createSelector(
-//   [consentSelector],
+//   [stateCons],
 //     consRed => consRed.activeRelId
 // );
 
 export const activeObjAndRelSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.activeObjAndRel
 );
 
 //
 // export const fullDataOfActiveObForMapForRelativesSelector = createSelector(
-//   [consentSelector,curObjIdSelector],
+//   [stateCons,curObjIdSelector],
 //     (consRed,curObjId) => {
-//       if(consRed.objsData){
-//           if (consRed.objsData.length) {
-//               return consRed.objsData[curObjId]
+//       if(consRed.objectsData){
+//           if (consRed.objectsData.length) {
+//               return consRed.objectsData[curObjId]
 //           }
 //       }else {
 //           return null
@@ -61,11 +61,11 @@ export const activeObjAndRelSelector = createSelector(
 // );
 
 export const fullDataOfActiveObForMapForRelativesSelector = createSelector(
-  [consentSelector,activeObjAndRelSelector],
+  [stateCons,activeObjAndRelSelector],
     (consRed,curObjId) => {
-      if(consRed.objsData){
-          if (consRed.objsData.length) {
-              return consRed.objsData[curObjId[0].id ]
+      if(consRed.objectsData){
+          if (consRed.objectsData.length) {
+              return consRed.objectsData[curObjId[0].id ]
           }
       }else {
           return null
@@ -73,13 +73,37 @@ export const fullDataOfActiveObForMapForRelativesSelector = createSelector(
 
     }
 );
+
+//// 29.06.21 ////
+export const selectedObjSelector = createSelector(
+    [stateCons],
+    consRed => consRed.activeObjAndRel[0].id)
+
+const getListObjects = createSelector(
+    [stateCons,selectedObjSelector],
+    (consRed,selectedObj) => {
+        if(consRed.objectsData){
+            if (consRed.objectsData.length) {
+                console.log('consRed.objectsData[selectedObj]',consRed.objectsData[selectedObj])
+                return consRed.objectsData[selectedObj]
+            }
+        }else {
+            return null
+        }
+
+    }
+);
+
+export default getListObjects;
+//// end 29.06.21 ////
+
 
 export const relFullDataOfActiveObjSelector = createSelector(
-  [consentSelector,activeObjAndRelSelector],
+  [stateCons,activeObjAndRelSelector],
     (consRed,curObjId) => {
-      if(consRed.objsData){
-          if (consRed.objsData.length) {
-              return consRed.objsData[curObjId[1].id ]
+      if(consRed.objectsData){
+          if (consRed.objectsData.length) {
+              return consRed.objectsData[curObjId[1].id ]
           }
       }else {
           return null
@@ -87,13 +111,14 @@ export const relFullDataOfActiveObjSelector = createSelector(
 
     }
 );
+
 //
 // export const relFullDataOfActiveObjSelector = createSelector(
-//   [consentSelector,activeRelIdSelector],
+//   [stateCons,activeRelIdSelector],
 //     (consRed,curObjId) => {
-//       if(consRed.objsData){
-//           if (consRed.objsData.length) {
-//               return consRed.objsData[curObjId]
+//       if(consRed.objectsData){
+//           if (consRed.objectsData.length) {
+//               return consRed.objectsData[curObjId]
 //           }
 //       }else {
 //           return null
@@ -103,11 +128,11 @@ export const relFullDataOfActiveObjSelector = createSelector(
 // );
 
 export const bndRelActiveObjSelector = createSelector(
-  [consentSelector,activeRelIdSelector],
+  [stateCons,activeRelIdSelector],
     (consRed,curObjId) => {
-      if(consRed.objsData){
-          if (consRed.objsData.length) {
-              return consRed.objsData[curObjId].obj_bounds
+      if(consRed.objectsData){
+          if (consRed.objectsData.length) {
+              return consRed.objectsData[curObjId].obj_bounds
           }
       }else {
           return null
@@ -118,63 +143,61 @@ export const bndRelActiveObjSelector = createSelector(
 
 /// for Rel list items For Consent page
 export const relListShortDataSelector = createSelector(
-    [consentSelector,curObjIdSelector],
+    [stateCons,curObjIdSelector],
     (consRed,curObjId) => {
-        if(consRed.objsData){
-            if (consRed.objsData.length) {
-                // console.log('22 consRed...obj_relatives',consRed.objsData[curObjId].obj_relatives)
-                return consRed.objsData[curObjId] ? consRed.objsData[curObjId].obj_relatives : []
+        if(consRed.objectsData){
+            if (consRed.objectsData.length) {
+                // console.log('22 consRed...obj_relatives',consRed.objectsData[curObjId].obj_relatives)
+                return consRed.objectsData[curObjId] ? consRed.objectsData[curObjId].obj_relatives : []
             }
         }else {
             return null
         }
-
     }
 );
 
 export const relDataArrSelector = createSelector(
-    [consentSelector],
+    [stateCons],
     consRed => consRed.relData
 );
 ///////////////////////////////////////
 
 export const dataOfObjsForListSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.dataOfObjsForList
 );
 
 //activeRelIdSelector
 export const objsDataSelector = createSelector(
-  [consentSelector],
-    consRed => consRed.objsData
+  [stateCons],
+    consRed => consRed.objectsData
 );
 
 export const objDataFromLocalAPISelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.objDataFromLocalAPI
 );
 
 export const objRelativesSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     consRed => consRed.objRelatives
 );
 
 
 export const eventsActiveObjSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     (consRed) => consRed.eventsActiveObj //activeObj.objID
 );
 
 export const recsDataSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     (consRed) => {
-
       return consRed.eventsActiveObj ? consRed.eventsActiveObj.data.recs : []
     } //activeObj.objID
 );
 
 export const visibleEventsObjSelector = createSelector(
-  [consentSelector],
+  [stateCons],
     (consRed) => consRed.visibleEventsObj //activeObj.objID
 );
 

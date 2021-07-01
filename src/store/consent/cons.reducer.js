@@ -1,3 +1,4 @@
+import produce from "immer";
 import {userFetch, objsData, objsFetch, relObjs, eventsObj} from './cons.types';
 
 //
@@ -16,7 +17,7 @@ const INITIAL_STATE = {
     objRelatives: [], //String[] // FOR dataOfObjsForList 280521 смежные объекты
     activeObjDataOfAuthUser: null, // выделенный объект - выбранный пользователем /consent page 270521
     objDataFromLocalAPI: [], // выделенный объект - выбранный пользователем /consent page 270521
-    objsData: [], // выделенный объект - выбранный пользователем /consent page 270521
+    objectsData: {}, // выделенный объект - выбранный пользователем /consent page 270521
     relData: [], // выделенный объект - выбранный пользователем /consent page 270521
     curObjId: null, // выделенный объект - выбранный пользователем /consent page 270521
     activeRelId: null, // выделенный объект - выбранный пользователем /consent page 270521
@@ -29,52 +30,33 @@ const INITIAL_STATE = {
 };
 
 const consentReducer = (state = INITIAL_STATE, action) => {
+    return produce(state, draft => {
     switch (action.type) {
         case userFetch.SET_ERROR_AUTH_USER_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                errorFetchUserData: action.payload
-            };
+            draft.errorFetchUserData = action.payload
+            return
         case userFetch.SET_ERROR_OBJ_OF_AUTH_USER_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                errorFetchObjData: action.payload
-            };
+            draft.errorFetchObjData = action.payload
+            return
         case userFetch.GET_AUTH_USER_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                userOfAuthData: action.payload
-            };
+            draft.userOfAuthData = action.payload
+            return
         case userFetch.GET_ORG_OF_AUTH_USER_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                orgDataOfAuthUser: action.payload
-            };
+            draft.orgDataOfAuthUser = action.payload
+            return
          case relObjs.SET_ACTIVE_REL_OBJ_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                activeRelId: action.payload
-            };
+             draft.activeRelId = action.payload
+             return
         case userFetch.GET_OBJS_OF_AUTH_USER_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-
-            return {
-                ...state,
-                dataOfObjsForList: action.payload.data.objects
-                // objsDataOfAuthUser: action.payload
-            };
+            draft.dataOfObjsForList = action.payload.data.objects
+            return
         case relObjs.FETCH_REL_OBJ_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 070621
             let newDataRel = state.relData //.concat(action.payload.data);
             newDataRel[action.payload.obj_id] = action.payload.data
-            console.log('action.payload.data: ',action.payload.data)
-            return {
-                ...state,
-                relData: newDataRel
-            };
-            // if(!action.payload.data) return state
-            // let newData = [...state.relData] //.push(action.payload.data) //  action.payload.data
-            // newData = [...newData,action.payload.data] //  action.payload.data
-            //
-            // return { ...state, relData: newData }
+            console.log('FETCH_REL_OBJ_FOR_CONSENT_PAGE: ',action.payload.data)
+
+            draft.relData = newDataRel
+            return
 
         case objsFetch.LOCAL_DATA_OF_OBJS_FOR_AUTH_USER_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
 
@@ -84,63 +66,46 @@ const consentReducer = (state = INITIAL_STATE, action) => {
                 if (index >= 0) {
                     return state
                 }
-                let newData = state.objDataFromLocalAPI//.push(action.payload);
-                newData.push(action.payload);
-                return {
-                    ...state,
-                    objDataFromLocalAPI: newData
-                };
+                draft.objDataFromLocalAPI.push(action.payload);
+                return
+
             } else {
-                return {
-                    ...state,
-                    objDataFromLocalAPI: [...state.objDataFromLocalAPI, action.payload]
-                };
+                draft.objDataFromLocalAPI = [...state.objDataFromLocalAPI, action.payload]
+                return
             }
 
         case objsData.SET_ACTIVE_OBJ_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                activeObjDataOfAuthUser: action.payload
-            };
+            draft.activeObjDataOfAuthUser = action.payload
+            return
 
         case objsData.SET_ACTIVE_TWO_OBJS_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
             //setActiveObjAndRel([{id: 0, objName: ''},{id: relId, relName: ''}])
             let objID = action.payload[0].id
             let objName = action.payload[0].objName
-            let obj = action.payload[0]
+            // let obj = action.payload[0]
             let relID = action.payload[1].id
             let relName = action.payload[1].relName
-            let rel = action.payload[1]
+            // let rel = action.payload[1]
             let lastState = state.activeObjAndRel
 
             if(objID > 1 && relID > 1){
-                return {
-                    ...state,
-                    activeObjAndRel: action.payload
-                }
+                draft.activeObjAndRel = action.payload
+                return
             }else if(objID > 1){
-                if(!objName){
-                    objName = lastState[0].objName
-                }
-                lastState[0] = {id: objID, objName: objName}
-                return { ...state , lastState }
+                if(!objName){ objName = lastState[0].objName }
+                draft.activeObjAndRel[0] = {id: objID, objName: objName}
+                return
             }else if(relID > 1){
-                if(!relName){
-                    relName = lastState[1].relName
-                }
-                lastState[1] = {id: relID, relName: relName}
-                return { ...state , lastState }
+                if(!relName){ relName = lastState[1].relName }
+                draft.activeObjAndRel[1] = {id: relID, relName: relName}
+                return
             }else {
-                return {
-                    ...state,
-                    activeObjAndRel: action.payload
-                }
+                // draft.activeObjAndRel = action.payload
+                return
             }
         case objsData.SET_CUR_OBJ_ID_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                curObjId: action.payload
-            };
+            draft.curObjId = action.payload
+            return
         case objsFetch.EVENTS_OF_OBJS_FOR_AUTH_USER_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
             let newArr;
             if (state.objRelatives.length) {
@@ -149,71 +114,43 @@ const consentReducer = (state = INITIAL_STATE, action) => {
             } else if (state.objRelatives.length === 0) {
                 newArr = action.payload.data;
             }
-
-            return {
-                ...state,
-                objRelatives: newArr
-            };
+            draft.objRelatives = newArr
+            return
         case objsFetch.DATA_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E: // FOR OBJS PAGE TAB1 210521
-            let newArr2 = state.objsData //.concat(action.payload.data);
-            newArr2[action.payload.obj_id] = action.payload
-            // console.log('objsData: ',newArr2)
-            return {
-                ...state,
-                objsData: newArr2
-            };
+
+            // console.log('DATA_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E', action.payload)
+            draft.objectsData[action.payload.obj_id] = action.payload
+            return
+
         case objsFetch.EVENTS_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E: // FOR OBJS PAGE TAB1 080621
-            let newArr3 = state.eventsActiveObj //
-            console.log('action.payload: ',action.payload)
+            // let newArr3 = state.eventsActiveObj //
+            console.log('EVENTS_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E: ',action.payload)
             return state
-            // newArr3[action.payload.obj_id] = action.payload
-            // return {
-            //     ...state,
-            //     eventsActiveObj: newArr3
-            // };
-        case objsData.UPDATE_SME_OBJS_FOR_CONSENT_PAGE: // FOR OBJS PAGE TAB1 210521
-            // console.log(action.payload.objName.objName,action.payload.objId)
-            let newAdress = action.payload.objName.objName;
-            // console.log('newAdress', newAdress)
-            if (newAdress.includes('улица,')) {
-                let tmp = newAdress.split(' ');
-                let getIndex = tmp.indexOf('улица,');
-                tmp[getIndex] = 'ул.';
-                newAdress = tmp.join(' ');
-            } else if (newAdress.includes('улица')) {
-                let tmp = newAdress.split(' ');
-                let getIndex = tmp.indexOf('улица');
-                tmp[getIndex] = 'ул.';
-                newAdress = tmp.join(' ');
-            }
+        case objsData.UPDATE_SME_OBJS_FOR_CONSENT_PAGE:
+            let newAddress = (action.payload.objName.objName || ' ').replace('улица','ул.');
+            console.log('newAddress', newAddress)
+            let newObjArr = state.dataOfObjsForList.map((el, index) => index === action.payload.objId
+                ? { ...el, objName: newAddress }
+                : el);
 
-            console.log('newAdress', newAdress)
-            let newObjArr = state.dataOfObjsForList.map((el, index) => index === action.payload.objId ? {
-                ...el,
-                objName: newAdress
-            } : el);
-
-            // newObjArr[action.payload.objId] = action.payload.data.objects
             if (state.dataOfObjsForList) {
-                return {...state, dataOfObjsForList: newObjArr};
+                draft.dataOfObjsForList = newObjArr
+                return
             } else {
                 return state
             }
 
         case eventsObj.FETCH_EVENT_OF_OBJ: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                eventsActiveObj: action.payload
-            }
+            draft.eventsActiveObj = action.payload
+            return
         case eventsObj.SWITCH_EVENT_SHOW: // FOR OBJS PAGE TAB1 210521
-            return {
-                ...state,
-                visibleEventsObj: action.payload
-            }
+            draft.visibleEventsObj = action.payload
+            return
 
         default:
             return state;
     }
+    })
 };
 
 export default consentReducer;

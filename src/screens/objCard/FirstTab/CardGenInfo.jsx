@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React from 'react';
 
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
@@ -19,8 +19,8 @@ import StarHalfIcon from '@material-ui/icons/StarHalf';
 import DonutLarge from '@material-ui/icons/DonutLarge';
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 
-import { selectObjCurrObj } from '../../../store/adminPanelTrest/objspages.selectors';
-import {useHistory, useLocation} from "react-router-dom";
+import { selectedObj } from '../../../store/adminPanelTrest/objspages.selectors';
+// import {useHistory, useLocation} from "react-router-dom";
 // import BackdropForAllPage from '../../../components/blackDrop/black-drop.component';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,38 +46,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const CartGenInfo = ({orgRow, currObj, selectObjCurr, objRect}) => {
+const CartGenInfo = ({currObj, selectedObj, objRect}) => {
   const classes = useStyles();
-  const history = useHistory();
-  let smegObjList = null;
+  // const history = useHistory();
+  // let smeObjList ;
 
-  smegObjList = useCallback( selectObjCurr.objRelatives && selectObjCurr.objRelatives.map((objIdSmeg, index)  => {
 
-    const newRec = objRect && objRect.find(rec  => {
-      if (objIdSmeg === rec.receip.objectID){
-        return true
-      }else {
-        return  false //objIdSmeg + ', '
-      }
-    })
 
-    if(newRec){
-      return <p key={index} style={{margin: '0 4px', borderBottom:'1px solid grey'}} >{newRec.receip.objname} </p>
-    } else {
-      return <p key={index} style={{margin: '0 4px', borderBottom:'1px solid grey'}} >{objIdSmeg} <span className={classes.purple} >(нет событий)</span> </p>
-    }
-  }),[selectObjCurr]);
+
   // useEffect(() => {
   //
   // },[currObj])
-  // const objCurr = selectObjCurr !== {} ? selectObjCurr.filter(ob => ob.objID === orgRow) : 
+  // const objCurr = selectedObj !== {} ? selectedObj.filter(ob => ob.objID === orgRow) :
 
 
   // const location = useLocation();
   // const currObj2 = location.pathname.split('/')[3] || '';
   // console.log('000 currObj2',currObj2);
 
-  // console.log('000 selectObjCurr',selectObjCurr);
+  // console.log('000 selectedObj',selectedObj);
   // console.log('000 currObj',currObj);
   //
   // console.log('000 document.lastModified).toLocaleString()',new Date(document.lastModified).toLocaleString());
@@ -87,14 +74,27 @@ const CartGenInfo = ({orgRow, currObj, selectObjCurr, objRect}) => {
     return(<div>нет данных об организации</div>)
     
   }
-  if (!selectObjCurr) {
+  if (!selectedObj) {
     // history.push('/stats/objs' );
     return(<div>нет данных об организации.</div>)
   }
 
+  let SmeObjList = selectedObj.objRelatives.map((objIdSmeg, index)  => {
 
+      const newRec = objRect && objRect.find(rec  => {
+        if (objIdSmeg === rec.receip.objectID){
+          return true
+        }else {
+          return  false //objIdSmeg + ', '
+        }
+      })
 
-
+      if(newRec){
+        return <p key={index} style={{margin: '0 4px', borderBottom:'1px solid grey'}} >{newRec.receip.objname} </p>
+      } else {
+        return <p key={index} style={{margin: '0 4px', borderBottom:'1px solid grey'}} >{objIdSmeg} <span className={classes.purple} >(нет событий)</span> </p>
+      }
+    })
 
 
  
@@ -103,11 +103,11 @@ const CartGenInfo = ({orgRow, currObj, selectObjCurr, objRect}) => {
       <ListItem>
         <ListItemAvatar>
           <Avatar>
-            <ApartmentIcon color={'rgb(229 160 30)'} style={{backgroundColor: '#904a4a'}} />
+            <ApartmentIcon  style={{backgroundColor: '#904a4a'}} />
           </Avatar>
         </ListItemAvatar>
         <div style={{display:'flex', flexDirection:'column', borderBottom:'1px solid #ff000021'}}>
-          <ListItemText primary={selectObjCurr && selectObjCurr.objName } secondary={currObj && currObj.organization.orgname  } />
+          <ListItemText primary={selectedObj && selectedObj.objName } secondary={currObj && currObj.organization.orgname  } />
           <div><span className={classes.purple} > objID: {currObj && currObj.objID } / orgID: {currObj && currObj.organization.orgID }</span> </div>
         </div>
       </ListItem>
@@ -145,7 +145,7 @@ const CartGenInfo = ({orgRow, currObj, selectObjCurr, objRect}) => {
             <HomeWorkIcon />
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary="Смежники" secondary={smegObjList} /> 
+        <ListItemText primary="Смежники" secondary={SmeObjList} />
          
       </ListItem>
     </List>
@@ -153,7 +153,7 @@ const CartGenInfo = ({orgRow, currObj, selectObjCurr, objRect}) => {
 }
  
 const mapStateToProps = createStructuredSelector ({
-  selectObjCurr: selectObjCurrObj, // события короткие данные для таблицы
+  selectedObj: selectedObj, // события короткие данные для таблицы
 });
 
 export default connect(mapStateToProps)(CartGenInfo); 

@@ -12,7 +12,7 @@ import { fetchUserStatsAsyncLocal } from '../../../store/user/user.actions';
 import './tabOneMenu.styles.scss';
 import CartGenInfo from './CardGenInfo';
 import CardUserDetails from './CardUserDetails';
-import { id } from 'date-fns/locale';
+// import { id } from 'date-fns/locale';
  
  
   
@@ -29,7 +29,7 @@ const TabOneMenu =  ({ selectCurrentUserShort, selectCurrentUserAllData,  orgRow
             pathname: `${match.url}/info`
         })
 
-    },[])
+    },[fetchUserStat, history , match.url , selectCurrentUserShort])
 
     // console.log('333 selectCurrentUserAllData',selectCurrentUserAllData)
     //org_name: "ГБУ \"Жилищник района Чертаново Северное\""

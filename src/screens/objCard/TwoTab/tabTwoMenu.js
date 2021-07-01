@@ -5,9 +5,9 @@ import { createStructuredSelector } from 'reselect';
 
 
 
-import { makeStyles } from '@material-ui/core/styles';  
-import Button from '@material-ui/core/Button';
-import MuiAlert from '@material-ui/lab/Alert';
+// import { makeStyles } from '@material-ui/core/styles';
+// import Button from '@material-ui/core/Button';
+// import MuiAlert from '@material-ui/lab/Alert';
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Snackbar from "@material-ui/core/Snackbar";
@@ -22,7 +22,7 @@ import { Alert } from '../../../components/componentsOfObjs/Alert';
 
 
 import {
-  fetchObjectsListAsync,
+  // fetchObjectsListAsync,
   setMessageError
 } from '../../../store/adminPanelTrest/adminPanelTrest.actions';
 
@@ -34,18 +34,18 @@ import { selectErrorFetch } from '../../../store/adminPanelTrest/adminPanelTrest
 import { setCurFilterSenderAsync, setCurFilterOwnAsync, setCurDateStartAsync, setCurDateEndAsync} from '../../../store/objs/obj.actions'
 
 
-
-const filterInitial = () => {
-  const endDate = new Date().toISOString().split('T')[0];
-  return { objectType: '2', organization: '0',limit: '15', offset: '0', dateStart: '2021-01-01', dateEnd: endDate,  objKind:'allKind', objStatus:'10', sortCol:'date', sortType:'desc'  }
-}
+//
+// const filterInitial = () => {
+//   const endDate = new Date().toISOString().split('T')[0];
+//   return { objectType: '2', organization: '0',limit: '15', offset: '0', dateStart: '2021-01-01', dateEnd: endDate,  objKind:'allKind', objStatus:'10', sortCol:'date', sortType:'desc'  }
+// }
 
 
 ////////////////////////////////////////////////
 const TabTwoMenu = ({ selectObjs,selectObjsInfoPage, selectErrorFetch, setMessageError, selectCurrentObj, setCurFilterSender, setCurFilterOwn, setCurDateStart, setCurDateEnd }) => {
 
   const [amObjsValue, setAmObjsValue] = useState({totalAmount: 0, withRecs: 0, withoutRecs: 0, tabFiltValueLength: 0, tabValueLength: 0, inWork: 0,inEndWork: 0 }); // выводить статистику
-  const [amObjsValueCurrent, setAmObjsValueCurrent] = useState({totalAmount: 0, withRecs: 0, withoutRecs: 0, tabFiltValueLength: 0, tabValueLength: 0, inWork: 0,inEndWork: 0 }); // выводить статистику
+  // const [amObjsValueCurrent, setAmObjsValueCurrent] = useState({totalAmount: 0, withRecs: 0, withoutRecs: 0, tabFiltValueLength: 0, tabValueLength: 0, inWork: 0,inEndWork: 0 }); // выводить статистику
 
   const [isLoading, setIsLoading] = useState(false); // выводить статистику
 
@@ -56,9 +56,9 @@ const TabTwoMenu = ({ selectObjs,selectObjsInfoPage, selectErrorFetch, setMessag
       setAmObjsValue(selectObjsInfoPage);
     }
 
-    setAmObjsValueCurrent(selectObjsInfoPage);
+    // setAmObjsValueCurrent(selectObjsInfoPage);
 
-  }, [selectObjsInfoPage.totalAmount, amObjsValue.totalAmount, selectObjsInfoPage, setAmObjsValue, setAmObjsValueCurrent])
+  }, [selectObjsInfoPage.totalAmount, amObjsValue.totalAmount, selectObjsInfoPage, setAmObjsValue])
 
 
   const handleClose = (event, reason) => {

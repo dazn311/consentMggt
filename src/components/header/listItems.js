@@ -16,9 +16,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import BusinessIcon from '@material-ui/icons/Business';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import PersonIcon from '@material-ui/icons/Person';
-import {SatelliteTwoTone} from "@material-ui/icons";
+// import {SatelliteTwoTone} from "@material-ui/icons";
 
-const MainListItems = ( {location,  drawerClose} ) => {
+const MainListItems = ( {location,  drawerClose, history} ) => {
 
     let activePage = 'dash';
 
@@ -36,8 +36,11 @@ const MainListItems = ( {location,  drawerClose} ) => {
         activePage = 'objs';
     }else if (location.pathname.includes('obj')) {
         activePage = 'obj';
-    }
+    }else if (location.pathname === '/') {
+        activePage = 'consent';
+        history.push('/stats/consent')
 
+    }
     // console.log('activePage', activePage)
 
     return(
@@ -56,7 +59,6 @@ const MainListItems = ( {location,  drawerClose} ) => {
                         ? (activePage === 'obj' ? <ApartmentIcon color={"primary"} /> : <BusinessIcon color={"primary"} /> )
                         : <BusinessIcon color={"inherit"}/>
                     }
-
                 </ListItemIcon>
                 <ListItemText primary="Объекты" onClick={drawerClose}/>
             </MenuItem>
@@ -78,8 +80,7 @@ const MainListItems = ( {location,  drawerClose} ) => {
                 <ListItemText primary="Текущая статистика" selected={location.pathname === '/stats/gen'}/>
             </MenuItem>
 
-
-            <MenuItem component={Link} to="/stats/consent" selected={activePage === 'consent'}>
+            <MenuItem  component={Link}  to="/stats/consent"  selected={activePage === 'consent'}>
                 <ListItemIcon>
                     <LayersIcon color={activePage === 'consent' ? "primary" : "inherit"}/>
                 </ListItemIcon>

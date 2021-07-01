@@ -1,12 +1,13 @@
-import React, {createRef, useEffect} from 'react';
+import React, { useEffect} from 'react';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
+// import {useHistory} from "react-router-dom";
 
 
-import { selectObjsPage } from '../../../store/adminPanelTrest/StatisticPage.selectors';  
+import { selectObjsPage } from '../../../store/adminPanelTrest/StatisticPage.selectors';
 
-import { selectObjRectPage } from '../../../store/adminPanelTrest/objsPage.selectors';  
-import { fetchObjRectListAsync } from '../../../store/adminPanelTrest/adminPanelTrest.actions';  
+import { selectObjRectPage } from '../../../store/adminPanelTrest/objsPage.selectors';
+import { fetchObjRectListAsync } from '../../../store/adminPanelTrest/adminPanelTrest.actions';
 
 import './eventDetail.styles.scss';
 import './map-widget.css';
@@ -14,12 +15,11 @@ import CartGenInfo from './CardGenInfo';
 // import CardEventInfo from './CardEventInfo';
 // import CardMapInfo from "./CardMapInfo";
 import CardYandexMap from "./CardYandexMap";
-import {useHistory} from "react-router-dom";
 
 // parrent data idObj={idObj} currObj={currObj} -- local.row ///
 const TabOneMenu = ({ idObj,currObj, fetchObjRectList, selectObjRect  }) => {
-  const  mapContainer = createRef();
-    const history = useHistory();
+  // const  mapContainer = createRef();
+  //   const history = useHistory();
   useEffect(() => {
     // console.log(' fetchObjRectList idObj', idObj);
     if (idObj ){

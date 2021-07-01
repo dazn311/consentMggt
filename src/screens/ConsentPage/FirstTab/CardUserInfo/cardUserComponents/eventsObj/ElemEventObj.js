@@ -9,9 +9,9 @@ import {useStyles} from "../ElemObj";
 
 
 const ElemEventObj = ({activeObjAndRelSelector, event = {}}) => {
-    const [objIdS] = useState('obj.objID')
+    // const [objIdS] = useState('obj.objID')
     const [colorS, setColorS] = useState(null)
-    const [objStatus] = useState('в работе')
+    // const [objStatus] = useState('в работе')
     const [longText] = useState('Оператор: ' + event.operators.username)
 
     const classes = useStyles();
@@ -24,7 +24,7 @@ const ElemEventObj = ({activeObjAndRelSelector, event = {}}) => {
             setColorS(null)
         }
 
-    }, [activeObjAndRelSelector  ])
+    }, [activeObjAndRelSelector,event.sender.objectID  ])
 
     const showDetail = () => {
         // console.log('show idxS activeObjInx', idxS, activeObjInx)

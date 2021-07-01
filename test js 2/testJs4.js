@@ -221,25 +221,129 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 // var firstName = 'daz'
-
-let a = {
-    firstName: 'Alex',
-    sayName: function (){
-        console.log(this.firstName)
-    }
-}
-let b = {
-    firstName: 'Vasiliy'
-}
-b.sayName = a.sayName
-b.sayName() //Vasiliy
-
-window.c = a.sayName
-// let c = a.sayName
-window.c() //undefined
+//
+// let a = {
+//     firstName: 'Alex',
+//     sayName: function (){
+//         console.log(this.firstName)
+//     }
+// }
+// let b = {
+//     firstName: 'Vasiliy'
+// }
+// b.sayName = a.sayName
+// b.sayName() //Vasiliy
+//
+// window.c = a.sayName
+// // let c = a.sayName
+// window.c() //undefined
 
 //////////////////////////////////////////////////////////////////////////////////////////////
+// "use strict"
+//
+// function LateBloomer() {
+//     console.log('LateBloomer start')
+//     this.petalCount = Math.ceil(Math.random() * 12) + 1;
+// }
+//
+// LateBloomer.prototype.declare = function (txt) {
+//     // this.petalCount = 'test';
+//     console.log('Я прекрасный цветок с ' +
+//         this.petalCount + ` ${txt} ` + ' лепестками!');
+// };
+// // Объявляем цветение с задержкой в 1 секунду
+// LateBloomer.prototype.bloom = function () {
+//     let txt = 'sex'
+//     console.log('bloom start', this)
+//     // setTimeout(
+//     let decBind = this.declare.bind(this, txt);
+//     // , 1000);
+//     decBind();
+// };
+//
+// // setTimeout( () => { LateBloomer.prototype.bloom()}, 2000);
+// let late = new LateBloomer();
+// late.bloom();
+// LateBloomer.prototype.bloom();
+// LateBloomer.prototype.declare();
+
 //////////////////////////////////////////////////////////////////////////////////////////////
+//
+// var a = 5
+//
+// function f() {
+//     if(a){
+//         console.log('f - a2',a) // 5 if not last var a
+//         // var a = 10;
+//     }
+// }
+// f()
+//
+// const f2 = () => {
+//     if(a){
+//         console.log('f2 - a2',a) // 5 if not last var a
+//         // var a = 10;
+//     }
+// }
+// f2()
+
 //////////////////////////////////////////////////////////////////////////////////////////////
+
+// let inc = (function ()  {
+//     let counter = 0
+//     return function () { return  counter++}
+// })()
+// console.log(inc()) // 1
+// console.log(inc()) // 2
+// console.log(inc()) // 3
+
+//-- -- -- -- - - - - -- -- --//
+// function Counter()  {
+//     let counter = 0
+//     return function () {
+//         return  ++counter}
+// }
+// let incN = new Counter()
+//
+// console.log(incN()) // 1
+// console.log(incN()) // 2
+// console.log(incN()) // 3
+
+//-- -- -- -- - - - - -- -- --//
+// function Counter2()  {
+//     let counter = 0
+//     return function () {
+//         return  ++counter}
+// }
+// let incN =  Counter2()
+//
+// console.log(incN()) // 1
+// console.log(incN()) // 2
+// console.log(incN()) // 3
+//-- -- -- -- - - - - -- -- --//
+// function Counter2()  {
+//     let counter = 0
+//     return  () => {  return  ++counter}
+// }
+// let incN =  Counter2()
+// let incN2 =  Counter2()
+//
+// console.log(incN === incN2) // false
+//
+// console.log(incN()) // 1
+// console.log(incN()) // 2
+// console.log(incN()) // 3
+//
+// console.log(incN2()) // 1
+// console.log(incN2()) // 2
+// console.log(incN2()) // 3
+// console.log(incN2()) // 4
+//
+// console.log(Counter2()) // Function (anonymous)
+// console.log(Counter2()()) // 1
+// console.log(Counter2()()) // 1
+// console.log(Counter2()()) // 1
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////////////////

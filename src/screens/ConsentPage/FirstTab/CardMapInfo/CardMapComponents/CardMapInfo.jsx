@@ -1,20 +1,23 @@
-import React, {createRef, useCallback, useEffect, useRef, useState} from 'react';
+import React, {  useEffect, useRef, useState} from 'react';
 
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
-import L, {LatLngExpression, Control} from "leaflet";
+import L
+    // , {LatLngExpression, Control}
+    from "leaflet";
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 import {
     TileLayer,
-    Popup,
-    Circle,
+    // Popup,
+    // Circle,
     CircleMarker,
-    Polyline,
+    // Polyline,
     Polygon,
-    Rectangle,
-    Map, Marker, SVGOverlay
+    // Rectangle,
+    Map
+    // , Marker, SVGOverlay
 } from 'react-leaflet'
 
 import "leaflet/dist/leaflet.css";
@@ -33,6 +36,7 @@ import DialogMarkerMap from "../../../../../components/dialogMarkerMap/DialogMar
 import {  center, positionInit } from "./constants";
 import {setCurrentEventOfObjAsync} from "../../../../../store/consent/events/evt.actions";
 import {currentEventObjSelector} from "../../../../../store/consent/events/evt.selectors";
+import {Slide} from "@material-ui/core";
 
 
 let DefaultIcon = L.icon({
@@ -47,23 +51,23 @@ let DefaultIcon = L.icon({
 
 
 
-let greenIcon = new L.Icon({
-    iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
-});
+// let greenIcon = new L.Icon({
+//     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+//     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+//     iconSize: [25, 41],
+//     iconAnchor: [12, 41],
+//     popupAnchor: [1, -34],
+//     shadowSize: [41, 41]
+// });
 
 
 ///////////////////////////////////////////////////objAddress = 'Зорге, 1', objBnd = '', id = 0, setCurObj///////////////////////////////
 const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, setCurrentEventOfObj,currentEventObjS}) => {
     const [openMarkerS, setOpenMarkerS] = useState(false)
-    const [captionDialogS, setCaptionDialogS] = useState('Задать название события')
+    const [captionDialogS ] = useState('Задать название события')
     const [bodyMarketDialogS, setBodyMarketDialogS] = useState(objAddress)
-    const [draggable, setDraggable] = useState(true)
-    const [position, setPosition] = useState(center)
+    // const [draggable, setDraggable] = useState(true)
+    const [position ] = useState(center)
 
 
     const [markers, setMarkers] = useState([])
@@ -71,35 +75,24 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
 
 
     // const [objBndS, setObjBndS] = useState([])
-    const [eventObj, setEventObj] = useState([])
+    // const [eventObj, setEventObj] = useState([])
     const [purpleOptions] = useState({shapeOptions: {color: '#f00'}})
     const [yellowOptions] = useState({fillOpacity: .1, color: "orange", fill: 'red'})
 
-    const pathOptions= {fillOpacity: 1, color: "orange"};
+    // const pathOptions= {fillOpacity: 1, color: "orange"};
     // const purpleOptions = {color: 'purple'}
     // const yellowOptions = {color: 'yellow'}
 
-    function lg (arg) {
-          eval(`console.log("${arg}",${arg})`)
-    }
-      
-
-    
-    
 
     const localMapRef = useRef(null)
-
     const markerRef = useRef(null)
-
     const markerRef1 = useRef(null)
 
     useEffect(() => {
         return () => {
-            // Your code you want to run on unmount.
-            console.log('unmount CardMapInfo')
             setCurrentEventOfObj(null)
         };
-    }, []);
+    }, [setCurrentEventOfObj]);
 
     useEffect(() => {
             reMapRecsDataS(recsDataP)
@@ -111,12 +104,12 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
     //
     // },[currentEventObjS])
 
-    useEffect(() => {
-        if(markerRef.current){
-            markerRef.current.setStyle({color:'red'})
-        }
-
-    },[localMapRef.current])
+    // useEffect(() => {
+    //     if(markerRef.current){
+    //         markerRef.current.setStyle({color:'red'})
+    //     }
+    //
+    // },[localMapRef.current])
 
 
 
@@ -150,72 +143,72 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
         setMarkers(newMarkersValue)
     }
 
-    const addEventObj = (e) => {
-        // console.log('e.latlng',e.latlng)
-        const newEventValue = [...eventObj, e.latlng]
-        setEventObj(newEventValue)
-    }
+    // const addEventObj = (e) => {
+    //     // console.log('e.latlng',e.latlng)
+    //     const newEventValue = [...eventObj, e.latlng]
+    //     setEventObj(newEventValue)
+    // }
+    //
+    // const eventHandlers =
+    //     () => ({
+    //         dragend() {
+    //             console.log('eventHandlers dragend')
+    //             const marker = markerRef.current
+    //             if (marker != null) {
+    //                 setPosition(marker.getLatLng())
+    //                 console.log('setPosition(marker.getLatLng',marker.getLatLng())
+    //             }
+    //         },
+    //     })
 
-    const eventHandlers =
-        () => ({
-            dragend() {
-                console.log('eventHandlers dragend')
-                const marker = markerRef.current
-                if (marker != null) {
-                    setPosition(marker.getLatLng())
-                    console.log('setPosition(marker.getLatLng',marker.getLatLng())
-                }
-            },
-        })
+    // const eventHandlersEventMarker =
+    //     (e,idx) => ({
+    //         dragend() {
+    //             // console.log('eventHandlersEventMarker dragend',e,idx)
+    //             const marker = markerRef.current
+    //             if (marker != null) {
+    //                 setPosition(marker.getLatLng())
+    //                 // console.log('setPosition(marker.getLatLng',marker.getLatLng())
+    //             }
+    //         },
+    //     })
 
-    const eventHandlersEventMarker =
-        (e,idx) => ({
-            dragend() {
-                // console.log('eventHandlersEventMarker dragend',e,idx)
-                const marker = markerRef.current
-                if (marker != null) {
-                    setPosition(marker.getLatLng())
-                    // console.log('setPosition(marker.getLatLng',marker.getLatLng())
-                }
-            },
-        })
-
-    const toggleDraggable = useCallback(() => {
-        setDraggable((d) => !d)
-    }, [])
+    // const toggleDraggable = useCallback(() => {
+    //     setDraggable((d) => !d)
+    // }, [])
 
 
     L.Marker.prototype.options.icon = DefaultIcon;
 
-    const bounds = [
-        [55.7757, 37.5102],
-        [55.7768, 37.5148],
-    ];
+    // const bounds = [
+    //     [55.7757, 37.5102],
+    //     [55.7768, 37.5148],
+    // ];
 
 
-    const changeCoordinate = (e, index) => {
-        //SVGOverlay
-        // console.log('changeCoordinate',e.nativeEvent.coordinate)
+    // const changeCoordinate = (e, index) => {
+    //     //SVGOverlay
+    //     // console.log('changeCoordinate',e.nativeEvent.coordinate)
+    //
+    //     let newCoord = e.nativeEvent.coordinate;
+    //     let newEditing = Object.assign({}, this.state.editing);
+    //     let newCoordinates = Object.assign({}, newEditing.coordinates);
+    //     newCoordinates[index] = newCoord;
+    //     newEditing.coordinates = newCoordinates;
+    //     let transformedCoords = Object.keys(newEditing.coordinates).map(function (key) {
+    //         return newEditing.coordinates[key];
+    //     });
+    //     newEditing.coordinates = transformedCoords;
+    //     // console.log('newEditing', newEditing);
+    //     // this.setState({
+    //     //   editing: newEditing
+    //     // })
+    // }
 
-        let newCoord = e.nativeEvent.coordinate;
-        let newEditing = Object.assign({}, this.state.editing);
-        let newCoordinates = Object.assign({}, newEditing.coordinates);
-        newCoordinates[index] = newCoord;
-        newEditing.coordinates = newCoordinates;
-        let transformedCoords = Object.keys(newEditing.coordinates).map(function (key) {
-            return newEditing.coordinates[key];
-        });
-        newEditing.coordinates = transformedCoords;
-        // console.log('newEditing', newEditing);
-        // this.setState({
-        //   editing: newEditing
-        // })
-    }
-
-    const updateMarker = () => {
-        //   console.log('updateMarker')
-
-    }
+    // const updateMarker = () => {
+    //     //   console.log('updateMarker')
+    //
+    // }
 
     const setBodyTxtMarker = (txt) => {
         setBodyMarketDialogS(txt)
@@ -234,13 +227,13 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
     }
 
 
-    console.log(currentEventObjS) //rec_id: 15561
+    // console.log(currentEventObjS) //rec_id: 15561
     // console.log(markersData) //rec_id: 15561
 
-    lg('markersData')
+    // lg('markersData')
 
     return (
-        <React.Fragment>
+        <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <DialogMarkerMap bodyTxt={bodyMarketDialogS} caption={captionDialogS} openMarker={openMarkerS} isOpen={false} newBodyTxt={setBodyTxtMarker} />
             <Map
                 dragging={true}
@@ -299,7 +292,7 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
                 )}
 
             </Map>
-        </React.Fragment>
+        </Slide>
 
     );
 }

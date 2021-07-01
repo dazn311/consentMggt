@@ -30,7 +30,7 @@ let RelObjItemsWrapper = ({relListShortDataS, setActiveRelId, fetchObjByIdToObjs
                 setRelIdS(idRel)
             }
         }
-    },[relListShortDataS])
+    },[relListShortDataS,fetchObjByIdToObjsData,setActiveObjAndRel])
 
     if (!relListShortDataS) {
         return (<div>'loading..'</div>)

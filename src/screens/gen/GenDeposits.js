@@ -6,11 +6,12 @@ import moment from 'moment/moment';
 // import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import { Slide } from "@material-ui/core";
 
 
 import Title from './Title';
 
-import { selectAmountOGH } from '../../store/adminPanelTrest/adminPanelTrest.selectors'; 
+import { selectAmountOGH } from '../../store/adminPanelTrest/adminPanelTrest.selectors';
 // import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
 const useStyles = makeStyles({
@@ -34,6 +35,7 @@ const GenDeposits = React.memo(({amountOGH, data }) => {
 
     return (
         <React.Fragment>
+
             <Title>Данные ОГХ ({total_objects})</Title>
             <hr color="white" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}} />
 
@@ -64,7 +66,6 @@ const GenDeposits = React.memo(({amountOGH, data }) => {
             <Typography  component="span" color="textSecondary" className={classes.depositContext}>
                 Данные на {lastDate[2]}/{lastDate[1]}/{lastDate[0]}
             </Typography>
-
         </React.Fragment>
     );
 })

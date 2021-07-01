@@ -37,7 +37,7 @@ const TabThirdMenu = ({ idUser,selectCurrentUserShort, allData ,   orgRow,  isOp
         history.push({
             pathname: `${match.url}/edit`
         })
-    },[])
+    },[history,match.url])
 
     // console.log('allData',allData)
     // console.log('userAllStatsData',userAllStatsData)

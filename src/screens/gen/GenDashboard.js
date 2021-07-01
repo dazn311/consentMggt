@@ -18,6 +18,7 @@ import { selectGenStats } from '../../store/adminPanelTrest/StatisticPage.select
 import {  fetchGenStatsAsync  } from '../../store/adminPanelTrest/adminPanelTrest.actions';
  
 import './dashboard.styles.scss';
+import {Slide} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,26 +56,16 @@ const useStyles = makeStyles((theme) => ({
  
 const GenDashboard = React.memo(({fetchGenStats, genStatsAll}) => {
   const classes = useStyles();
-   
-  // useEffect(() => {
-  //   window.addEventListener('load', handleLoad);
-  // }, [])
-  //
-  // const handleLoad =() => {
-  //   window.ymaps.ready(() => {
-  //     let localMap = new window.ymaps.Map('mapYandex', {center: [55.77876611979373, 37.51221102764416], zoom: 16}, {
-  //       searchControlProvider: 'yandex#search'});
-  //   });
-  // }
 
   useEffect(() => {
-    fetchGenStats();
-  }, [ fetchGenStats ])
+    if(!genStatsAll.total_objects){
+      console.log('GenDashboard - fetch start')
+      fetchGenStats()
+    }
+  }, [ genStatsAll.total_objects, fetchGenStats ])
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
-
- 
   return (
     <div className={classes.root}>
       <CssBaseline /> 
@@ -83,27 +74,29 @@ const GenDashboard = React.memo(({fetchGenStats, genStatsAll}) => {
         <Container maxWidth={false}  className={classes.container}>
           <Grid container spacing={1}>
 
-            {/* <Grid item xs={12} md={3} lg={3} style={{minWidth: 292, marginLeft: 8, marginRight: 8}} > */}
             <Grid item xs={12} md={12} lg={12} >
-              {/*<div id="mapYandex" style={{width: 600, height: 400}} ></div>*/}
             </Grid>
-
+            <Slide direction="up" in={true} mountOnEnter unmountOnExit>
             <Grid item xs={12} md={4} lg={4} >
               <Paper className={fixedHeightPaper}>
                 <GenDeposits data={genStatsAll} /> {/* Количество ОГХ */}
               </Paper>
             </Grid>
-            
+            </Slide>
+            <Slide direction="down" in={true} mountOnEnter unmountOnExit>
             <Grid item xs={12} md={4} lg={4}   >
               <Paper className={fixedHeightPaper}>
               <GenAllPeriod data={genStatsAll} /> {/* Количество ALl */}
               </Paper>
             </Grid>
+            </Slide>
+            <Slide direction="left" in={true} mountOnEnter unmountOnExit>
             <Grid item xs={12} md={4} lg={4}  >
               <Paper className={fixedHeightPaper}>
               <GenOneDayPeriod data={genStatsAll} />
               </Paper>
             </Grid>
+            </Slide>
           </Grid>
         </Container>
       </main>

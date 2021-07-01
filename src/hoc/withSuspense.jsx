@@ -1,9 +1,9 @@
 import React from 'react';
 
-export function withSuspense(WreppedComponent) {
+export function withSuspense(WrappedComponent) {
     return (props) => {
         return <React.Suspense fallback={<div>loading...</div>} >
-            <WreppedComponent {...props} />
+            <WrappedComponent {...props} />
         </React.Suspense>
     }
 }

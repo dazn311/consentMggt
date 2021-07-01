@@ -6,12 +6,12 @@ import { createStructuredSelector } from 'reselect';
 
 import generator from 'generate-password';
 
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles  } from '@material-ui/core/styles';
 import Select from '@material-ui/core/Select';
-import Fab from '@material-ui/core/Fab';
+// import Fab from '@material-ui/core/Fab';
 import Switch from '@material-ui/core/Switch';
 
-import EditIcon from '@material-ui/icons/Edit';
+// import EditIcon from '@material-ui/icons/Edit';
 
 import CheckBox from '../../../components/checkBox/CheckBox'; 
 import DialogSetDate from '../../../components/dialogSetDate/DialogSetDate'; 
@@ -47,10 +47,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 // curUser={curUser} objRect={selectObjRect}
 
-
-const EditBtn = () => (<Fab color="secondary" size='small' aria-label="edit">
-<EditIcon fontSize='small' />
-</Fab>);
+//
+// const EditBtn = () => (<Fab color="secondary" size='small' aria-label="edit">
+// <EditIcon fontSize='small' />
+// </Fab>);
 
 
 
@@ -69,10 +69,10 @@ const userLoginInitial = (userName) => {
 /////////////////////////////////////////////////////
 
 const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUserData, userAllStatsData }) => {
-    const [state, setState] = React.useState(selectAllOrgFromUsers);
+    const [state] = React.useState(selectAllOrgFromUsers);
 
 
-    const [userID, setUserID] = React.useState(curUser.user_id);
+    const [userID] = React.useState(curUser.user_id);
     const [userName, setUserName] = React.useState(curUser.user_name);
     const [userShortName, setUserShortName] = React.useState(curUser.user_name);
 
@@ -94,7 +94,7 @@ const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUs
     const [checkS, setCheckS] = React.useState({checkedA: false, checkedB: true, });
 
     const classes = useStyles();
-    const curTheme = useTheme();
+    // const curTheme = useTheme();
     const history = useHistory();
     //   curTheme.palette.primary.main
 
@@ -164,17 +164,16 @@ const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUs
 
 
       const handleChangeOrg = (event) => {
-        const name = event.target.name;
         setOrg( event.target.value );
       };
 
-      const handleChange = (event) => {
-        const name = event.target.name;
-        setState({
-          ...state,
-          [name]: event.target.value,
-        });
-      };
+      // const handleChange = (event) => {
+      //   const name = event.target.name;
+      //   setState({
+      //     ...state,
+      //     [name]: event.target.value,
+      //   });
+      // };
 
       const handleChangeCheck = (event) => {
         setCheckS({ ...state, [event.target.name]: event.target.checked });
@@ -197,10 +196,10 @@ const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUs
           setUserPassword(password2);
       };
    
-    let password = generator.generate({
-        length: 10,
-        numbers: true
-    });
+    // let password = generator.generate({
+    //     length: 10,
+    //     numbers: true
+    // });
 
     const setChecked = (status) => {
         setUserStatus(status);
@@ -213,7 +212,9 @@ const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUs
 
         if (userData && userData !== {}){
             // console.log('9999 userData',userData)
-            const {  user_role, user_status, user_email, user_tel, user_reg_date, user_end_date, user_last_seen, user_org_id, org_name, user_shortname } = userData ;
+            const {  user_role, user_status, user_email, user_tel,
+                // user_reg_date,
+                user_end_date, user_last_seen, user_org_id, org_name, user_shortname } = userData ;
             setUserShortName(user_shortname);
             setUserTel(refPhoneNumber(user_tel));
             setUserMail(user_email);
@@ -231,13 +232,15 @@ const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUs
             })
         }
 
-    },[userData]);
+    },[userData, history]);
 
     useEffect(() => {
 
         if (userData && userData !== {}){
             // console.log('9999 userData',userData)
-            const {  user_role, user_status, user_email, user_tel, user_reg_date, user_end_date, user_last_seen, user_org_id, org_name, user_shortname } = userData ;
+            const {  user_role, user_status, user_email, user_tel,
+                // user_reg_date,
+                user_end_date, user_last_seen, user_org_id, org_name, user_shortname } = userData ;
             setUserShortName(user_shortname);
             if(userAllStatsData && userAllStatsData.user){
                 setUserLogin(userAllStatsData.user.login)
@@ -259,7 +262,7 @@ const CardUserDetails = ({ curUser, selectAllOrgFromUsers, userData, updateCurUs
             })
         }
 
-    },[userAllStatsData]);
+    },[userAllStatsData, history, userData]);
 
 
     let newArr = [];

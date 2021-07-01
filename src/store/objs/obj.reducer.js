@@ -24,7 +24,7 @@ const INITIAL_STATE = {
   curObjFilterDateEnd: new Date().toISOString().split('T')[0],
 };
 
-const userReducer = (state = INITIAL_STATE, action) => {
+const objReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case objData.ERROR_FETCH_OBJS_DATA_FOR_OBJS_PAGE: // FOR OBJS PAGE TAB1 210521
       return {
@@ -99,4 +99,4 @@ const userReducer = (state = INITIAL_STATE, action) => {
   }
 };
  
-export default userReducer;
+export default objReducer;

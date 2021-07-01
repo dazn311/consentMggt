@@ -23,7 +23,9 @@ import Pagination from '@material-ui/lab/Pagination';
 // import * as locales from '@material-ui/core/locale';
 // import BackDrop from  '../../../components/blackDrop/black-drop.component'
 
-import { Random, Wave  } from 'react-animated-text';
+import { Random
+  // ,Wave 
+} from 'react-animated-text';
   
 import MessAlert from './Messages.alert';
   

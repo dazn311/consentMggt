@@ -2,9 +2,10 @@ import React, {useEffect, useRef} from "react";
 
 import "./ChatRoom.css";
 import useChat from "../useChat";
-import {currentEventObjSelector} from "../../../../../store/consent/events/evt.selectors";
-import {createStructuredSelector} from "reselect";
-import {connect} from "react-redux";
+import {Slide} from "@material-ui/core";
+// import {currentEventObjSelector} from "../../../../../store/consent/events/evt.selectors";
+// import {createStructuredSelector} from "reselect";
+// import {connect} from "react-redux";
 
 
 // let isShowDate = true
@@ -54,6 +55,7 @@ const ChatRoom = ({currentEventObjS}) => {
 
 
     return (
+        <Slide direction="left" in={true} mountOnEnter unmountOnExit>
         <div className="chat-room-container">
             <h4 className="room-name">Событие №: {roomId}</h4>
             <div className="messages-container">
@@ -88,6 +90,7 @@ const ChatRoom = ({currentEventObjS}) => {
                 Отправить
             </button>
         </div>
+        </Slide>
     );
 };
 

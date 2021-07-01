@@ -20,10 +20,6 @@ thisDate = thisDate.split('T')[0];
 
 
 
-const formatDate = (data) => {
-    return new Intl.DateTimeFormat('ru-Ru').format(new Date(data))
-}
-
 // let openGreen = false;
 let rows = [
         // { id: 1, type: 'Snow', text: 'Jon', date: '35',fullName: 'Vasya' },

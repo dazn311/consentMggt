@@ -1,26 +1,26 @@
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
 
-import {makeStyles} from '@material-ui/core/styles';
-
+// import {makeStyles} from '@material-ui/core/styles';
 
 // import './paintOnMap';
-import {setObjCurrForDetailPageAsync} from '../../../store/adminPanelTrest/adminPanelTrest.actions';
-import {setCurObjAsync} from "../../../store/objs/obj.actions";
-import {selectObjCurrObj} from '../../../store/adminPanelTrest/objspages.selectors';
-import {fullDataOfActiveObForMapForRelativesSelector} from '../../../store/consent/cons.selectors';
+// import {setCurObjAsync} from "../../../store/objs/obj.actions";
 
+import {setObjCurrForDetailPageAsync} from '../../../store/adminPanelTrest/adminPanelTrest.actions';
+import {selectedObj} from '../../../store/adminPanelTrest/objspages.selectors';
+import {fullDataOfActiveObForMapForRelativesSelector} from '../../../store/consent/cons.selectors';
 
 const positionInit = [55.7796, 37.5118];
 const boundsInit = [[55.975113, 37.274017], [55.541198, 37.996513]];
 
 let localMap;
 
+
 const CardYandexMap = ({
-                           selectObjCurr,
+                           selectedObj,
                            objAdress = 'Зорге, 1',
                            orgName,
                            setCurObj,
@@ -29,7 +29,7 @@ const CardYandexMap = ({
     // const [draggable, setDraggable] = useState(false)
     const [position, setPosition] = useState(positionInit)
 
-    const handleLoad = (center) => {
+    const handleLoad = useCallback((center) => {
         window.ymaps.ready(['ext.paintOnMap']).then(() => {
             localMap = new window.ymaps.Map('mapYandex', {center: center, zoom: 16}, {
                 searchControlProvider: 'yandex#search'
@@ -67,7 +67,7 @@ const CardYandexMap = ({
                     // e.get('target').options.unset('preset');
                     e.get('target').geometry.setRadius(30);
                     // console.log('mouseleave',e.originalEvent.target.events.params.context.geometry._coordinates);
-                    // let newName = selectObjCurr.objName + e.originalEvent.target.events.params.context.geometry._coordinates;
+                    // let newName = selectedObj.objName + e.originalEvent.target.events.params.context.geometry._coordinates;
                     // let newData = {...setCurObj, objName: newName };
                     // setCurObj(newData)
 
@@ -104,7 +104,7 @@ const CardYandexMap = ({
 
             localMap.events.add('mousedown', function (e) {
                 if (e.get('altKey')) {
-                    if (currentIndex == styles.length - 1) {
+                    if (currentIndex === styles.length - 1) {
                         currentIndex = 0;
                     } else {
                         currentIndex += 1;
@@ -129,7 +129,7 @@ const CardYandexMap = ({
 
         })
 
-    }
+    },[objAdress, setCurObj])
 
 
     ////////////////
@@ -178,7 +178,7 @@ const CardYandexMap = ({
 
         setAdresToMap(objAdress)
 
-    }, [objAdress])
+    }, [objAdress,handleLoad, position])
 
 
     return (
@@ -190,7 +190,7 @@ const CardYandexMap = ({
 }
 
 const mapStateToProps = createStructuredSelector({
-    selectObjCurr: selectObjCurrObj, // события короткие данные для таблицы
+    selectedObj: selectedObj, // события короткие данные для таблицы
     fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector, // события короткие данные для таблицы
 });
 

@@ -22,25 +22,27 @@ import {
 
 import CardUserInfo from './CardUserInfo/CardUserInfo';
 import EventsObj from './CardUserInfo/cardUserComponents/eventsObj/index';
-import {Button} from "@material-ui/core";
-
-import ChatEvent from "./components/chat";
+// import {Button} from "@material-ui/core";
+//
+// import ChatEvent from "./components/chat";
 import ChatEvents from "./ChatEvents/index";
 import CardMapInfo from './CardMapInfo/index'
 
+import {styleConsent, styleOrg, styleCardMapInfo, styleEventsObj, styleChatEvents} from './tabFirstConsent.styles'
+
+
 ////////////////////////////////////////////////////////
-const TabFirstConsent = ({fetchAuthUser, fetchObjsOfAuthUser, userOfAuthData
+const TabFirstConsent = ({
+                             fetchAuthUser, fetchObjsOfAuthUser, userOfAuthData
                              // , objsDataOfAuthUser
-}) => {
+                         }) => {
     const [userId] = useState(531);  /// мы зашли под этим аккаунтом
 
     useEffect(() => {
-
         if (!userOfAuthData) {
             fetchAuthUser(userId);
         }
-
-    }, [fetchAuthUser, userOfAuthData])
+    }, [fetchAuthUser, userOfAuthData, userId])
 
 
     // console.log(' objsDataOfAuthUser', objsDataOfAuthUser)
@@ -64,58 +66,19 @@ const TabFirstConsent = ({fetchAuthUser, fetchObjsOfAuthUser, userOfAuthData
 
 
     return (
-        <div style={{
-            display: 'flex',
-            flexWrap: 'nowrap',
-            flexDirection: window.innerWidth < 500 ? 'column' : 'row',
-            justifyContent: 'flex-start'
-        }}>
-
-            <CardUserInfo
-                userOfAuthData={userOfAuthData}
-                // objsDataOfAuthUser={objsDataOfAuthUser}
-            >.</CardUserInfo>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                flexWrap: 'nowrap',
-                justifyContent: 'flex-start',
-                minWidth: 550,
-                minHeight: 550,
-                position: 'relative',
-                overflow: 'unset'
-            }}>
-                <Button style={{position:'absolute', top: -40, left: 10, zIndex: 110}} >Выбрать событие</Button>
-                 <CardMapInfo />
+        <div style={styleConsent}>
+            <div style={styleOrg}>
+                <CardUserInfo userOfAuthData={userOfAuthData}/>
             </div>
-
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                flexWrap: 'nowrap',
-                justifyContent: 'flex-start',
-                position: 'relative',
-                overflow: 'unset',
-                // border: '1px solid red',
-                minWidth: 100,
-                minHeight: 100,
-                height: 500
-            }}>
-                <EventsObj> </EventsObj>
-
+            <div style={styleCardMapInfo}>
+                <CardMapInfo/>
             </div>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                flexWrap: 'nowrap',
-                justifyContent: 'flex-start',
-                position: 'relative',
-                overflow: 'unset'
-            }}>
-                <ChatEvents />
-
+            <div style={styleEventsObj}>
+                <EventsObj/>
             </div>
-
+            <div style={styleChatEvents}>
+                <ChatEvents/>
+            </div>
         </div>
     );
 }

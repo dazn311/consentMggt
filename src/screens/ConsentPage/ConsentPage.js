@@ -1,19 +1,20 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
+// import Box from '@material-ui/core/Box';
+// import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 
-import { useLocation } from "react-router-dom";
+import {useLocation, withRouter} from "react-router-dom";
 
-import TabMenuConsent from "./TabMenuConsent";
+// import TabMenuConsent from "./TabMenuConsent";
+import TabFirstConsent from "./FirstTab/TabFirstConsent";
 
 
- 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
@@ -42,24 +43,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 //<HistoryChanges eventShortPoints={eventShortPoints}/>
 
-export default function ConsentPage({eventShortPoints, idObj}) {
+function ConsentPage({ idObj }) {
   const classes = useStyles();
   const location = useLocation();
   const currObj = location.row;
-
+  console.log('location.row',location.row)
   return (
-    <div className={classes.root}>
+    <div  className={classes.root}>
       <CssBaseline />
-      {/* <Header /> */}
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth={false} className={classes.container}>
           <Grid container spacing={3}>
-            
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <TabMenuConsent idObj={idObj} currObj={currObj} />
+                <TabFirstConsent idObj={idObj} currObj={currObj} />
+                {/*<TabMenuConsent idObj={idObj} currObj={currObj} />*/}
               </Paper>
             </Grid>
           </Grid>
@@ -68,3 +68,5 @@ export default function ConsentPage({eventShortPoints, idObj}) {
     </div>
   );
 }
+
+export default withRouter(ConsentPage)

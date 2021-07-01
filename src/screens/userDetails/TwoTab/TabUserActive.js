@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 // import { useHistory } from "react-router-dom";
 // import _ from "lodash";
 
@@ -29,7 +29,7 @@ import { fetchDataForEventShortPoints } from '../../../store/adminPanelTrest/adm
 import { selectObjsInfoPage } from '../../../store/adminPanelTrest/StatisticPage.selectors';  
 import { selectErrorFetchUserData } from '../../../store/user/user.selectors';
 
-import EventDetail from './EventDetail';
+// import EventDetail from './EventDetail';
 import {formatDateISO} from "../../../hoc/formatDate";
  
 const useStyles = makeStyles({
@@ -72,7 +72,7 @@ const TabUserActive = ({ allStatsData, offset, isLoading, errorFetchUserData, cu
 
   const [page, setPage] = React.useState(1); 
   const [recData, setRecData] = React.useState(0);
-  const [isOpenDetail, setIsOpenDetail] = useState(false); 
+  // const [isOpenDetail, setIsOpenDetail] = useState(false);
 
  
 
@@ -91,9 +91,9 @@ const TabUserActive = ({ allStatsData, offset, isLoading, errorFetchUserData, cu
   }; 
 
   // для детальной информации
-  const closeDetail = () => {
-    setIsOpenDetail(false);
-  }
+  // const closeDetail = () => {
+  //   setIsOpenDetail(false);
+  // }
 
   const setCurUserEventData = (row) => { 
     setRecData(row); 

@@ -87,7 +87,7 @@ const TabMenu = ({idUser, curUser}) => {
     // history.push({
     //   pathname: `${match.url}/info`
     // })
-  },[])
+  },[location])
     
 
   const handleChange = (event, newValue) => {

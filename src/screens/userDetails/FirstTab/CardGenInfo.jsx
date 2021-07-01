@@ -98,7 +98,11 @@ export default function CardGenInfo({ curUser, allData }) {
 
   if (!curUser) return (<div>loading..</div>);
 
-  const { user_id, user_name, user_shortname, user_status, user_org_id, org_name, user_post, user_role, user_last_seen } = curUser;
+  const { user_id, user_name,
+    // user_shortname,
+    user_status,
+    // user_org_id,
+    org_name, user_post, user_role, user_last_seen } = curUser;
 
   let lastActive = (user_last_seen || '2021-01-01T13:13:13.298Z').split('T')[0];
   lastActive = lastActive.split('-');

@@ -1,6 +1,5 @@
 import {eventsObj, objsData, objsFetch, relObjs, userFetch} from './cons.types';
 import memoize from "lodash/_memoizeCapped";
-import {visibleEventsObjSelector} from "./cons.selectors";
 
 export const setErrorFetchAuthUser = (errorMessage) => ({
     type: userFetch.SET_ERROR_AUTH_USER_FOR_CONSENT_PAGE,
@@ -47,10 +46,10 @@ const fetchEventsOfObjsForAuthUser = objId => ({
     payload: objId
 });
 
-const fetchLocalDataOfObjsForAuthUser = objId => ({
-    type: objsFetch.LOCAL_DATA_OF_OBJS_FOR_AUTH_USER_FOR_CONSENT_PAGE,
-    payload: objId
-});
+// const fetchLocalDataOfObjsForAuthUser = objId => ({
+//     type: objsFetch.LOCAL_DATA_OF_OBJS_FOR_AUTH_USER_FOR_CONSENT_PAGE,
+//     payload: objId
+// });
 
 const fetchObjByIdToObjsData = obj => ({
     type: objsFetch.DATA_ONE_OBJ_FOR_AUTH_USER_FOR_CONSENT_PAGE_E,
@@ -151,12 +150,13 @@ const _fetchOrgOfAuthUserAsync = memoize(async (dispatch, userID) => {
 
 
 export const fetchObjsOfAuthUserAsync = (orgName) => dispatch => {
+    console.log('fetchOrgOfAuthUserAsync start')
     _fetchObjsOfAuthUserAsync(dispatch, orgName);
 };
-const _fetchObjsOfAuthUserAsync = memoize(async (dispatch, orgName) => {
+const _fetchObjsOfAuthUserAsync = async (dispatch, orgName) => {
     const endDate = new Date().toISOString();
     try {
-        let objsData = sessionStorage.getItem('objsDataOfAuthUser')
+        let objsData  = sessionStorage.getItem('objsDataOfAuthUser')
         // console.log('fetchAuthUser -- userData',objsData)
         if(JSON.stringify(objsData) === '{}' || objsData === null) { //This will check if the object is empty
             await postData('https://ismggt.ru/query/objects/list', {
@@ -181,7 +181,8 @@ const _fetchObjsOfAuthUserAsync = memoize(async (dispatch, orgName) => {
     // const endDate = new Date().toISOString();
     // console.log('_fetchObjsOfAuthUserAsync -- orgName',orgName)
 
-});
+}
+
 // const _fetchObjsOfAuthUserAsync = memoize(async (dispatch, orgName) => {
 //     const endDate = new Date().toISOString();
 //     // console.log('_fetchObjsOfAuthUserAsync -- orgName',orgName)
@@ -264,8 +265,10 @@ const _fetchEventsPointShortAsync = async (limit, offset, dispatch) => {
 
 
 // 020621 from Dashboard page
-export const fetchObjByIdToObjsDataAsync = (objId ) => dispatch => {
+export const fetchObjByIdToObjsDataAsync = (objId ) => (dispatch, getState) => {
     // console.log('1255v fetchObjByIdToObjsDataAsync',objId)
+    // console.log('1255v fetchObjByIdToObjsDataAsync',getState() )
+    // getState() - возвращает весь state
     _fetchObjByIdToObjsData(objId, dispatch);
 };
 
@@ -284,5 +287,43 @@ const _fetchObjByIdToObjsData = async (objId, dispatch) => {
 export const setCurObjIdForConsentPageAsync = (objId) => dispatch => {
     return dispatch(setCurObjIdForConsentPage(objId));
 };
+
+//fetch('https://ismggt.ru/query/object/data',{method: 'POST',mode:'no-cors',credentials: 'same-origin',body: JSON.stringify({objID: 940})}).then(res => res.json()).then(resJ => console.log(resJ));
+
+// const response = await fetch('https://ismggt.ru/query/object/data', {
+//     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+//     mode: 'no-cors', // no-cors, *cors, same-origin
+//     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+//     credentials: 'same-origin', // include, *same-origin, omit
+//     headers: {
+//         'Content-Type': 'application/json'
+//     },
+//     redirect: 'follow', // manual, *follow, error
+//     referrerPolicy: 'no-referrer', // no-referrer, *client
+//     body: JSON.stringify({objID: 940}) // body data type must match "Content-Type" header
+// });
+// let res =  await response.json();
+// console.log(res)
+
+// fetch('https://ismggt.ru/query/object/data', {
+//     method: 'POST', // *GET, POST, PUT, DELETE, etc.
+//     mode: 'cors', // no-cors, *cors, same-origin
+//     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+//     credentials: 'same-origin', // include, *same-origin, omit
+//     headers: {
+//         'Content-Type': 'application/json'
+//     },
+//     redirect: 'follow', // manual, *follow, error
+//     referrerPolicy: 'no-referrer', // no-referrer, *client
+//     body: JSON.stringify({objID: 940}) // body data type must match "Content-Type" header
+// })
+//     .then(res =>  res.json())
+//     .then(resJ => {
+//         console.log(resJ);
+//     });
+
+//290621
+
+
 
 

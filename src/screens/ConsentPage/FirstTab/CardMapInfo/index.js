@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {connect} from "react-redux";
 import {convertWT} from "../services/reMapBnd";
 import {createStructuredSelector} from "reselect";
@@ -9,7 +9,7 @@ import {
 } from "../../../../store/consent/cons.selectors";
 import CardMapInfo from "./CardMapComponents/CardMapInfo";
 
-import flatten from 'lodash/flatten'
+// import flatten from 'lodash/flatten'
 
 const reMapRecsDataS = (firstPointOfBnd, recsLength) => {
     // console.log('reMapRecsDataS - firstPointOfBnd', firstPointOfBnd)
@@ -43,7 +43,7 @@ const reMapRecsDataS = (firstPointOfBnd, recsLength) => {
     return newArr
 }
 
-
+let objAddress = ''
 const CardMapInfoWrap = ({
                              fullDataOfActiveObForMapForRelatives,
                              relFullDataOfActiveObjS,
@@ -54,8 +54,8 @@ const CardMapInfoWrap = ({
     // let [newMapObj, setNewMapObj] = useState(<div>loading..</div>)
     let [objBndS, setObjBndS] = useState([])
     let [relBndS, setRelBndS] = useState([])
-    let objAddress = ''
-    const geoBnd = (objData) => {
+
+    const geoBnd = useCallback((objData) => {
         if (relFullDataOfActiveObjS) {
             if (objData && objData.obj_bounds) {
                 let objBndTmp = objData.obj_bounds;
@@ -76,7 +76,7 @@ const CardMapInfoWrap = ({
             return null
         }
 
-    }
+    },[relFullDataOfActiveObjS])
 
     const setCurObj = () => {
         console.log('setCurObj')
@@ -84,25 +84,19 @@ const CardMapInfoWrap = ({
 
 
     useEffect(() => {
-        let newMapObj77 = null
-        let objName, objCoordinate, objId, relCoordinate = []
+        let  objCoordinate,  relCoordinate = []
 
         if (fullDataOfActiveObForMapForRelatives) {
             let geoBndObj = geoBnd(fullDataOfActiveObForMapForRelatives)
             if (geoBndObj) {
-                objAddress = objName = geoBndObj.objName
+                objAddress =  geoBndObj.objName
                 objCoordinate = geoBndObj.objCoordinate
                 setObjBndS(objCoordinate)
-                objId = geoBndObj.objId
             }
-            //let objBnd = [ ]
-            //     let relBnd = [ ]
-            //     let objAddress = ''
 
             if (relFullDataOfActiveObjS) {
                 let geoBndRel = geoBnd(relFullDataOfActiveObjS)
                 if (geoBndRel) {
-                    // console.log('5777 geoBndRel', !!geoBndRel )
                     relCoordinate = geoBndRel.objCoordinate
                     setRelBndS(relCoordinate)
                 }
@@ -115,7 +109,7 @@ const CardMapInfoWrap = ({
         }
 
 
-    }, [fullDataOfActiveObForMapForRelatives, relFullDataOfActiveObjS, activeObjAndRelS, recsDataS])
+    }, [fullDataOfActiveObForMapForRelatives, relFullDataOfActiveObjS, activeObjAndRelS, recsDataS,geoBnd])
 
     if (!objBndS.length && !relBndS.length) {
         return (<div>Loading..</div>)

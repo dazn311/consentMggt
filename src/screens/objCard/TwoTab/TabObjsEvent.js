@@ -1,6 +1,5 @@
-
-import React, { useEffect, useState } from 'react';
-import { useHistory } from "react-router-dom";
+import React, { useEffect } from 'react';
+// import { useHistory } from "react-router-dom";
 // import _ from "lodash";
 
 import { connect } from 'react-redux';
@@ -23,7 +22,9 @@ import Pagination from '@material-ui/lab/Pagination';
 // import * as locales from '@material-ui/core/locale';
 // import BackDrop from  '../../../components/blackDrop/black-drop.component'
 
-import { Random, Wave  } from 'react-animated-text';
+import { Random
+  // , Wave 
+} from 'react-animated-text';
   
 import MessAlert from './Messages.alert';
 
@@ -32,7 +33,7 @@ import MessAlert from './Messages.alert';
 import { fetchDataForEventShortPoints } from '../../../store/adminPanelTrest/adminPanelTrest.selectors'; 
 import { selectObjsInfoPage } from '../../../store/adminPanelTrest/StatisticPage.selectors';  
   
-import EventDetail from './EventDetail';
+// import EventDetail from './EventDetail';
 import {formatDateISO} from '../../../hoc/formatDate';
 
 const useStyles = makeStyles({
@@ -87,9 +88,9 @@ const TabObjsEvent = ({ tabValue, isOpenD=true, isLoading }) => {
   const [page, setPage] = React.useState(1);
   const [pages, setPages] = React.useState(1);
   // const [orgRow, setOrgName] = useState({});
-  const [isOpenDetail, setIsOpenDetail] = useState(false);
+  // const [isOpenDetail, setIsOpenDetail] = useState(false);
 
-  const history = useHistory();
+  // const history = useHistory();
 
 
   useEffect(() => {
@@ -109,9 +110,9 @@ const TabObjsEvent = ({ tabValue, isOpenD=true, isLoading }) => {
   };
 
   // для детальной информации
-  const closeDetail = () => {
-    setIsOpenDetail(false);
-  }
+  // const closeDetail = () => {
+  //   setIsOpenDetail(false);
+  // }
   const showEvents = (row) => {
   }
 

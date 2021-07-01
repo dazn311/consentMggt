@@ -1,4 +1,5 @@
 import React  from 'react';
+import { v4 as uuIdv4 } from 'uuid';
 import ElemEventObj from "./ElemEventObj";
 import ListItemText from "@material-ui/core/ListItemText";
 
@@ -17,7 +18,7 @@ const ListItemEvents = ({ eventsList, visibleList = true}) => {
                 // <EventsList  eventsList={eventsList} />}
                 eventsList.length &&
                 eventsList.map(ev => {
-                    return <ElemEventObj  event={ev} />
+                    return <ElemEventObj key={uuIdv4()}  event={ev} />
                 })}
         />
 

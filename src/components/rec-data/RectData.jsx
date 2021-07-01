@@ -2,11 +2,11 @@ import 'date-fns';
 import React, {useEffect} from 'react';
 
 import Grid from '@material-ui/core/Grid';
-import DateFnsUtils from '@date-io/date-fns';
-import {
-    MuiPickersUtilsProvider,
-    KeyboardDatePicker,
-} from '@material-ui/pickers';
+// import DateFnsUtils from '@date-io/date-fns';
+// import {
+//     MuiPickersUtilsProvider,
+//     KeyboardDatePicker,
+// } from '@material-ui/pickers';
 
 // import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
@@ -310,8 +310,11 @@ export default function RectData({recData, setEmptyRecData, curUser }) {
                                                 <td style={{minWidth: 120, color: themess.palette.type === 'dark' && 'bisque'}}>
                                                     Дата рег.
                                                 </td>
-                                                <td><span
-                                                    style={{color: themess.palette.type === 'dark' && 'white'}}> {recData ? formatDateISO(recData.rec_date) : 'allData ? formatDateISO(allData.user_end_date)  :' + '01.01.21'}</span>
+                                                <td><span style={{color: themess.palette.type === 'dark' && 'white'}}>
+                                                    {recData
+                                                        ? formatDateISO(recData.rec_date)
+                                                        : '01.01.21'}
+                                                </span>
                                                 </td>
                                             </tr>
                                             </tbody>

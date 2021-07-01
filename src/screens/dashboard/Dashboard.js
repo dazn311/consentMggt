@@ -77,7 +77,7 @@ function Alert(props) {
 }
 
 let lineHeader = 'Текущая информация по событиям и пользователям';
-let maxWidthGridOGH = '295px';
+// let maxWidthGridOGH = '295px';
 
 const Dashboard = ({ selectErrorFetch, fetchGenStats, genStatsAll, fetchEventsPointShort,    fetchAmountOGH,fetchAmountOGHToDay,fetchAmountOGHToWeek, fetchAmountOGHToThreeDays, setMessageError}) => {
   const classes = useStyles();
@@ -98,28 +98,28 @@ const Dashboard = ({ selectErrorFetch, fetchGenStats, genStatsAll, fetchEventsPo
 
     fetchGenStats();
     
-  }, [fetchEventsPointShort, fetchAmountOGH, fetchAmountOGHToDay, fetchAmountOGHToWeek, fetchAmountOGHToThreeDays])
+  }, [fetchEventsPointShort, fetchAmountOGH, fetchAmountOGHToDay, fetchAmountOGHToWeek, fetchAmountOGHToThreeDays, fetchGenStats])
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   const winWidth = window.innerWidth; 
-  let minWidthOGH = 320; 
+  //let // minWidthOGH = 320;
   let nowrap = 'nowrap'; 
 
   if (winWidth < 550) {
       lineHeader = 'Информация по событиям';
-      maxWidthGridOGH = 'unset' //по событиям'; 
+      // maxWidthGridOGH = 'unset' //по событиям';
       nowrap = 'wrap';
   }else if (winWidth === 1024) {
-    minWidthOGH = 252;
+    // minWidthOGH = 252;
   }else if (winWidth === 768) {
-    minWidthOGH = 252;
+    // minWidthOGH = 252;
   }else if (winWidth === 1280) {
-    minWidthOGH = 252;
+    // minWidthOGH = 252;
   }
   
   if (winWidth === 320) {
-    minWidthOGH = 230;
+    // minWidthOGH = 230;
   }
 
   // const amHenler = React.useCallback( (data) => {

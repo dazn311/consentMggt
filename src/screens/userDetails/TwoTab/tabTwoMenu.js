@@ -18,7 +18,7 @@ import StateElements from './stateElements';
 
 import {
   selectCurrentUserShort,
-  selectUserAllStatsData,
+  // selectUserAllStatsData,
   selectFilterRecStatus,
   selectUserActiveData
 } from '../../../store/user/user.selectors';
@@ -27,17 +27,17 @@ import { setRecTypeActiveAsync, setFilterFieldObjActiveAsync, setFilterDateStart
 
 
 
-
-const filterInitial = () => {
-  const endDate = new Date().toISOString().split('T')[0];
-  // console.log('endDate initial ', endDate)
-  return { objectType: '2', organization: '0',limit: '15', offset: '0', dateStart: '2021-01-01', dateEnd: endDate,  objKind:'allKind', objStatus:'10', sortCol:'date', sortType:'desc'  }
-}
+//
+// const filterInitial = () => {
+//   const endDate = new Date().toISOString().split('T')[0];
+//   // console.log('endDate initial ', endDate)
+//   return { objectType: '2', organization: '0',limit: '15', offset: '0', dateStart: '2021-01-01', dateEnd: endDate,  objKind:'allKind', objStatus:'10', sortCol:'date', sortType:'desc'  }
+// }
 
 const TabTwoMenu = ({ selectCurrentUserShort, selectUserActiveData, setRecTypeActive, filterRecStatus, setFilterFieldObjActive, setFilterDateStartActive }) => {
 
-  const [isLoading, setIsLoading] = useState(false); // выводить статистику
-  const [offsetSt, setOffsetSt] = useState('0'); // выводить статистику
+  const [isLoading] = useState(false); // выводить статистику
+  const [offsetSt] = useState('0'); // выводить статистику
   const match = useRouteMatch();
   const history = useHistory();
    
@@ -46,7 +46,7 @@ const TabTwoMenu = ({ selectCurrentUserShort, selectUserActiveData, setRecTypeAc
     history.push({
       pathname: `${match.url}/active`
     })
-  },[history])
+  },[history, match.url])
 
 
   ///////////////////////////////////////////
@@ -73,9 +73,9 @@ const TabTwoMenu = ({ selectCurrentUserShort, selectUserActiveData, setRecTypeAc
     // setStFilterVal({...stFilterVal, dateStart: val, offset: '0' } );
   },[setFilterDateStartActive]);
 
-  const setDateEnd = useCallback((val) => {
-    // setStFilterVal({...stFilterVal, dateEnd: val, offset: '0' } );
-  },[]);
+  // const setDateEnd = useCallback((val) => {
+  //   // setStFilterVal({...stFilterVal, dateEnd: val, offset: '0' } );
+  // },[]);
 
   ///////////////////////////////////////////
   // const valueItems = {val:10, smeg: 'смежные'};

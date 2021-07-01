@@ -12,7 +12,7 @@ import themeReducer from './themes/theme.reducer';
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['organizations']
+  whitelist: ['consRed']
 }
 
 const rootReducer = combineReducers({

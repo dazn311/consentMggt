@@ -10,8 +10,8 @@ export const eventsObjList = {
     fetchEventsObjById(objId, relId) {
         console.log('345 fetchEventsObjById start', objId, relId)
         if (objId < 1 && relId < 1) {  return 0  }
-
         // let relId = actObjAndRelS[1].id
+
         const url = 'https://ismggt.ru/query/object/recs/list'
         return async (dispatch) => {
             try {
