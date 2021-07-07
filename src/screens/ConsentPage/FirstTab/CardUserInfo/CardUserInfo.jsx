@@ -1,147 +1,51 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {connect} from 'react-redux';
+import React, { useState }  from 'react';
 
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
-import HomeWorkIcon from '@material-ui/icons/HomeWork';
-import {CircularProgress, Slide} from "@material-ui/core";
+import { Slide} from "@material-ui/core"; 
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import IconButton from '@material-ui/core/IconButton';
 
-import {listObjs} from "./cardUserComponents/listObjs";
-import {useStyles} from "./cardUserComponents/ElemObj";
-import ListItemRel from "./cardUserComponents/relatives";
+import {useStyles} from "./CardUserInfo.style";
 
-import {
-    curObjIdSelector,
-    dataOfObjsForListSelector,
-    fullDataOfActiveObForMapForRelativesSelector,
-    objsDataSelector
-} from '../../../../store/consent/cons.selectors';
-import {
-    fetchObjByIdToObjsDataAsync,
-    setActiveObjOfAuthUserAsync,
-    setCurObjIdForConsentPageAsync
-} from '../../../../store/consent/cons.actions';
-import {relObjsList} from "../../../../api/relObj-api";
 import OrgCardConsent from "./OrgCard/OrgCardConsent";
 import ObjsCard from "./ObjsCard/ObjsCard";
+import RelCard from "./RelCard/RelCard";
 
-
-const loaderForList = (title) => {
-    return (<div style={{display: 'flex', alignSelf: 'center', paddingRight: 8}}>
-        <div>{title}</div>
-        <CircularProgress/>
-    </div>)
-}
-
-////////////////////////////////////
-const CardUserInfo = ({
-                          userOfAuthData,
-                          setCurObjIdForConsentPage,
-                          dataOfObjsForList,
-                          fetchObjByIdToObjsData,
-                          setActiveObjAndRel
-                      }) => {
-    const [objectsOfCurOrg, setObjsOfCurOrg] = useState(loaderForList(' Загрузка списка объектов..'));
+const CardUserInfo = ( ) => {
+    const [isOpened, setIsOpened] = useState({obj: true, rel: true, org: true})
     const classes = useStyles();
-
-    // console.log('userOfAuthData',userOfAuthData);
-
-////////////////////////////////////
-
-    const setIdOfActiveObj = useCallback((objId) => {
-        fetchObjByIdToObjsData(objId)
-        setCurObjIdForConsentPage(objId)
-
-        let nameObj = dataOfObjsForList[0].objName
-        let idRel = dataOfObjsForList[0].objRelatives[0] | dataOfObjsForList[0].objRelatives[1]
-        setActiveObjAndRel([{id: objId, objName: nameObj}, {id: idRel, relName: ''}])
-    }, [dataOfObjsForList, fetchObjByIdToObjsData, setActiveObjAndRel, setCurObjIdForConsentPage])
-
-    const updateObjsList = useCallback((objID) => {
-        if (dataOfObjsForList) {
-            setObjsOfCurOrg(listObjs(dataOfObjsForList, objID, setIdOfActiveObj))
-        }
-    }, [dataOfObjsForList, setIdOfActiveObj])
-
-    ////////////////////////////////////
-    useEffect(() => {
-        if (dataOfObjsForList) {
-            updateObjsList(dataOfObjsForList[0].objID)
-        }
-    }, [dataOfObjsForList, updateObjsList])
-
-    //040621
-    useEffect(() => {
-        if (dataOfObjsForList) {
-            fetchObjByIdToObjsData(dataOfObjsForList[0].objID)
-            setIdOfActiveObj(dataOfObjsForList[0].objID)
-            if (dataOfObjsForList[0].objRelatives.length) {
-                let relID = dataOfObjsForList[0].objRelatives[0].obj_rel_id
-                if (!relID) {
-                    relID = dataOfObjsForList[0].objRelatives[1].obj_rel_id
-                }
-                fetchObjByIdToObjsData(relID)
-
-            }
-
-        }
-    }, [dataOfObjsForList, fetchObjByIdToObjsData, setIdOfActiveObj])
-
-    if (!userOfAuthData) {
-        return (<div>нет данных об организации</div>)
-    }
-////////////////////////////////////
-
-    // console.log('155 objsData', objsData)
-////////////////////////////////////
+ 
     return (
         <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-            <div>
-                <List className={classes.root} >
+            <div className='card-user-info' >
+            <List className={classes.root} style={{maxHeight: isOpened.org ? 400 : 74}} >
+                    <IconButton  onClick={switchOpenOrg}  color="primary"  style={{position: 'absolute', top: 0,left: 0, padding: 4,cursor: 'pointer',zIndex: 1}}>
+                        {isOpened.org ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                    </IconButton> 
                     <OrgCardConsent/>
+                </List> 
+                <List className={classes.root} style={{maxHeight: isOpened.obj ? 300 : 40}} >  
+                    <IconButton  onClick={switchOpenObj}  color="primary"  style={{position: 'absolute', top: 4,left: 0, padding: 4,cursor: 'pointer',zIndex: 1}}>
+                        {isOpened.obj ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                    </IconButton> 
+                    <ObjsCard  />
                 </List>
-                <List className={classes.root}>
-                    <ObjsCard length={dataOfObjsForList && dataOfObjsForList.length} objectsOfCurOrg={objectsOfCurOrg} />
-                </List>
-                <List className={classes.root}>
-                    <ListItemRel/>
+                <List className={classes.root} style={{maxHeight: isOpened.rel ? 300 : 40}} >  
+                    <IconButton  onClick={switchOpenRel}  color="primary"  style={{position: 'absolute', top: 4,left: 0, padding: 4,cursor: 'pointer',zIndex: 1}}>
+                        {isOpened.rel ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                    </IconButton> 
+                    <RelCard />
 
                 </List>
             </div>
         </Slide>
     );
+
+    function switchOpenOrg () { setIsOpened({...isOpened, org : !isOpened.org }) } 
+    function switchOpenObj () { setIsOpened({...isOpened, obj : !isOpened.obj }) }
+    function switchOpenRel () { setIsOpened({...isOpened, rel : !isOpened.rel }) }
+    
 }
-//
-// const mapStateToProps = createStructuredSelector({
-//     dataOfObjsForList: getListObjects(state), // события короткие данные для таблицы
-//     // dataOfObjsForList: dataOfObjsForListSelector, // события короткие данные для таблицы
-//     objsData: objsDataSelector, // события короткие данные для таблицы
-//     fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector, // события короткие данные для таблицы
-//     curObjIdSel: curObjIdSelector, // события короткие данные для таблицы
-// });
 
-const mapStateToProps = (state, props) => {
-    return {
-        dataOfObjsForList: dataOfObjsForListSelector(state), // события короткие данные для таблицы
-        // dataOfObjsForList: getListObjects(state), // события короткие данные для таблицы
-        // dataOfObjsForList: dataOfObjsForListSelector(state), // события короткие данные для таблицы
-        objsData: objsDataSelector(state), // события короткие данные для таблицы
-        fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector(state), // события короткие данные для таблицы
-        curObjIdSel: curObjIdSelector(state), // события короткие данные для таблицы
-    };
-};
-
-
-const mapDispatchToProps = (dispatch) => ({
-    fetchObjByIdToObjsData: (objId) => dispatch(fetchObjByIdToObjsDataAsync(objId)),
-    setIdOfActiveObjOfAuthUser: (obj) => dispatch(setActiveObjOfAuthUserAsync(obj)),
-    setCurObjIdForConsentPage: (objId) => dispatch(setCurObjIdForConsentPageAsync(objId)),
-    setActiveRelId: (objId) => dispatch(relObjsList.setActiveRelIdAsync(objId)),
-    setActiveObjAndRel: (objData) => dispatch(relObjsList.setActiveObjAndRelAsync(objData)),
-});
-// export default CardUserInfo;
-export default connect(mapStateToProps, mapDispatchToProps)(CardUserInfo);
+export default  CardUserInfo

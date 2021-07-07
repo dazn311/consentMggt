@@ -1,5 +1,5 @@
 {
-  "name": "Modul Soglasovania",
+  "name": "modulsoglasovania",
   "version": "0.0.1",
   "private": true,
   "resolutions": {
@@ -75,6 +75,7 @@
     "react-smooth": "^2.0.0",
     "react-svg-polygon": "^2.0.6",
     "react-transition-group": "^4.4.1",
+    "react-window": "^1.8.6",
     "reactchartjs": "^0.7.3",
     "recharts": "^2.0.9",
     "redis": "^3.1.2",

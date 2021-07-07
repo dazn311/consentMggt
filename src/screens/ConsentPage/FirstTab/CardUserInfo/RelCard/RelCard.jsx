@@ -1,4 +1,4 @@
-import React from 'react';
+import React  from 'react';
 import {observer} from 'mobx-react'
 
 import stateObjsMobx from '../../../../../store/consent/objsConsent/objsCons.mobx';
@@ -11,32 +11,26 @@ import HomeWorkIcon from '@material-ui/icons/HomeWork';
 
 import {useStyles} from "../cardUserComponents/ElemObj";
 import LoaderList from "../components/LoaderList";
-import {ListObjs} from "./companentsObjs/ListObjs";
+import {ListRel} from "./companentsRel/ListRel";
 
 const styleObjs = {
     marginLeft: 4, borderLeft: '1px solid grey', paddingLeft: 4,
-    transform: 'rotate(-90deg)', position: 'absolute', left: 25, top: 150
+    transform: 'rotate(-90deg)', position: 'absolute', left: 4, top: 100
 }
 const styleObjsAmount = {position: 'absolute', color: 'yellowgreen', bottom: -24}
 
 ////////////////////////////////////
-const ObjsCard = observer(() => {
+const RelCard = observer(({length = null}) => {
     const classes = useStyles();
-// console.log('stateObjsMobx.objectsData.amount',stateObjsMobx.objectsData.amount);
+    // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
 
-    if (!stateObjsMobx.successFetchObj && !stateObjsMobx.objectsData.data) {
+
+    if (!stateObjsMobx.successFetchObjArr || !stateObjsMobx.objsArr[11718]) {
         return <LoaderList title={'загрузка смеж.объектов...'}/>
-    } else {
+    }else {
         // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
 
     }
-
-    // console.log('stateObjsMobx.successFetchOrg',stateObjsMobx.successFetchOrg)
-    // console.log('stateObjsMobx.objectsData.amount',stateObjsMobx.objectsData.amount)
-    // const getObj = useCallback(() => {
-    //     let objId = stateObjsMobx.objectsData.data.objects[0].objID
-    //     stateObjsMobx.fetchObjById(objId)
-    // },[])
 
     return (
         <React.Fragment>
@@ -46,12 +40,12 @@ const ObjsCard = observer(() => {
                         <HomeWorkIcon/>
                         <ListItemText style={styleObjsAmount} secondary={stateObjsMobx.objectsData.amount}/>
                     </Avatar>
-                    <div style={styleObjs}>Объекты</div>
+                    <div style={styleObjs}>Смеж. объекты</div>
                 </ListItemAvatar>
-                <ListObjs objects={stateObjsMobx.objectsData.data.objects} curObjId={stateObjsMobx.curObjId}/>
+               <ListRel objects={stateObjsMobx.objsArr[11718].obj_relatives} curRelId={stateObjsMobx.curRelId}  />
             </ListItem>
         </React.Fragment>
     );
 })
 
-export default ObjsCard
+export default RelCard

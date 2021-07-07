@@ -43,11 +43,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 //<HistoryChanges eventShortPoints={eventShortPoints}/>
 
-function ConsentPage({ idObj }) {
-  const classes = useStyles();
-  const location = useLocation();
-  const currObj = location.row;
-  console.log('location.row',location.row)
+function ConsentPage( ) {
+  const classes = useStyles()
   return (
     <div  className={classes.root}>
       <CssBaseline />
@@ -58,8 +55,8 @@ function ConsentPage({ idObj }) {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <TabFirstConsent idObj={idObj} currObj={currObj} />
-                {/*<TabMenuConsent idObj={idObj} currObj={currObj} />*/}
+                <TabFirstConsent  />
+                {/*<TabMenuConsent idObj={idObj}  />*/}
               </Paper>
             </Grid>
           </Grid>
@@ -69,4 +66,4 @@ function ConsentPage({ idObj }) {
   );
 }
 
-export default withRouter(ConsentPage)
+export default  ConsentPage

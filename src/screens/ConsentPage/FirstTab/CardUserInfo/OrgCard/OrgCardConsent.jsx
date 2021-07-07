@@ -1,11 +1,9 @@
 import React, {useEffect} from 'react';
 
-import {Observer, observer} from 'mobx-react'
+import {observer} from 'mobx-react'
 
-// import stateObjs from '../../../../store/consent/objsConsent/objsCons.mobx';
 import stateObjsMobx from '../../../../../store/consent/objsConsent/objsCons.mobx';
 
-// import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
@@ -16,30 +14,26 @@ import ApartmentIcon from '@material-ui/icons/Apartment';
 import UserIcon from '@material-ui/icons/SupervisedUserCircle';
 import StarHalfIcon from '@material-ui/icons/StarHalf';
 import DonutLarge from '@material-ui/icons/DonutLarge';
-// import {CircularProgress} from "@material-ui/core";
 
 import {useStyles} from "../cardUserComponents/ElemObj";
-
-// const loaderForList = (title) => {
-//     return (<div style={{display: 'flex', alignSelf: 'center', paddingRight: 8}}>
-//         <div>{title}</div>
-//         <CircularProgress/>
-//     </div>)
-// }
 
 ////////////////////////////////////
 // @observer
 const OrgCardConsent = observer(() => {
     const classes = useStyles();
-    // console.log('OrgCardConsent');
-    // console.log('OrgCardConsent - startFetchOrg', stateObjsMobx.startFetchOrg);
 
     useEffect(() => {
         stateObjsMobx.fetchOrgData(531);
     }, [])
 
-    // stateObjsMobx.fetchOrgData(531);
+    useEffect(() => {
+        if (stateObjsMobx.successFetchOrg && !stateObjsMobx.successFetchObj) {
+            stateObjsMobx.fetchObjData(stateObjsMobx.orgData.org_name)
+        }
+    }, [stateObjsMobx.successFetchOrg])
+
     if (!stateObjsMobx.orgData) {
+
         return (<div>нет данных об организации</div>)
     }
     if (stateObjsMobx.errorFetchOrg) {
@@ -47,7 +41,7 @@ const OrgCardConsent = observer(() => {
     }
 
     if (stateObjsMobx.successFetchOrg) {
-        console.log('successFetchOrg')
+        console.log('successFetchOrg',stateObjsMobx.successFetchOrg)
     }
 
 
@@ -67,8 +61,8 @@ const OrgCardConsent = observer(() => {
                 <div style={{display: 'flex', flexDirection: 'column'}}>
                     <ListItemText primary={stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.org_name}/>
                     <div>
-                            <span className={classes.purple}
-                            > user_id: {stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.user_id} /
+                            <span className={classes.purple}>
+                                user_id: {stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.user_id} /
                               orgID: {stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.user_org_id}</span>
                     </div>
                 </div>

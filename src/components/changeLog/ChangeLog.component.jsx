@@ -9,7 +9,7 @@ import { messagesEventPoint, statusEventPoint, eventPoints } from '../../store/a
 import './changeLog.styles.scss';
 
 
-
+ 
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -74,7 +74,7 @@ const Scard = ({mes, point}) => {
   const newsPaper = clsx(classes.paper, classes.fixedHeight, classes.news); 
   return (
     messages.map(mes => <Scard className={newsPaper} key={mes.msg_id} mes={mes} point={point}/>)
-  )};
+  )}; 
 
  
   
