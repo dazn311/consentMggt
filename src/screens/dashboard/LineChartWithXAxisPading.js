@@ -195,44 +195,26 @@ class LineChartWithXAxisPadding extends PureComponent {
         return (
             <div id='graphics'
                  style={{position: 'relative', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-                <LineChart width={this.widthLine} height={200} data={data}
-                           margin={{top: 8, left: this.mleft, bottom: this.mbottom, right: this.mright}}>
+                <LineChart width={this.widthLine} height={200} data={data} margin={{top: 8, left: this.mleft, bottom: this.mbottom, right: this.mright}}>
                     <CartesianGrid strokeDasharray="8 3"/>
                     <XAxis dataKey="name" padding={{left: this.leftLine, right: this.rightLine}}/>
                     <YAxis padding={{top: 5, bottom: 5}}/>
+
                     <Tooltip/>
                     <Legend margin={{bottom: 0}}/>
+
                     <Line type="monotone" dataKey='Users' stroke="#8884d8" name='Польз. он-лайн' activeDot={{r: 8}}/>
                     <Line type="monotone" dataKey="Events" name='Новые события' stroke="#82ca9d"/>
                     <Line type="monotone" dataKey="Closed" name='Закрытые событ.' stroke="#FFc000"/>
 
                 </LineChart>
 
-                <div style={{
-                    position: 'relative',
-                    display: this.displayVal,
-                    flexWrap: 'wrap',
-                    maxWidth: 80,
-                    justifyContent: 'center',
-                    marginLeft: 20
-                }}>
-                    <div style={{
-                        position: 'absolute',
-                        right: '12px',
-                        transform: 'rotate(270deg)',
-                        top: '100px',
-                        whiteSpace: 'nowrap'
-                    }}>Текущие данные
-                    </div>
-                    <div style={styleLblUsersGraphicDate}>
-                        <ArrowLeftIcon className='arrow-prev' fontSize="default" onClick={() => {
-                            this.fetchAll(-1)
-                        }} color="secondary"/>
-                        <div
-                            style={{alignSelf: 'center'}}>{dateLabel.toISOString().slice(8, 10)}/{dateLabel.toISOString().slice(5, 7)} </div>
-                        <ArrowRightIcon className={!isToday && 'arrow-prev'} disabled={isToday} onClick={() => {
-                            this.fetchAll(1)
-                        }} color={isToday ? 'disabled' : 'error'}/>
+                <div style={{ position: 'relative', display: this.displayVal, flexWrap: 'wrap', maxWidth: 80,  justifyContent: 'center',  marginLeft: 20  }}>
+                    <div style={{ position: 'absolute', right: '12px', transform: 'rotate(270deg)',  top: '100px', whiteSpace: 'nowrap' }}>Текущие данные </div>
+                    <div style={styleLblUsersGraphicDate} >
+                        <ArrowLeftIcon className='arrow-prev' fontSize="default" onClick={() => { this.fetchAll(-1) }} color="secondary"/>
+                        <div style={{alignSelf: 'center'}}>{dateLabel.toISOString().slice(8, 10)}/{dateLabel.toISOString().slice(5, 7)} </div>
+                        <ArrowRightIcon className={isToday ? 'none': 'arrow-prev'} disabled={isToday} onClick={() => { this.fetchAll(1)  }} color={isToday ? 'disabled' : 'error'}/>
                     </div>
 
                     <Avatar style={styleLblUsersGraphic}>{usersCount}</Avatar>
@@ -240,10 +222,8 @@ class LineChartWithXAxisPadding extends PureComponent {
                     <Avatar style={styleLblEndedGraphic}>{endedAmount}</Avatar>
 
 
-                    <IconButton color="secondary" aria-label="add an alarm">
-                        <RefreshIcon id='btnUpdateGraphicUsers' style={styleBtnUpdateUsersGraphic} onClick={() => {
-                            this.fetchAll(0)
-                        }}/>
+                    <IconButton color="secondary" aria-label="add an alarm" onClick={() => { this.fetchAll(0)  }} >
+                        <RefreshIcon id='btnUpdateGraphicUsers' style={styleBtnUpdateUsersGraphic}  />
                     </IconButton>
                 </div>
             </div>

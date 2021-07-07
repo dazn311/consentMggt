@@ -379,10 +379,8 @@ const TabTwoMenu = ({fetchAllEventsGraphic, fetchAllUsersGraphic, newEventsGraph
                   </TableHead>
                   <TableBody>
                     {graphicValue && graphicValue.map((item, index) => (
-                      <TableRow key={index}  style={ {backgroundColor: index % 2 === 0 ? '#80808038': ''}} >
-                        <TableCell component="th" scope="row">
-                        {item.name}
-                        </TableCell>
+                      <TableRow key={index}  style={{backgroundColor: index % 2 === 0 ? '#80808038': ''}} >
+                        <TableCell component="th" scope="row">{item.name}</TableCell>
                         <TableCell align="right">{item.Events}</TableCell>
                         <TableCell align="right">{item.Users}</TableCell>
                         <TableCell align="right">{item.Closed}</TableCell>

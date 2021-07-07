@@ -31,6 +31,7 @@ import { fetchObjRectListAsync } from '../../../store/adminPanelTrest/adminPanel
 //fetchObjRectListAsync
 
 import './eventDetail.styles.scss';
+import {v4} from "uuid";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -180,7 +181,7 @@ const EventDetail = ({ orgRow, fetchObjRectList,selectObjRect, isOpen, closeDeta
                       {userDataS && userDataS
                       // .filter(userKey => (userKey !== 'id' && userKey !== 'password'))
                       .map((rec,index) => (
-                        <ListItem  button onClick={() => selectEvent(index)} key={index}   style={{borderBottom:'1px solid grey', backgroundColor: index === currentIdEvent && 'rgb(123 119 119 / 11%)', color: rec.rec_taken ? 'blue':'red'}}   > {rec.rec_name}</ListItem>
+                        <ListItem   button onClick={() => selectEvent(index)} key={index + v4()}   style={{borderBottom:'1px solid grey', backgroundColor: index === currentIdEvent && 'rgb(123 119 119 / 11%)', color: rec.rec_taken ? 'blue':'red'}}   > {rec.rec_name}</ListItem>
                         // <li key={rec.rec_id} id={index} data-objectID={rec.rec_id}  className="list-group-item">{rec.rec_name} onClick={selectEvent} </li>
                       ))} 
                     </List>

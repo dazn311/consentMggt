@@ -107,7 +107,7 @@ const TabTwoMenu = ({ selectCurrentUserShort, selectUserActiveData, setRecTypeAc
           </div>
 
           <div style={{ marginTop: 4}}>
-            <TabActive allStatsData={selectUserActiveData} isLoading={isLoading}  isOpenD={true}   offset={offsetSt} curUser={selectCurrentUserShort} />
+            <TabActive allStatsData={selectUserActiveData} isLoading={isLoading}      offset={offsetSt} curUser={selectCurrentUserShort} />
           </div>
         </div>
       </React.Fragment>

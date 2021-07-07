@@ -45,14 +45,12 @@ const TabThirdMenu = ({ idUser,selectCurrentUserShort, allData ,   orgRow,  isOp
         <div style={{display:'flex',flexDirection: window.innerWidth < 500 ? 'column' : 'row', justifyContent:'start', maxWidth: window.innerWidth < 500 ? 380: 700 }} >
             <div  style={{boxShadow: '1px solid #e4dfdf2e',margin: window.innerWidth < 500 ? '0' :'10px', minWidth: 360, width: window.innerWidth < 500 ? '100%': 400,  border: '1px solid #e2e2e2',
                 height: 'fit-content'}} >
-                <CartGenInfo curUser={selectCurrentUserShort} userData={userData} ></CartGenInfo>
+                <CartGenInfo curUser={selectCurrentUserShort} userData={userData} />
             </div>
 
             <div  style={{boxShadow: '1px solid #e4DFDF2e',margin: window.innerWidth < 500 ? '0' : '5px' , width: window.innerWidth < 500 ? '100%': 600}} >
-                <CardUserDetails curUser={selectCurrentUserShort} userData={userData} userAllStatsData={userAllStatsData} ></CardUserDetails>
+                <CardUserDetails curUser={selectCurrentUserShort} userData={userData} userAllStatsData={userAllStatsData} />
             </div>
-
-
         </div>
     );
 }

@@ -124,11 +124,11 @@ export default function CardGenInfo({ curUser, allData }) {
               </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
+          <IconButton aria-label="settings" onClick={handleToggle} >
             <MoreVertIcon ref={anchorRef}
               aria-controls={open ? 'menu-list-grow' : undefined}
               aria-haspopup="true"
-              onClick={handleToggle} />
+              />
 
             <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
               {({ TransitionProps, placement }) => (
