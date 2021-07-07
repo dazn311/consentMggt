@@ -8,11 +8,11 @@ import { store, persistor} from './store';
 import './index.css';
 import App from './App';
 // import reportWebVitals from './reportWebVitals';
-  
+
 ReactDOM.render( 
   <React.StrictMode>
     <Provider store={store}>
-        <PersistGate loading={<App />} persistor={persistor}>
+        <PersistGate loading={null} persistor={persistor}>
           <App />
       </PersistGate>
     </Provider>
