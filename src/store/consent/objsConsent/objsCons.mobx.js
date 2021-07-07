@@ -1,7 +1,9 @@
 import {fetchOrgDataA, fetchObjDataA} from "./getOjbsAPI.mobx";
 import {
     // makeAutoObservable,
-    makeObservable, observable, computed, action, flow, runInAction, toJS
+    makeObservable, observable, computed, action,
+    //  flow, runInAction,
+    toJS
 } from "mobx"
 
 
@@ -120,14 +122,14 @@ class ObjsMobX {
         }else if(this.filterTypeEvents === 2){
             let newRecs = this.objectsEvn.data.recs.filter(rec => rec.rec_status === 5)
             let newData = {recs: newRecs}
-            let newEvent = {...this.objectsEvn, amount: newRecs.length, data: newData }
-            return newEvent
+            // let newEvent = {...this.objectsEvn, amount: newRecs.length, data: newData }
+            return {...this.objectsEvn, amount: newRecs.length, data: newData }
         }else if(this.filterTypeEvents === 1){
             let newRecs = this.objectsEvn.data.recs.filter(rec => ( (rec.receip.objectID === this.selectedObjs.obj.id || rec.sender.objectID === this.selectedObjs.obj.id)
                                                                  && (rec.receip.objectID === this.selectedObjs.rel.id || rec.sender.objectID === this.selectedObjs.rel.id ) ) )
             let newData = {recs: newRecs}
-            let newEvent = {...this.objectsEvn, amount: newRecs.length, data: newData }
-            return   newEvent  
+            // let newEvent = {...this.objectsEvn, amount: newRecs.length, data: newData }
+            return   {...this.objectsEvn, amount: newRecs.length, data: newData }
         }
         return this.objectsEvn
     }
@@ -205,7 +207,8 @@ class ObjsMobX {
     }
 
     // events
-    setSuccessFetchEvents(data) {  
+    setSuccessFetchEvents(data) {
+        console.log('setSuccessFetchEvents',data)
         this.objectsEvn = {amount: data.amount ,startFetch: false, successFetch: true, errorFetch: false, data: data.data}; 
         console.log('toJS(stateObjsMobx)',toJS(stateObjsMobx))
     }

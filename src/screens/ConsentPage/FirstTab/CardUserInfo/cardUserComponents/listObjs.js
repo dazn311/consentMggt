@@ -1,5 +1,5 @@
 import React from "react";
-import { v4 as uuIdv4 } from 'uuid';
+import {v4 as uuIdv4} from 'uuid';
 
 import ElemObj from "./ElemObj";
 

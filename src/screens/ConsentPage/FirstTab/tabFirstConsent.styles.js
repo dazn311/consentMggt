@@ -69,6 +69,9 @@ const styleChatEvents = {
   border: "2px solid #4D584D",
   minWidth: 350,
   width: 350,
+  height: 620,
+  maxHeight: 620,
+  transition: "all .5s ease-in-out",
 };
 
 export { styleConsent, styleOrg, styleCardMapInfo, styleEventsObj, styleChatEvents, styleIconButton };

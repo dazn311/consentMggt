@@ -2,74 +2,13 @@ import React, {useCallback, useEffect, useState} from "react";
 // import {connect} from "react-redux";
 
 import {Tooltip} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
+// import {makeStyles} from "@material-ui/core/styles";
 
 // import {relObjsList} from "../../../../../api/relObj-api";
 // import {createStructuredSelector} from "reselect";
 // import {activeObjAndRelSelector} from "../../../../../store/consent/cons.selectors";
 
-export const useStyles = makeStyles((theme) => ({
-    root: {
-        // width: '100%',
-        // maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
-        overflow: 'auto',
-        border: '1px solid #8080802e',
-        margin: window.innerWidth < 500 ? 0 : theme.spacing(1),
-        padding: window.innerWidth < 500 ? 0 : theme.spacing(1),
-    },
-    span: {
-        color: '#1976d2'
-    },
-    red: {
-        color: 'red',
-
-    },
-    customWidth: {
-        maxWidth: 500,
-        backgroundColor: 'black'
-
-    },
-    burlywood: {backgroundColor: "burlywood"},
-    purple: {
-        color: theme.palette.purple //'#a4a5d8'
-    },
-    MuiAvatar: {
-        root: {
-            width: 40,
-            height: 40,
-            display: 'flex',
-            overflow: 'unset',
-            position: 'relative',
-            fontSize: '1.25rem',
-            alignItems: 'center',
-            flexShrink: 0,
-            fontFamily: ' "Roboto", "Helvetica", "Arial, sans-serif" ',
-            lineHeight: 1,
-            userSelect: 'none',
-            borderRadius: '50%',
-            justifyContent: 'center'
-        }
-
-    },
-    MuiAvatarRoot: {
-        width: 40,
-        height: 40,
-        display: 'flex',
-        overflow: 'unset',
-        position: 'relative',
-        fontSize: '1.25rem',
-        alignItems: 'center',
-        flexShrink: 0,
-        fontFamily: ' "Roboto", "Helvetica", "Arial, sans-serif" ',
-        lineHeight: 1,
-        userSelect: 'none',
-        borderRadius: '50%',
-        justifyContent: 'center'
-    },
-    ListItemTextRelObjs: {position: 'absolute', color: 'yellowgreen', bottom: -24},
-    ListItemTextButtonOpen: {position: 'absolute', color: 'yellowgreen', bottom: 34},
-}));
+import {useStyles} from "./eventStyles";
 
 const objStatus3 = (objStatus) => {
     if (objStatus === 2) { return 'в работе'
@@ -118,7 +57,7 @@ const ElemObj = ({ obj,  setIdOfActiveObj,    setActiveObjAndRel, activeObjAndRe
             // onMouseOut={hideDetail}
             //  onMouseOver={showDetail}
         >
-            <div style={{width: 4, backgroundColor: objStatus2()}}></div>
+            <div style={{width: 4,color: 'transparent', backgroundColor: objStatus2()}} />
             <div
                 style={{
                     // color: objID === activeObjId ? 'yellow' : '',

@@ -70,9 +70,7 @@ const OrgCardConsent = observer(() => {
             <ListItem>
                 <ListItemAvatar>
                     <Avatar>
-                        <UserIcon
-                            // color={'rgba(229 160 30,0.9)'}
-                        />
+                        <UserIcon  />
                     </Avatar>
                 </ListItemAvatar>
                 <div style={{display: 'flex', flexDirection: 'column'}}>

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import axios from 'axios';
 
 import C from '../../consts';
-import E from '../../events';
+import E from '../../events-constants';
 import Avatar from '../Avatar';
 
 const UsersBar = ({ onChoose = f => f, socket, className }) => {

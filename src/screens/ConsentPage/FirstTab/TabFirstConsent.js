@@ -27,18 +27,23 @@ const TabFirstConsent = () => {
         rel: true,
         org: true,
         evn: true,
+        chat: true,
     });
 
     return (
         <div className="tab-first-consent" style={styleConsent}>
-            <div className="tab1__user-info" style={{...styleOrg, maxWidth: isOpened.lPanel ? 400 : 74, border: isOpened.lPanel ? 0 : '1px solid #607d8b'}} >
+            <div className="tab1__user-info" style={{
+                ...styleOrg,
+                maxWidth: isOpened.lPanel ? 400 : 74,
+                border: isOpened.lPanel ? 0 : '1px solid #607d8b'
+            }}>
                 {/*иконки переключения видимости*/}
                 <IconButton onClick={switchOpenLPanel} color="primary" style={styleIconButton}>
                     {isOpened.lPanel ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
                 </IconButton>
-                <div style={{opacity: isOpened.lPanel ? 1: .1}} >
+                <div style={{opacity: isOpened.lPanel ? 1 : .1}}>
 
-                <CardUserInfo/>
+                    <CardUserInfo/>
                 </div>
             </div>
 
@@ -46,16 +51,22 @@ const TabFirstConsent = () => {
                 <CardMapInfo/>
             </div>
 
-            <div className="EventsObj" style={{...styleEventsObj, maxWidth: isOpened.evn ? 400 : 78,minWidth: isOpened.evn ? 390 : 76}} >
+            <div className="EventsObj"
+                 style={{...styleEventsObj, maxWidth: isOpened.evn ? 400 : 78, minWidth: isOpened.evn ? 390 : 76}}>
                 <IconButton onClick={switchOpenEvn} color="primary" style={styleIconButton}>
                     {isOpened.evn ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
                 </IconButton>
 
-                <EventsObj visableBtn={isOpened.evn} />
+                <EventsObj visableBtn={isOpened.evn}/>
             </div>
 
-            <div className="ChatEvents" style={styleChatEvents}>
-                <ChatEvents/>
+            <div className="ChatEvents"  style={{...styleChatEvents, maxWidth: isOpened.chat ? 400 : 78, minWidth: isOpened.chat ? 390 : 76}}>
+                <IconButton onClick={switchOpenChat} color="primary" style={styleIconButton}>
+                    {isOpened.chat ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
+                </IconButton>
+                <div style={{opacity: isOpened.chat ? 1 : 0}}>
+                    <ChatEvents/>
+                </div>
             </div>
         </div>
     );
@@ -66,6 +77,10 @@ const TabFirstConsent = () => {
 
     function switchOpenEvn() {
         setIsOpened({...isOpened, evn: !isOpened.evn});
+    }
+
+    function switchOpenChat() {
+        setIsOpened({...isOpened, chat: !isOpened.chat});
     }
 };
 

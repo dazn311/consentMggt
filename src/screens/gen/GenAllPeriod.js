@@ -28,28 +28,28 @@ const GenAllPeriod = React.memo(({ data}) => {
         <React.Fragment>
             <Title>Данные за весь период</Title>
             <hr color="white" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}} />
-            <Typography component="p" variant="h6">
+            <Typography component="span" variant="h6">
                 {total_recs}
             </Typography>
             <Typography component="p"  >
                 Всего событий
             </Typography>
             <hr color="gray" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}}/>
-            <Typography component="p" variant="h6">
+            <Typography component="span" variant="h6">
                 {total_messages}
             </Typography>
             <Typography component="p"  >
                 Всего сообщений
             </Typography>
             <hr color="gray" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}}/>
-            <Typography component="p" variant="h6">
+            <Typography component="span" variant="h6">
                 {total_sogl_objects}
             </Typography>
             <Typography component="p"  >
                 Всего согласовано объектов
             </Typography>
             <hr color="gray" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: '4px'}}/>
-            <Typography component="p" variant="h6">
+            <Typography component="span" variant="h6">
                 {/* {73+43} */}
                 {total_sogl_recs}
             </Typography>

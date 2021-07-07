@@ -47,7 +47,7 @@ const GenDeposits = React.memo(({amountOGH, data }) => {
             </Typography >
             <hr color="gray" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}}/>
 
-            <Typography component="span" variant="h6">
+            <Typography variant="h6">
                 {total_objects - total_mggt_objects}
             </Typography>
             <Typography component="span"  >

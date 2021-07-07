@@ -42,11 +42,13 @@ const ObjsCard = observer(() => {
         <React.Fragment>
             <ListItem>
                 <ListItemAvatar>
-                    <Avatar className={classes.MuiAvatarRoot}>
-                        <HomeWorkIcon/>
-                        <ListItemText style={styleObjsAmount} secondary={stateObjsMobx.objectsData.amount}/>
-                    </Avatar>
-                    <div style={styleObjs}>Объекты</div>
+                    <div>
+                        <Avatar className={classes.MuiAvatarRoot}>
+                                <HomeWorkIcon/>
+                                <ListItemText style={styleObjsAmount} secondary={stateObjsMobx.objectsData.amount}/>
+                        </Avatar>
+                        <div style={styleObjs}>Объекты</div>
+                    </div>
                 </ListItemAvatar>
                 <ListObjs objects={stateObjsMobx.objectsData.data.objects} curObjId={stateObjsMobx.curObjId}/>
             </ListItem>

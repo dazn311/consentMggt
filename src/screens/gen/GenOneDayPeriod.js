@@ -26,7 +26,7 @@ const GenOneDayPeriod = React.memo(({ data }) => {
         <React.Fragment>
             <Title>Данные за последние сутки</Title>
             <hr color="white" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}} />
-            <Typography component="span" variant="h6">
+            <Typography  variant="h6">
                 {daily_recs}
             </Typography>
             <Typography component="span"  >

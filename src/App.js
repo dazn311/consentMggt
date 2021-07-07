@@ -1,4 +1,4 @@
-import React, {lazy,   useState, Suspense} from 'react';
+import React, {lazy, useState, Suspense} from 'react';
 // import { connect } from 'react-redux';
 import {
     BrowserRouter as Router,
@@ -32,7 +32,7 @@ import ConsentPage from "./screens/ConsentPage/ConsentPage";
 // import {Paper} from "@material-ui/core";
 
 const Dashboard = lazy(() =>
-        import('./screens/dashboard')
+    import('./screens/dashboard')
 )
 
 const darkTheme = createMuiTheme({
@@ -83,11 +83,11 @@ const lightTheme = createMuiTheme({
 const useStyles = makeStyles((theme) => ({
     root: {
         width: 'calc(100% - 64px)',
-        backgroundColor: '#424242',
+        backgroundColor: theme.palette.background,
         marginLeft: 64
     },
     container: {
-        backgroundColor: '#424242',
+        backgroundColor: theme.palette.background,
         // display: 'flex',
         // minWidth: '100%'
         // marginLeft: 240
@@ -98,65 +98,59 @@ const App = () => {
     const [darkThemeS, setDarkThemeS] = useState(true);
     const classes = useStyles();
 
-    // const setTheme = useCallback(() => {
-    //     setDarkThemeS(!darkThemeS);
-    // }, [setDarkThemeS, darkThemeS])
-
+    const setTheme = () => {
+        setDarkThemeS(!darkThemeS);
+    }
+    console.log('reload app')
     return (
-        <div className={classes.root}>
-            <ThemeProvider theme={darkThemeS ? darkTheme : lightTheme}>
+        <ThemeProvider theme={darkThemeS ? darkTheme : lightTheme}>
+            <div className={classes.root}>
                 {/*<TransitionGroup timeout={150}>*/}
-                    <Router>
-                        <Header setTheme={ () => setDarkThemeS(!darkThemeS)} />
-                        {/*<div className={classes.container}>*/}
+                <Router>
+                    <Header setTheme={setTheme}/>
+                    {/*<div className={classes.container}>*/}
 
-                                <Switch>
-                                    <Route exact path="/stats/consent">
-                                        <ConsentPage/>
-                                    </Route>
-                                    <Route exact path="/stats/ogh">
-                                        <HistoriesChange/>
-                                    </Route>
-                                    <Route path="/stats/user/:iduser"
-                                           render={props => <UserDetails {...props} />} >
-                                        {/* <UserDetails /> */}
-                                    </Route>
-                                    <Route exact path="/stats/users">
-                                        <UsersPage/>
-                                    </Route>
-                                    <Route path="/stats/obj/:idobj">
-                                        <ObjCard/>
-                                    </Route>
-                                    <Route exact path="/stats/objs">
-                                        <ObjPage/>
-                                    </Route>
-                                    <Route path="/stats/gen">
-                                        <GeneralPage/>
-                                    </Route>
-                                    <Suspense fallback={<div>..Loading suspense</div>}>
-                                        <Route exact path="/stats/dash">
-                                            <Dashboard/>
-                                        </Route>
-                                    </Suspense>
-                                    <Route exact path="/">
-                                        <Redirect from='/' to="/stats/consent" />
-                                    </Route>
-                                </Switch>
+                    <Switch>
+                        <Route exact path="/stats/consent">
+                            <ConsentPage/>
+                        </Route>
+                        <Route exact path="/stats/ogh">
+                            <HistoriesChange/>
+                        </Route>
+                        <Route path="/stats/user/:iduser"
+                               render={props => <UserDetails {...props} />}>
+                            {/* <UserDetails /> */}
+                        </Route>
+                        <Route exact path="/stats/users">
+                            <UsersPage/>
+                        </Route>
+                        <Route path="/stats/obj/:idobj">
+                            <ObjCard/>
+                        </Route>
+                        <Route exact path="/stats/objs">
+                            <ObjPage/>
+                        </Route>
+                        <Route path="/stats/gen">
+                            <GeneralPage/>
+                        </Route>
+                        <Suspense fallback={<div>..Loading suspense</div>}>
+                            <Route exact path="/stats/dash">
+                                <Dashboard/>
+                            </Route>
+                        </Suspense>
+                        <Route exact path="/">
+                            <Redirect from='/' to="/stats/consent"/>
+                        </Route>
+                    </Switch>
 
-                            {/*</div>*/}
-                        <Box pt={2} pb={2}>
-                            <Footer/>
-                        </Box>
-                    </Router>
+                    <Box pt={2} pb={2}>
+                        <Footer/>
+                    </Box>
+                </Router>
                 {/*</TransitionGroup>*/}
-            </ThemeProvider>
-        </div>
+            </div>
+        </ThemeProvider>
     );
 }
 
-// const mapDispatchToProps = (dispatch) => ({
-//   fetchCurrentUser: (id) => dispatch(fetchCurrentUserAsync(id)),
-// });
-
 export default App
-// export default connect(null,mapDispatchToProps)(App);

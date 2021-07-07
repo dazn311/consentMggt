@@ -3,10 +3,8 @@ import {runInAction} from "mobx";
 
 export function fetchOrgDataA(userID) {
     try {
-        // console.log('fetchOrgData -- orgName', userID)
         runInAction(() => {
             this.setStartFetchOrgData()
-
         })
         let orgData = sessionStorage.getItem('orgData')
         if (JSON.stringify(orgData) === '{}' || orgData === null) { //This will check if the object is empty
@@ -17,7 +15,6 @@ export function fetchOrgDataA(userID) {
                     runInAction(() => {
                         this.setSuccessFetchOrgData(data[0])
                     })
-
                 })
                 .catch(error => {
                     runInAction(() => {
@@ -47,19 +44,19 @@ const lstData = {
             "endDate": '', "objName": "", "orgName": '', "objKind": "", "objStatus": 10,
             "sortCol": "date", "sortType": "desc"
         },
-        comment: ''
+        comment: 'загрузка объектов организации'
     },
 
     objData: {
         url: 'https://ismggt.ru/query/object/data',
         data: {"objID": ''},
-        comment: ''
+        comment: 'загрузка одного объекта для получения смежных объ-ов'
     },
 
     recsLst: {
         url: 'https://ismggt.ru/query/object/recs/list',
         data: {"objectID": '640', "limit": "160", "offset": "0"},
-        comment: ''
+        comment: 'загрузка событий по выбранному объекту'
     },
 
 }
@@ -96,19 +93,14 @@ export function startFetchA(orgName) {
 
     return fetchParam({typeF: 'objsLst', dataFetch: {orgName: orgName}})
         .then(objsLstRes => {
-            // console.log('objsLstRes', objsLstRes)
             res.objsLstData = objsLstRes
             return fetchParam({typeF: 'objData', dataFetch: {objID: objsLstRes.data.objects[0].objID}})
         })
         .then(objDataRes => {
-            // console.log('objDataRes', objDataRes)
-            console.log('objDataRes.data.obj_id', objDataRes.data.obj_id)
             res.objData = objDataRes
             return fetchParam({typeF: 'recsLst', dataFetch: {objID: objDataRes.data.obj_id}})
         })
         .then(recsLstRes => {
-            // console.log('recsLstRes', recsLstRes)
-            console.log('end startFetch')
             res.recsData = recsLstRes
             return res;
         })
@@ -116,10 +108,8 @@ export function startFetchA(orgName) {
 }
 
 export function fetchObjDataA(orgName) {
-    // const endDate = new Date().toISOString();
     try {
         let objsDataSessionStore = sessionStorage.getItem('objsDataOfAuthUser')
-
 
         if (JSON.stringify(objsDataSessionStore) === '{}' || objsDataSessionStore === null) { //This will check if the object is empty
             startFetchA(orgName)
@@ -133,7 +123,6 @@ export function fetchObjDataA(orgName) {
                         sessionStorage.setItem('objsDataOfAuthUser', JSON.stringify(res.objsLstData))
                         sessionStorage.setItem('objsArrData', JSON.stringify(res.objData.data))
                         sessionStorage.setItem('recsData', JSON.stringify(res.recsData))
-
                     })
                 })
         } else {  // objsDataSessionStore is valid

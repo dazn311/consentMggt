@@ -1,4 +1,4 @@
-import React  from 'react';
+import React from 'react';
 import {observer} from 'mobx-react'
 
 import stateObjsMobx from '../../../../../store/consent/objsConsent/objsCons.mobx';
@@ -27,7 +27,7 @@ const RelCard = observer(({length = null}) => {
 
     if (!stateObjsMobx.successFetchObjArr || !stateObjsMobx.objsArr[11718]) {
         return <LoaderList title={'загрузка смеж.объектов...'}/>
-    }else {
+    } else {
         // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
 
     }
@@ -36,13 +36,15 @@ const RelCard = observer(({length = null}) => {
         <React.Fragment>
             <ListItem>
                 <ListItemAvatar>
-                    <Avatar className={classes.MuiAvatarRoot}>
-                        <HomeWorkIcon/>
-                        <ListItemText style={styleObjsAmount} secondary={stateObjsMobx.objectsData.amount}/>
-                    </Avatar>
-                    <div style={styleObjs}>Смеж. объекты</div>
+                    <div>
+                        <Avatar className={classes.MuiAvatarRoot}>
+                            <HomeWorkIcon/>
+                            <ListItemText style={styleObjsAmount} secondary={stateObjsMobx.objectsData.amount}/>
+                        </Avatar>
+                        <div style={styleObjs}>Смеж. объекты</div>
+                    </div>
                 </ListItemAvatar>
-               <ListRel objects={stateObjsMobx.objsArr[11718].obj_relatives} curRelId={stateObjsMobx.curRelId}  />
+                <ListRel objects={stateObjsMobx.objsArr[11718].obj_relatives} curRelId={stateObjsMobx.curRelId}/>
             </ListItem>
         </React.Fragment>
     );

@@ -79,7 +79,7 @@ const CartGenInfo = ({currObj, selectedObj, objRect}) => {
     return(<div>нет данных об организации.</div>)
   }
 
-  let SmeObjList = selectedObj.objRelatives.map((objIdSmeg, index)  => {
+  let SmeObjList = selectedObj.objRelatives && selectedObj.objRelatives.map((objIdSmeg, index)  => {
 
       const newRec = objRect && objRect.find(rec  => {
         if (objIdSmeg === rec.receip.objectID){

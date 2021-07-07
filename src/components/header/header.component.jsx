@@ -183,12 +183,11 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const Header = React.memo(({ currentUser, children, window, setTheme }) => {
+const Header = ({ currentUser, children, setTheme }) => {
     const [open, setOpen] = React.useState(false);
     const [headerTitle, setHeaderTitle] = React.useState('Главная страница');
     const classes = useStyles();
 
-    // const { window } = props;
     const theme = useTheme();
     // const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -251,15 +250,8 @@ const Header = React.memo(({ currentUser, children, window, setTheme }) => {
                 [classes.appBarShift]: open,
             })}>
                 <Toolbar className={classes.toolbar}>
-                    <IconButton 
-                        edge="start"
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        className={clsx(classes.menuButton, {
-                            [classes.hide]: open,
-                        })}
-                    >
+                    <IconButton   edge="start"  color="inherit" aria-label="open drawer" onClick={handleDrawerOpen}
+                        className={clsx(classes.menuButton, { [classes.hide]: open  })}  >
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" color="inherit" noWrap   >
@@ -304,7 +296,7 @@ const Header = React.memo(({ currentUser, children, window, setTheme }) => {
         </div>
     )
 
-})
+}
 
 
 // const mapDispatchToProps = dispatch => ({

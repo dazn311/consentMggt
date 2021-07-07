@@ -25,20 +25,22 @@ const RelListItem = ({relListShortDataS}) => {
         <>
             <ListItem>
                 <ListItemAvatar>
-                    <Avatar className={classes.MuiAvatarRoot}>
-                        <HomeWorkIcon/>
-                        <ListItemText className={classes.ListItemTextRelObjs}
-                                      secondary={relListShortDataS && relListShortDataS.length}/>
-                    </Avatar>
-                    <div style={{
-                        marginLeft: 4,
-                        borderLeft: '1px solid grey',
-                        paddingLeft: 4,
-                        transform: 'rotate(-90deg)',
-                        position: 'absolute',
-                        left: -10,
-                        top: 100,
-                    }}>Смежные объекты
+                    <div>
+                        <Avatar className={classes.MuiAvatarRoot}>
+                            <HomeWorkIcon/>
+                            <ListItemText className={classes.ListItemTextRelObjs}
+                                          secondary={relListShortDataS && relListShortDataS.length}/>
+                        </Avatar>
+                        <div style={{
+                            marginLeft: 4,
+                            borderLeft: '1px solid grey',
+                            paddingLeft: 4,
+                            transform: 'rotate(-90deg)',
+                            position: 'absolute',
+                            left: -10,
+                            top: 100,
+                        }}>Смежные объекты
+                        </div>
                     </div>
                 </ListItemAvatar>
                 <ListItemText style={{maxHeight: 200, overflow: 'auto'}}

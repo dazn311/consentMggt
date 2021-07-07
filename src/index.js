@@ -12,7 +12,7 @@ import App from './App';
 ReactDOM.render( 
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
+        <PersistGate loading={<App />} persistor={persistor}>
           <App />
       </PersistGate>
     </Provider>

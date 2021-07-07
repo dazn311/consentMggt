@@ -101,8 +101,7 @@ const TabUserActive = ({ allStatsData, offset, isLoading, errorFetchUserData, cu
   const setEmptyRecData = () => {
     setRecData(0); 
   }
-
-
+ 
 
   return (
     <React.Fragment>

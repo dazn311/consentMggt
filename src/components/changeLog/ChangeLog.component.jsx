@@ -53,13 +53,13 @@ const Scard = ({mes, point}) => {
       <Typography className={classes.title} component={'span'}  color="textSecondary" gutterBottom>
       {'21.01.2021 (16:20)'}
       </Typography>
-      <Typography  >
+      <Typography   component="span">
         {point[mes.msg_rec_id].rec_name} 
       </Typography>
-      <Typography className={classes.pos} color="textSecondary">
+      <Typography className={classes.pos} color="textSecondary"  component="span">
         {/* {mes.msg_fio} */}
       </Typography>
-      <Typography variant="body2" component="p">
+      <Typography variant="body2" component="span">
       {/* {mes.msg_text}  */}
         {/* {'координаты: '}{point[mes.msg_rec_id].rec_xy}  */}
       </Typography>

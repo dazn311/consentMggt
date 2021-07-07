@@ -1,24 +1,16 @@
 import React, {useEffect, useRef} from "react";
 
+import {Slide} from "@material-ui/core";
+
 import "./ChatRoom.css";
 import useChat from "../useChat";
-import {Slide} from "@material-ui/core";
-// import {currentEventObjSelector} from "../../../../../store/consent/events/evt.selectors";
-// import {createStructuredSelector} from "reselect";
-// import {connect} from "react-redux";
-
 
 // let isShowDate = true
 // let mesListDate = {dateShow: '', isShowDate: true}
 
 const MessageLi = ({message, i}) => {
     let dateDay = message.date.slice(11, 16)
-    return (<li
-            key={i}
-            className={`message-item ${
-                message.ownedByCurrentUser ? "my-message" : "received-message"
-            }`}
-        >
+    return (<li  key={i}  className={`message-item ${ message.ownedByCurrentUser ? "my-message" : "received-message"  }`}  >
             {message.body}
             <span style={{fontSize: 'smaller', marginLeft: 4, color: 'lightslategrey'}}>{dateDay}</span>
         </li>

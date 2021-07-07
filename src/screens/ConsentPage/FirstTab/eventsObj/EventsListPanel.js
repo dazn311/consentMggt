@@ -1,12 +1,14 @@
 import React from "react";
-import { useStyles } from "./ElemObj";
+import { useStyles } from "./eventStyles";
+
 import ListItem from "@material-ui/core/ListItem";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import HomeWorkIcon from "@material-ui/icons/HomeWork";
 import ListItemText from "@material-ui/core/ListItemText";
-import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
-import VisibilityIcon from "@material-ui/icons/Visibility";
+
+// import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
+// import VisibilityIcon from "@material-ui/icons/Visibility";
 // import {createStructuredSelector} from "reselect";
 // import {relListShortDataSelector} from "../../../../../../store/consent/cons.selectors";
 // import {connect} from "react-redux";
@@ -40,15 +42,19 @@ const EventsListPanel = ({ eventsList = [], switchVisibleLst, visibleList }) => 
 
   return (
     <>
-      <ListItem style={{ minHeight: 500, minWidth: 380 }}>
+      <ListItem  style={{ minHeight: 500, minWidth: 380 }}>
         <ListItemAvatar>
+
           <Avatar className={classes.MuiAvatarRoot}>
-            <ListItemText className={classes.ListItemTextRelObjs} secondary={eventsList && eventsList.length} />
-            <HomeWorkIcon />
-            <div style={CaptionStyles}>События</div>
+            <div>
+              <ListItemText className={classes.ListItemTextRelObjs} secondary={eventsList && eventsList.length} />
+              <HomeWorkIcon />
+              <div style={CaptionStyles}>События</div>
+            </div>
+
           </Avatar>
         </ListItemAvatar>
-        <ListItemEvents eventsList={eventsList} visibleList={visibleList} />
+        <ListItemEvents  eventsList={eventsList} visibleList={visibleList} />
       </ListItem>
     </>
   );

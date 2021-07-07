@@ -12,9 +12,9 @@ import 'babel-polyfill';
 // import OnlineUserBar from './components/OnlineUserBar';
 // import Home from "./Home/Home";
 import ChatRoom from "./ChatRoom/ChatRoom";
-import {currentEventObjSelector} from "../../../../store/consent/events/evt.selectors";
-import {createStructuredSelector} from "reselect";
-import {connect} from "react-redux";
+// import {currentEventObjSelector} from "../../../../store/consent/events/evt.selectors";
+// import {createStructuredSelector} from "reselect";
+// import {connect} from "react-redux";
 
 // const socket = io.connect(C.SOCKET_URL);
 window.dazGlobalVar = 28;
@@ -56,11 +56,11 @@ const ChatEvents = ({currentEventObjS}) => {
 };
 
 
-const mapStateToProps = createStructuredSelector({
-  currentEventObjS: currentEventObjSelector,
-});
+// const mapStateToProps = createStructuredSelector({
+//   currentEventObjS: currentEventObjSelector,
+// });
 
-export default connect(mapStateToProps)(ChatEvents);
+export default  ChatEvents
 
 // export default ChatEvents
 

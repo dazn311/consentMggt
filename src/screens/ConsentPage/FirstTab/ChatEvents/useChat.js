@@ -4,8 +4,9 @@ import socketIOClient from "socket.io-client";
 const NEW_CHAT_MESSAGE_EVENT = "newChatMessage";
 const SOCKET_SERVER_URL = "http://localhost:4000";
 const GET_ALL_MESSAGES_OF_ROOM = 'allMessages';
+const USER_NAME = 'ЖКХиБ ВАО'
+
 let lastIds = '9920'
-let userName = 'ЖКХиБ ВАО'
 
 const useChat = (roomId) => {
   const [messages, setMessages] = useState([]);
@@ -18,10 +19,8 @@ const useChat = (roomId) => {
     // console.log('useChat -- roomId',roomId);
     // console.log('useChat -- lastIds',lastIds);
     socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
-      query: { roomId, userName },
+      query: { roomId, USER_NAME },
     });
-
-
 
     // при входе в комнату, заполняем прошлыми сообщениями
     socketRef.current.on(GET_ALL_MESSAGES_OF_ROOM, (messages) => {
@@ -40,8 +39,6 @@ const useChat = (roomId) => {
         console.log('GET_ALL_MESSAGES_OF_ROOM messages',messages);
         setMessages(firstMessages);
       }
-
-
     });
 
     // при входе в комнату, заполняем прошлыми сообщениями
@@ -67,7 +64,7 @@ const useChat = (roomId) => {
 
   const sendMessage = (messageBody) => {
     socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
-      userName: userName,
+      userName: USER_NAME,
       body: messageBody,
       senderId: socketRef.current.id,
     });

@@ -72,12 +72,16 @@ export const useStyles = makeStyles((theme) => ({
 }));
 
 const objStatus3 = (objStatus) => {
-    if (objStatus === 2) { return 'в работе'
-    } else if (objStatus === 5) { return 'согласован'
-    } else if (objStatus === 1) {return 'добавлен в DB' }
+    if (objStatus === 2) {
+        return 'в работе'
+    } else if (objStatus === 5) {
+        return 'согласован'
+    } else if (objStatus === 1) {
+        return 'добавлен в DB'
+    }
 }
 
-const ElemObj = ({ obj,  setIdOfActiveObj,    setActiveObjAndRel, activeObjAndRelS}) => {
+const ElemObj = ({obj, setIdOfActiveObj, setActiveObjAndRel, activeObjAndRelS}) => {
     const [objIdS] = useState(obj.objID)
     const [colorS, setColorS] = useState(null)
     const [objStatus] = useState(objStatus3(obj.objStatus))
@@ -87,8 +91,11 @@ const ElemObj = ({ obj,  setIdOfActiveObj,    setActiveObjAndRel, activeObjAndRe
 
     // console.log('setActiveObjAndRel',setActiveObjAndRel)
     useEffect(() => {
-        if (activeObjAndRelS && activeObjAndRelS[0].id === objIdS) {setColorS('grey')
-        } else {setColorS(null)}
+        if (activeObjAndRelS && activeObjAndRelS[0].id === objIdS) {
+            setColorS('grey')
+        } else {
+            setColorS(null)
+        }
 
     }, [activeObjAndRelS, objIdS])
 
@@ -98,14 +105,18 @@ const ElemObj = ({ obj,  setIdOfActiveObj,    setActiveObjAndRel, activeObjAndRe
     // }
 
     const setActiveObjAndRelHandler = useCallback((objID, objName) => {
-        setActiveObjAndRel([{id: objID, objName: objName},{id: 1, relName: ''}])
-    },[setActiveObjAndRel])
+        setActiveObjAndRel([{id: objID, objName: objName}, {id: 1, relName: ''}])
+    }, [setActiveObjAndRel])
 
     const objStatus2 = useCallback(() => {
-        if (objStatus === 'в работе') { return 'darkblue'
-        } else if (objStatus === 'согласован') {return 'green'
-        } else if (objStatus === 'нет событий') {return 'grey' }
-    },[objStatus])
+        if (objStatus === 'в работе') {
+            return 'darkblue'
+        } else if (objStatus === 'согласован') {
+            return 'green'
+        } else if (objStatus === 'нет событий') {
+            return 'grey'
+        }
+    }, [objStatus])
 
     // console.log('4343 obj',obj)
     return (<Tooltip title={longText} classes={{tooltip: classes.customWidth}}>
@@ -142,4 +153,4 @@ const mapDispatchToProps = (dispatch) => ({
     setActiveObjAndRel: (objData) => dispatch(relObjsList.setActiveObjAndRelAsync(objData)),
 });
 
-export default connect(mapStateToProps,mapDispatchToProps)(ElemObj);
+export default connect(mapStateToProps, mapDispatchToProps)(ElemObj);

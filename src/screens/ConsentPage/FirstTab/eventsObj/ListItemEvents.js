@@ -8,7 +8,7 @@ import ElemEventObj from "./ElemEventObj";
 const ListItemEvents = ({ eventsList, visibleList = true }) => {
   // console.log("eventsList", eventsList);
   return (
-    <ListItemText style={{ maxHeight: 500, overflow: visibleList ? "auto" : "auto", maxWidth: visibleList ? 420 : 2,
+    <ListItemText disableTypography style={{ maxHeight: 500, overflow: visibleList ? "auto" : "auto", maxWidth: visibleList ? 420 : 2,
         // , maxWidth : 420
         // , display: visibleList ? 'block' : 'none'
         transition: "all 0.5s ease-out",
