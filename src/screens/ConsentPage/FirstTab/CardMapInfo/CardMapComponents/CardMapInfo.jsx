@@ -1,8 +1,5 @@
 import React, {  useEffect, useRef, useState} from 'react';
 
-import {connect} from 'react-redux';
-import {createStructuredSelector} from 'reselect';
-
 import L
     // , {LatLngExpression, Control}
     from "leaflet";
@@ -24,20 +21,10 @@ import "leaflet/dist/leaflet.css";
 
 // import AssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
 
-// import {selectObjCurrObj} from '../../../../../store/adminPanelTrest/objspages.selectors';
-// import {
-//     activeObjAndRelSelector, eventsActiveObjSelector,
-//     fullDataOfActiveObForMapForRelativesSelector, recsDataSelector
-// } from '../../../../../store/consent/cons.selectors';
-// import {Dialog} from "@material-ui/core";
 import DialogMarkerMap from "../../../../../components/dialogMarkerMap/DialogMarkerMap";
 
-
 import {  center, positionInit } from "./constants";
-import {setCurrentEventOfObjAsync} from "../../../../../store/consent/events/evt.actions";
-import {currentEventObjSelector} from "../../../../../store/consent/events/evt.selectors";
 import {Slide} from "@material-ui/core";
-
 
 let DefaultIcon = L.icon({
     iconUrl: 'https://static1.squarespace.com/static/58c9e16237c5813452abfd18/t/5ad62def352f53ede18773ba/1622151102743/',
@@ -51,18 +38,11 @@ let DefaultIcon = L.icon({
 
 
 
-// let greenIcon = new L.Icon({
-//     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-//     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-//     iconSize: [25, 41],
-//     iconAnchor: [12, 41],
-//     popupAnchor: [1, -34],
-//     shadowSize: [41, 41]
-// });
-
 
 ///////////////////////////////////////////////////objAddress = 'Зорге, 1', objBnd = '', id = 0, setCurObj///////////////////////////////
-const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, setCurrentEventOfObj,currentEventObjS}) => {
+const CardMapInfo = ({objAddress ='', objBnd, relBnd, bnd, showMap = false, setCurObj
+                         // ,  recsDataP, recsBnd, setCurrentEventOfObj,currentEventObjS
+}) => {
     const [openMarkerS, setOpenMarkerS] = useState(false)
     const [captionDialogS ] = useState('Задать название события')
     const [bodyMarketDialogS, setBodyMarketDialogS] = useState(objAddress)
@@ -84,20 +64,21 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
     // const yellowOptions = {color: 'yellow'}
 
 
+    const sliderRef = useRef(null)
     const localMapRef = useRef(null)
     const markerRef = useRef(null)
     const markerRef1 = useRef(null)
 
-    useEffect(() => {
-        return () => {
-            setCurrentEventOfObj(null)
-        };
-    }, [setCurrentEventOfObj]);
-
-    useEffect(() => {
-            reMapRecsDataS(recsDataP)
-
-    },[recsDataP])
+    // useEffect(() => {
+    //     return () => {
+    //         setCurrentEventOfObj(null)
+    //     };
+    // }, [setCurrentEventOfObj]);
+    //
+    // useEffect(() => {
+    //         reMapRecsDataS(recsDataP)
+    //
+    // },[recsDataP])
 
     // useEffect(() => {
     //     console.log('currentEventObjS',currentEventObjS)
@@ -222,7 +203,7 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
         // this.setState({ currentPos: e.latlng });//
         // console.log( ' -latlng',e.latlng)
         console.log( 'eventPoint rec_id', eventPoint.rec_id)
-        setCurrentEventOfObj(eventPoint.rec_id)
+        // setCurrentEventOfObj(eventPoint.rec_id)
         setOpenMarkerS(true)
     }
 
@@ -231,21 +212,25 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
     // console.log(markersData) //rec_id: 15561
 
     // lg('markersData')
-
+    console.log('objBnd',objBnd)
+    console.log('bnd',bnd )
+    // if(!bnd.objBnd){
+    //     return <div>"objBnd === null"</div>
+    // }
     return (
-        <Slide direction="down" in={true} mountOnEnter unmountOnExit>
-            <DialogMarkerMap bodyTxt={bodyMarketDialogS} caption={captionDialogS} openMarker={openMarkerS} isOpen={false} newBodyTxt={setBodyTxtMarker} />
+        <Slide direction="down" in={showMap} mountOnEnter unmountOnExit ref={sliderRef} timeout={2000}   children={localMapRef} >
+            {/*<DialogMarkerMap bodyTxt={bodyMarketDialogS} caption={captionDialogS} openMarker={openMarkerS} isOpen={false} newBodyTxt={setBodyTxtMarker} />*/}
             <Map
                 dragging={true}
                 // center={centerForMap}
-                center={position}
+                // center={position}
                 // zoom={15}
                 scrollWheelZoom={false}
                 onClick={addMarker}
-                bounds={objBnd}
+                bounds={bnd.objBnd && bnd.objBnd.coordinates}
                 ref={localMapRef}
             >
-                {relBnd.length  && <Polygon
+                {bnd.relBnd  && <Polygon
                     key={1}
                     lineCap={'butt'}
                     // lineCap={'round'}
@@ -253,9 +238,9 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
                     opacity={0.5}
                     draggable={true}
                     pathOptions={yellowOptions}
-                    positions={relBnd.length ? relBnd : objBnd}
+                    positions={bnd.relBnd ? bnd.relBnd.coordinates : []}
                 />}
-                {Array.isArray(objBnd[0]) && <Polygon key={2} draggable={true} pathOptions={purpleOptions} positions={objBnd}/>}
+                {bnd.objBnd  && <Polygon key={2} draggable={true} pathOptions={purpleOptions} positions={bnd.objBnd.coordinates}/>}
 
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">MosGeoTrest</a> '
@@ -264,32 +249,7 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
 
 
 
-                {markersData.length && markersData.map((evt, idx) => {
-                    let markerRefTmp = idx === 0 ? markerRef : markerRef1
-                    return(<CircleMarker
-                            ref={markerRefTmp}
-                            opacity={evt.rec_id === currentEventObjS  ? 1 : 0.7}
-                            fillColor={evt.rec_id === currentEventObjS ? 'blue' : 'green'}
-                            weight={evt.rec_id === currentEventObjS ? 4 : 2}
-                            radius={evt.rec_id === currentEventObjS ? 15 : 10}
-                            // center={localMapRef.current.props.center}
-                            center={  recsBnd.length > idx ? recsBnd[idx] : positionInit}
-                            // center={evt.rec_bnd}
-                            onClick={(e) => {handleMarkerClick(e, evt)}}
-                            color={evt.rec_status === 5 ? 'green' : 'blue'}
-                            // onClick={() => console.log('click marker')}
-                            draggable={true}
-                            // eventHandlers={eventHandlers}
-                            // eventHandlers={(e) => eventHandlersEventMarker(e, idx)}
-                            key={`markerEvt-${idx}`}
-                            // position={evt.rec_bnd}
-                        >
-                            {/*<Popup>*/}
-                            {/*    <span>({evt.rec_id}) {evt.rec_name}</span>*/}
-                            {/*</Popup>*/}
-                        </CircleMarker>)
-                    }
-                )}
+
 
             </Map>
         </Slide>
@@ -297,17 +257,59 @@ const CardMapInfo = ({objAddress, objBnd = [], relBnd = [],  recsDataP,recsBnd, 
     );
 }
 
-const mapStateToProps = createStructuredSelector({
-    currentEventObjS: currentEventObjSelector,
-    // eventsActiveObjS: eventsActiveObjSelector,
-    // selectObjCurr: selectObjCurrObj, // события короткие данные для таблицы
-    // fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector, // события короткие данные для таблицы
-    // recsDataS: recsDataSelector, // события короткие данные для таблицы
-    //setCurrentEventOfObjAsync
-});
 
-const mapDispatchToProps = (dispatch) => ({
-    setCurrentEventOfObj: (eventId) => dispatch(setCurrentEventOfObjAsync(eventId)),
-});
+export default CardMapInfo
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardMapInfo);
+
+
+// let greenIcon = new L.Icon({
+//     iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+//     shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+//     iconSize: [25, 41],
+//     iconAnchor: [12, 41],
+//     popupAnchor: [1, -34],
+//     shadowSize: [41, 41]
+// });
+
+
+// const mapStateToProps = createStructuredSelector({
+//     currentEventObjS: currentEventObjSelector,
+// eventsActiveObjS: eventsActiveObjSelector,
+// selectObjCurr: selectObjCurrObj, // события короткие данные для таблицы
+// fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector, // события короткие данные для таблицы
+// recsDataS: recsDataSelector, // события короткие данные для таблицы
+//setCurrentEventOfObjAsync
+// });
+
+// const mapDispatchToProps = (dispatch) => ({
+//     setCurrentEventOfObj: (eventId) => dispatch(setCurrentEventOfObjAsync(eventId)),
+// });
+
+
+// {markersData.length && markersData.map((evt, idx) => {
+//                     let markerRefTmp = idx === 0 ? markerRef : markerRef1
+//                     return(<CircleMarker
+//                             ref={markerRefTmp}
+//                             opacity={evt.rec_id === currentEventObjS  ? 1 : 0.7}
+//                             fillColor={evt.rec_id === currentEventObjS ? 'blue' : 'green'}
+//                             weight={evt.rec_id === currentEventObjS ? 4 : 2}
+//                             radius={evt.rec_id === currentEventObjS ? 15 : 10}
+//                             // center={localMapRef.current.props.center}
+//                             center={  recsBnd.length > idx ? recsBnd[idx] : positionInit}
+//                             // center={evt.rec_bnd}
+//                             onClick={(e) => {handleMarkerClick(e, evt)}}
+//                             color={evt.rec_status === 5 ? 'green' : 'blue'}
+//                             // onClick={() => console.log('click marker')}
+//                             draggable={true}
+//                             // eventHandlers={eventHandlers}
+//                             // eventHandlers={(e) => eventHandlersEventMarker(e, idx)}
+//                             key={`markerEvt-${idx}`}
+//                             // position={evt.rec_bnd}
+//                         >
+//                             {/*<Popup>*/}
+//                             {/*    <span>({evt.rec_id}) {evt.rec_name}</span>*/}
+//                             {/*</Popup>*/}
+//                         </CircleMarker>)
+//                     }
+//                 )}
+

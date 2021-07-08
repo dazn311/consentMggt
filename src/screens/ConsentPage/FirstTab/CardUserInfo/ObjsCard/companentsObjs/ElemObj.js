@@ -18,8 +18,8 @@ const ElemObj = ({obj, isActive}) => {
     };
     return (
             <div style={{display: 'flex', cursor: 'pointer'}} onClick={() => setIdObj(obj.objID, obj.objName)}  >
-                <div style={{width: 4, backgroundColor: '#92927252'}}></div>
-                <div style={styleObjLstItem} >&nbsp;{obj.objName } </div>
+                <div style={{width: 4, backgroundColor: '#92927252'}} />
+                <div style={styleObjLstItem} > &nbsp;{obj.objName } </div>
             </div>
     )
 }

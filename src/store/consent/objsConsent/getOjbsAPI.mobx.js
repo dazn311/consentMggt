@@ -1,6 +1,31 @@
 import axios from "axios";
 import {runInAction} from "mobx";
 
+const lstData = {
+    objsLst: {
+        url: 'https://ismggt.ru/query/objects/list',
+        data: {
+            "objectType": 2, "organization": 0, "limit": 100, "offset": 0, "startDate": "2021-01-01",
+            "endDate": '', "objName": "", "orgName": '', "objKind": "", "objStatus": 10,
+            "sortCol": "date", "sortType": "desc"
+        },
+        comment: 'загрузка объектов организации'
+    },
+
+    objData: {
+        url: 'https://ismggt.ru/query/object/data',
+        data: {"objID": ''},
+        comment: 'загрузка одного объекта для получения смежных объ-ов'
+    },
+
+    recsLst: {
+        url: 'https://ismggt.ru/query/object/recs/list',
+        data: {"objectID": '640', "limit": "160", "offset": "0"},
+        comment: 'загрузка событий по выбранному объекту'
+    },
+
+}
+
 export function fetchOrgDataA(userID) {
     try {
         runInAction(() => {
@@ -36,31 +61,6 @@ export function fetchOrgDataA(userID) {
 }
 
 
-const lstData = {
-    objsLst: {
-        url: 'https://ismggt.ru/query/objects/list',
-        data: {
-            "objectType": 2, "organization": 0, "limit": 100, "offset": 0, "startDate": "2021-01-01",
-            "endDate": '', "objName": "", "orgName": '', "objKind": "", "objStatus": 10,
-            "sortCol": "date", "sortType": "desc"
-        },
-        comment: 'загрузка объектов организации'
-    },
-
-    objData: {
-        url: 'https://ismggt.ru/query/object/data',
-        data: {"objID": ''},
-        comment: 'загрузка одного объекта для получения смежных объ-ов'
-    },
-
-    recsLst: {
-        url: 'https://ismggt.ru/query/object/recs/list',
-        data: {"objectID": '640', "limit": "160", "offset": "0"},
-        comment: 'загрузка событий по выбранному объекту'
-    },
-
-}
-
 const fetchParam = ({typeF = '', dataFetch = {}}) => new Promise((resolve, reject) => {
     let newUrl = '',
         newData = {},
@@ -87,6 +87,25 @@ const fetchParam = ({typeF = '', dataFetch = {}}) => new Promise((resolve, rejec
 
     return false
 })
+//
+// export function startFetchA(orgName) {
+//     let res = {}
+//
+//     return fetchParam({typeF: 'objsLst', dataFetch: {orgName: orgName}})
+//         .then(objsLstRes => {
+//             res.objsLstData = objsLstRes
+//             return fetchParam({typeF: 'objData', dataFetch: {objID: objsLstRes.data.objects[0].objID}})
+//         })
+//         .then(objDataRes => {
+//             res.objData = objDataRes
+//             return fetchParam({typeF: 'recsLst', dataFetch: {objID: objDataRes.data.obj_id}})
+//         })
+//         .then(recsLstRes => {
+//             res.recsData = recsLstRes
+//             return res;
+//         })
+//         .catch(e => console.log(e))
+// }
 
 export function startFetchA(orgName) {
     let res = {}
@@ -102,6 +121,24 @@ export function startFetchA(orgName) {
         })
         .then(recsLstRes => {
             res.recsData = recsLstRes
+
+            if (res.objData.data.hasOwnProperty('obj_relatives')) {
+                if (res.objData.data.obj_relatives.length) {
+                    return fetchParam({
+                        typeF: 'objData',
+                        dataFetch: {objID: res.objData.data.obj_relatives[0].obj_rel_id}
+                    })
+                } else {
+                    res.relData = null;
+                    return res;
+                }
+            }else {
+                res.relData = null;
+                return res;
+            }
+        })
+        .then(relRes => {
+            res.relData = relRes
             return res;
         })
         .catch(e => console.log(e))
@@ -116,24 +153,37 @@ export function fetchObjDataA(orgName) {
                 .then(res => {
                     console.log('44res', res)
                     runInAction(() => {
-                        this.setSuccessFetchObjData(res.objsLstData)
+                        this.setObjLstData(res.objsLstData)
                         this.upendObjArr(res.objData.data)
+                        if(res.relData){
+                            this.upendObjArr(res.relData.data)
+                            this.selectRelObj(res.relData.data.obj_id, res.relData.data.obj_name)
+                        }else {
+                            this.selectRelObj(0, 'is not rel of this obj')
+                        }
+
                         this.setSuccessFetchEvents(res.recsData)
 
                         sessionStorage.setItem('objsDataOfAuthUser', JSON.stringify(res.objsLstData))
-                        sessionStorage.setItem('objsArrData', JSON.stringify(res.objData.data))
+                        //сразу записать нужный формат
                         sessionStorage.setItem('recsData', JSON.stringify(res.recsData))
+
+                        sessionStorage.setItem('selectedObjs', JSON.stringify(this.selectedObjs))
+
                     })
                 })
         } else {  // objsDataSessionStore is valid
             runInAction(() => {
                 let objsLstData = sessionStorage.getItem('objsDataOfAuthUser')
                 let objData = sessionStorage.getItem('objsArrData')
-                let recsData = sessionStorage.getItem('recsData' )
+                let recsData = sessionStorage.getItem('recsData')
+                let selectedObjsData = sessionStorage.getItem('selectedObjs')
 
-                this.setSuccessFetchObjData( JSON.parse(objsLstData) )
-                this.upendObjArr(JSON.parse(objData))
+                this.setObjLstData(JSON.parse(objsLstData))
+                this.upendObjArrSessionExtract(JSON.parse(objData))
                 this.setSuccessFetchEvents(JSON.parse(recsData))
+
+                this.extractSessionStorage(JSON.parse(selectedObjsData))
 
             })
 

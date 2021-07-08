@@ -1,15 +1,118 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {connect} from "react-redux";
-import {convertWT} from "../services/reMapBnd";
-import {createStructuredSelector} from "reselect";
-import {
-    activeObjAndRelSelector,
-    fullDataOfActiveObForMapForRelativesSelector, recsDataSelector,
-    relFullDataOfActiveObjSelector //
-} from "../../../../store/consent/cons.selectors";
+import {observer} from 'mobx-react'
+import stateObjsMobx from '../../../../store/consent/objsConsent/objsCons.mobx';
+
 import CardMapInfo from "./CardMapComponents/CardMapInfo";
 
-// import flatten from 'lodash/flatten'
+let objAddress = ''
+
+
+const CardMapInfoWrap = observer(() => {
+
+    let [objBndS, setObjBndS] = useState([])
+    let [relBndS, setRelBndS] = useState([])
+
+    React.useEffect(() => {
+        console.log('stateObjsMobx.showMap',stateObjsMobx.showMap)
+        if(stateObjsMobx.showMap){
+            setObjBndS(stateObjsMobx.selBndForMap.objBnd)
+            setRelBndS(stateObjsMobx.selBndForMap.relBnd)
+        }
+    },[stateObjsMobx.showMap])
+
+    const setCurObj = () => {
+        console.log('setCurObj')
+    }
+
+    console.log('selectedObjs ', stateObjsMobx.selectedObjs )
+
+    return (<>
+        {stateObjsMobx.selectedObjs.obj.id && <CardMapInfo
+            objAddress={objAddress}
+            objBnd={objBndS} // stateObjsMobx.selBndForMap.objBnd
+            relBnd={relBndS}
+            bnd={stateObjsMobx.selBndForMap}
+            showMap={stateObjsMobx.showMap}
+            // recsDataP={'recsDataS'}
+            // recsBnd={reMapRecsDataS(flatArr, 'recsDataS'.length)}
+            setCurObj={setCurObj}
+        />}
+    </>)
+})
+
+
+
+export default  CardMapInfoWrap
+
+
+//
+// useEffect(() => {
+//     let  objCoordinate,  relCoordinate = []
+//
+//     if (fullDataOfActiveObForMapForRelatives) {
+//         let geoBndObj = geoBnd(fullDataOfActiveObForMapForRelatives)
+//         if (geoBndObj) {
+//             objAddress =  geoBndObj.objName
+//             objCoordinate = geoBndObj.objCoordinate
+//             setObjBndS(objCoordinate)
+//         }
+//
+//         if (relFullDataOfActiveObjS) {
+//             let geoBndRel = geoBnd(relFullDataOfActiveObjS)
+//             if (geoBndRel) {
+//                 relCoordinate = geoBndRel.objCoordinate
+//                 setRelBndS(relCoordinate)
+//             }
+//             // newMapObj77 = ObjCard(objName, objCoordinate, relCoordinate, recsDataS, objId, setCurObj)
+//             // setNewMapObj(newMapObj77)
+//         } else {
+//             // newMapObj77 = ObjCard(objName, objCoordinate, objCoordinate, recsDataS, objId, setCurObj)
+//         }
+//
+//     }
+//
+//
+// }, [fullDataOfActiveObForMapForRelatives, relFullDataOfActiveObjS, activeObjAndRelS, recsDataS,geoBnd])
+
+
+
+// const geoBnd = useCallback((objData) => {
+//     if (relFullDataOfActiveObjS) {
+//         if (objData && objData.obj_bounds) {
+//             let objBndTmp = objData.obj_bounds;
+//             let objName = objData.obj_name;
+//             // console.log('25 geoBnd',objData.obj_id)
+//             let objId = objData.obj_id
+//             if (objBndTmp) {
+//                 let geoArr = convertWT(objBndTmp.obj_bnd_geometry)
+//                 let objCoordinate = geoArr.coordinates;
+//                 return {objName, objCoordinate, objId}
+//             }
+//         } else {
+//             // console.log('56 geoBnd not data' )
+//             return null
+//         }
+//     } else {
+//         // console.log('567 geoBnd not data' )
+//         return null
+//     }
+//
+// },[relFullDataOfActiveObjS])
+
+
+
+
+// const mapStateToProps = createStructuredSelector({
+//     fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector,
+//     relFullDataOfActiveObjS: relFullDataOfActiveObjSelector, // данные для карты выделенного смежного объекта
+//     activeObjAndRelS: activeObjAndRelSelector, // данные для карты выделенного смежного объекта
+//     recsDataS: recsDataSelector, // события короткие данные для таблицы
+// });
+//
+// const mapDispatchToProps = (dispatch) => ({
+//     // fetchAuthUser: (userID) => dispatch(fetchAuthUserAsync(userID)),
+// });
+
 
 const reMapRecsDataS = (firstPointOfBnd, recsLength) => {
     // console.log('reMapRecsDataS - firstPointOfBnd', firstPointOfBnd)
@@ -43,107 +146,4 @@ const reMapRecsDataS = (firstPointOfBnd, recsLength) => {
     return newArr
 }
 
-let objAddress = ''
-const CardMapInfoWrap = ({
-                             fullDataOfActiveObForMapForRelatives,
-                             relFullDataOfActiveObjS,
-                             activeObjAndRelS,
-                             recsDataS
-                         }) => {
 
-    // let [newMapObj, setNewMapObj] = useState(<div>loading..</div>)
-    let [objBndS, setObjBndS] = useState([])
-    let [relBndS, setRelBndS] = useState([])
-
-    const geoBnd = useCallback((objData) => {
-        if (relFullDataOfActiveObjS) {
-            if (objData && objData.obj_bounds) {
-                let objBndTmp = objData.obj_bounds;
-                let objName = objData.obj_name;
-                // console.log('25 geoBnd',objData.obj_id)
-                let objId = objData.obj_id
-                if (objBndTmp) {
-                    let geoArr = convertWT(objBndTmp.obj_bnd_geometry)
-                    let objCoordinate = geoArr.coordinates;
-                    return {objName, objCoordinate, objId}
-                }
-            } else {
-                // console.log('56 geoBnd not data' )
-                return null
-            }
-        } else {
-            // console.log('567 geoBnd not data' )
-            return null
-        }
-
-    },[relFullDataOfActiveObjS])
-
-    const setCurObj = () => {
-        console.log('setCurObj')
-    }
-
-
-    useEffect(() => {
-        let  objCoordinate,  relCoordinate = []
-
-        if (fullDataOfActiveObForMapForRelatives) {
-            let geoBndObj = geoBnd(fullDataOfActiveObForMapForRelatives)
-            if (geoBndObj) {
-                objAddress =  geoBndObj.objName
-                objCoordinate = geoBndObj.objCoordinate
-                setObjBndS(objCoordinate)
-            }
-
-            if (relFullDataOfActiveObjS) {
-                let geoBndRel = geoBnd(relFullDataOfActiveObjS)
-                if (geoBndRel) {
-                    relCoordinate = geoBndRel.objCoordinate
-                    setRelBndS(relCoordinate)
-                }
-                // newMapObj77 = ObjCard(objName, objCoordinate, relCoordinate, recsDataS, objId, setCurObj)
-                // setNewMapObj(newMapObj77)
-            } else {
-                // newMapObj77 = ObjCard(objName, objCoordinate, objCoordinate, recsDataS, objId, setCurObj)
-            }
-
-        }
-
-
-    }, [fullDataOfActiveObForMapForRelatives, relFullDataOfActiveObjS, activeObjAndRelS, recsDataS,geoBnd])
-
-    if (!objBndS.length && !relBndS.length) {
-        return (<div>Loading..</div>)
-    }
-
-    // let fletenArr = flatten(flatten(objBndS));
-    let flattenArr1 = objBndS[0][0];
-    let flatArr = typeof flattenArr1[0] === "number" ? flattenArr1 : flattenArr1[0]
-    // console.log('77555 flatten objBndS', fFletArr)
-    // console.log('77555   recsDataS', recsDataS)
-
-    if ( !flatArr.length) {
-        return (<div>Loading2..</div>)
-    }
-    return (<CardMapInfo
-        objAddress={objAddress}
-        objBnd={objBndS}
-        relBnd={relBndS}
-        recsDataP={recsDataS}
-        recsBnd={reMapRecsDataS(flatArr, recsDataS.length)}
-        setCurObj={setCurObj}
-    />)
-};
-
-
-const mapStateToProps = createStructuredSelector({
-    fullDataOfActiveObForMapForRelatives: fullDataOfActiveObForMapForRelativesSelector,
-    relFullDataOfActiveObjS: relFullDataOfActiveObjSelector, // данные для карты выделенного смежного объекта
-    activeObjAndRelS: activeObjAndRelSelector, // данные для карты выделенного смежного объекта
-    recsDataS: recsDataSelector, // события короткие данные для таблицы
-});
-
-const mapDispatchToProps = (dispatch) => ({
-    // fetchAuthUser: (userID) => dispatch(fetchAuthUserAsync(userID)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CardMapInfoWrap);

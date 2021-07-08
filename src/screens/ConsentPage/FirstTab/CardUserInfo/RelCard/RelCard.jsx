@@ -39,12 +39,12 @@ const RelCard = observer(({length = null}) => {
                     <div>
                         <Avatar className={classes.MuiAvatarRoot}>
                             <HomeWorkIcon/>
-                            <ListItemText style={styleObjsAmount} secondary={stateObjsMobx.objectsData.amount}/>
+                            <ListItemText style={styleObjsAmount} secondary={stateObjsMobx.amRelOfObjectsData}/>
                         </Avatar>
                         <div style={styleObjs}>Смеж. объекты</div>
                     </div>
                 </ListItemAvatar>
-                <ListRel objects={stateObjsMobx.objsArr[11718].obj_relatives} curRelId={stateObjsMobx.curRelId}/>
+                <ListRel relatives={stateObjsMobx.objsArr[11718].obj_relatives} curRelId={stateObjsMobx.selectedObjs.rel.id} />
             </ListItem>
         </React.Fragment>
     );

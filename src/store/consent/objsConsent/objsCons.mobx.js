@@ -6,6 +6,8 @@ import {
     toJS
 } from "mobx"
 
+import {convertWT} from "./getBndConvert.mobx";
+
 
 import axios from "axios";
 
@@ -21,13 +23,14 @@ class ObjsMobX {
     successFetchObj;
     errorFetchObj;
     objectsData; // {9750: {}, 1020: {} }
+    amRelOfObjectsData; // {9750: {}, 1020: {} }
 
     objectsEvn; //{amount: 0,startFetch: false, successFetch: false, errorFetch: false};
 
     startFetchObjArr;
     successFetchObjArr;
     errorFetchObjArr;
-    objsArr;
+    objsArr;  // get bound by id
     relativesData;
     curObjId; // выделенный объект - выбранный пользователем /consent page 270521
     activeRelId; // выделенный объект - выбранный пользователем /consent page 270521
@@ -46,7 +49,8 @@ class ObjsMobX {
         this.successFetchObj = false;
         this.errorFetchObj = false;
         this.objectsData = {amount: 0};
-        
+        this.amRelOfObjectsData = 0;
+
         // relatives
 
         this.startFetchObjArr = false;
@@ -60,9 +64,11 @@ class ObjsMobX {
         this.selectedObjs = {obj: {id: 0, objName: ''}, rel: {id: 0, relName: ''}};
         // events
 
-        this.filterTypeEvents  = 0;
-        this.objectsEvn = {amount: 0,startFetch: false, successFetch: false, errorFetch: false};
-        this.selectedEvent =  {recId: 0, data: null};
+        this.filterTypeEvents = 0;
+        this.objectsEvn = {amount: 0, startFetch: false, successFetch: false, errorFetch: false};
+        this.selectedEvent = {recId: 0, data: null};
+
+        this.showMap = false;
 
         makeObservable(this, {
             successFetchOrg: observable,
@@ -75,6 +81,7 @@ class ObjsMobX {
             curRelId: observable,
             objectsEvn: observable,
             filterTypeEvents: observable,
+            showMap: observable,
 
             setStartFetchOrgData: action,
             setSuccessFetchOrgData: action,
@@ -82,13 +89,14 @@ class ObjsMobX {
             selectObj: action,
             selectRelObj: action,
             setStartFetchObjData: action,
-            setSuccessFetchObjData: action,
+            setObjLstData: action,
             setErrorFetchObjData: action,
             fetchOrgData: action,
             fetchObjData: action,
             fetchObjById: action,
             setFilterEvents: action,
             filterEvents: computed,
+            selBndForMap: computed,
         })
     }
 
@@ -101,35 +109,49 @@ class ObjsMobX {
     // objs this.objsArr[`${obj.obj_id}`] = obj
     async fetchObjById(objID) {
         if (this.objsArr[objID]) {
-            console.log('fetchObjById - такие данные уже есть',objID)
+            console.log('fetchObjById - такие данные уже есть', objID)
         } else {
             const {data} = await axios.post('https://ismggt.ru/query/object/data', {"objID": objID})
-            console.log('332 fetchObjById - data',data.data)
+            console.log('332 fetchObjById - data', data.data)
             // this.setSuccessFetchOrgData(data.data)
 
         }
     }
 
-   
+
     setFilterEvents(type = 0) {
         this.filterTypeEvents = type
         // console.log('setFilterEvents ',this.filterTypeEvents)
     }
 
+    get selBndForMap() {
+
+        const resBnd = {}
+        let objID = this.selectedObjs.obj.id
+        let relID = this.selectedObjs.rel.id
+
+        resBnd.objBnd = this.objsArr[objID] ? this.objsArr[objID].objBnd : null
+        resBnd.relBnd = this.objsArr[relID] ? this.objsArr[relID].objBnd : null
+        console.log('selBndForMap', resBnd)
+
+        return resBnd
+    }
+
+
     get filterEvents() {
-        if(this.filterTypeEvents === 0){
+        if (this.filterTypeEvents === 0) {
             return this.objectsEvn
-        }else if(this.filterTypeEvents === 2){
+        } else if (this.filterTypeEvents === 2) {
             let newRecs = this.objectsEvn.data.recs.filter(rec => rec.rec_status === 5)
             let newData = {recs: newRecs}
             // let newEvent = {...this.objectsEvn, amount: newRecs.length, data: newData }
-            return {...this.objectsEvn, amount: newRecs.length, data: newData }
-        }else if(this.filterTypeEvents === 1){
-            let newRecs = this.objectsEvn.data.recs.filter(rec => ( (rec.receip.objectID === this.selectedObjs.obj.id || rec.sender.objectID === this.selectedObjs.obj.id)
-                                                                 && (rec.receip.objectID === this.selectedObjs.rel.id || rec.sender.objectID === this.selectedObjs.rel.id ) ) )
+            return {...this.objectsEvn, amount: newRecs.length, data: newData}
+        } else if (this.filterTypeEvents === 1) {
+            let newRecs = this.objectsEvn.data.recs.filter(rec => ((rec.receip.objectID === this.selectedObjs.obj.id || rec.sender.objectID === this.selectedObjs.obj.id)
+                && (rec.receip.objectID === this.selectedObjs.rel.id || rec.sender.objectID === this.selectedObjs.rel.id)))
             let newData = {recs: newRecs}
             // let newEvent = {...this.objectsEvn, amount: newRecs.length, data: newData }
-            return   {...this.objectsEvn, amount: newRecs.length, data: newData }
+            return {...this.objectsEvn, amount: newRecs.length, data: newData}
         }
         return this.objectsEvn
     }
@@ -163,12 +185,17 @@ class ObjsMobX {
     selectObj(objId, objName = '') {
         this.selectedObjs['obj'] = {id: objId, objName: objName}
         this.curObjId = objId;
+        this.showMap = true
     }
 
     selectRelObj(objId, relName = '') {
         this.selectedObjs['rel'] = {id: objId, relName: relName}
-        // console.log('this.selectedObjs', this.selectedObjs)
         this.curRelId = objId;
+        // console.log('this.selectedObjs', this.selectedObjs)
+    }
+
+    extractSessionStorage(data) {
+        this.selectedObjs = data
     }
 
     setStartFetchObjData() {
@@ -177,26 +204,41 @@ class ObjsMobX {
         this.errorFetchObj = false
     }
 
-    setSuccessFetchObjData(obj) {
+    setObjLstData(obj) {
         this.startFetchObj = false
         this.successFetchObj = true
         this.errorFetchObj = false
-        //this.objectsData = {amount: 0};
-        this.objectsData = obj
-        this.selectObj(obj.data.objects[0].objID, obj.data.objects[0].objName )
-        // console.log(' stateObjsMobx ',toJS(stateObjsMobx))
-        // console.log(' 55 obj ',obj)
-    }
-    
 
-    upendObjArr(obj) {
-        // console.log('upendObjArr',obj)
+        this.objectsData = obj
+        this.selectObj(obj.data.objects[0].objID, obj.data.objects[0].objName)
+        this.amRelOfObjectsData = obj.data.objects[0].objRelatives ? obj.data.objects[0].objRelatives.length : 0
+    }
+
+
+    upendObjArrSessionExtract(objsSession) {
         this.startFetchObjArr = false
         this.successFetchObjArr = true
         this.errorFetchObjArr = false
-        this.objsArr[`${obj.obj_id}`] = obj
-        this.selectRelObj(obj.obj_relatives[0].obj_rel_id, obj.obj_relatives[0].obj_rel_name)
-        console.log(' stateObjsMobx ',toJS(stateObjsMobx))
+        this.objsArr = objsSession
+        console.log('toJS(stateObjsMobx)', toJS(stateObjsMobx))
+    }
+
+    upendObjArr(obj) {
+        console.log('upendObjArr', obj)
+        this.startFetchObjArr = false
+        this.successFetchObjArr = true
+        this.errorFetchObjArr = false
+        let resConvert = convertWT(obj.obj_bounds.obj_bnd_geometry)
+        if (resConvert) {
+            let newObj = {...obj, objBnd: resConvert}
+            this.objsArr[`${obj.obj_id}`] = newObj
+        } else {
+            this.objsArr[`${obj.obj_id}`] = obj
+        }
+        sessionStorage.setItem('objsArrData', JSON.stringify(this.objsArr))
+        // this.selectRelObj(obj.obj_relatives[0].obj_rel_id, obj.obj_relatives[0].obj_rel_name)
+
+        console.log(' stateObjsMobx ', toJS(stateObjsMobx))
     }
 
     setErrorFetchObjData(mess) {
@@ -208,13 +250,24 @@ class ObjsMobX {
 
     // events
     setSuccessFetchEvents(data) {
-        console.log('setSuccessFetchEvents',data)
-        this.objectsEvn = {amount: data.amount ,startFetch: false, successFetch: true, errorFetch: false, data: data.data}; 
-        console.log('toJS(stateObjsMobx)',toJS(stateObjsMobx))
+        // console.log('setSuccessFetchEvents', data)
+        this.objectsEvn = {
+            amount: data.amount,
+            startFetch: false,
+            successFetch: true,
+            errorFetch: false,
+            data: data.data
+        };
+        // console.log('toJS(stateObjsMobx)', toJS(stateObjsMobx))
     }
 
     setErrorFetchEvents(mess) {
-        this.objectsEvn = {amount: 0 ,startFetch: false, successFetch: false, errorFetch: mess, data: null}; 
+        this.objectsEvn = {amount: 0, startFetch: false, successFetch: false, errorFetch: mess, data: null};
+    }
+
+    // bound for map
+    getBndById(idObj) {
+
     }
 
 }
@@ -225,36 +278,35 @@ let stateObjsMobx = new ObjsMobX();
 stateObjsMobx.fetchOrgData = fetchOrgDataA
 stateObjsMobx.fetchObjData = fetchObjDataA
 
-window.stateObjs =  stateObjsMobx
+window.stateObjs = stateObjsMobx
 window.toJS = toJS
 
 // window.stateObjs = toJS(stateObjsMobx)
 export default stateObjsMobx
 
 
-
- // objs this.objsArr[`${obj.obj_id}`] = obj
-    // fetchObjById(objID) {
-    //     if (this.objsArr[objID]) {
-    //         console.log('fetchObjById - такие данные уже есть',objID)
-    //     } else {
-    //         axios.post('https://ismggt.ru/query/object/data', {"objID": objID})
-    //             .then(({data}) => {
-    //                 console.log('23 fetchObjById -- then data', data.data)
-    //                 sessionStorage.setItem('objsDataOfAuthUser', JSON.stringify(data.data))
-    //                     // this.setSuccessFetchObjArr(data)
-    //                 this.setSuccessFetchObjArr(data.data)
-    //             })
-    //         // console.log('fetchObjById - data',data.data)
-    //
-    //     }
-    // }
+// objs this.objsArr[`${obj.obj_id}`] = obj
+// fetchObjById(objID) {
+//     if (this.objsArr[objID]) {
+//         console.log('fetchObjById - такие данные уже есть',objID)
+//     } else {
+//         axios.post('https://ismggt.ru/query/object/data', {"objID": objID})
+//             .then(({data}) => {
+//                 console.log('23 fetchObjById -- then data', data.data)
+//                 sessionStorage.setItem('objsDataOfAuthUser', JSON.stringify(data.data))
+//                     // this.setSuccessFetchObjArr(data)
+//                 this.setSuccessFetchObjArr(data.data)
+//             })
+//         // console.log('fetchObjById - data',data.data)
+//
+//     }
+// }
 
 
 // setSuccessFetchObjArr(data) {
-        // this.startFetchObj = false
-        // this.successFetchObj = true
-        // this.errorFetchObj = false
-        // this.objectsData = data
-        // this.curObjId = data.data.objects[0].objID
-    // }
+// this.startFetchObj = false
+// this.successFetchObj = true
+// this.errorFetchObj = false
+// this.objectsData = data
+// this.curObjId = data.data.objects[0].objID
+// }

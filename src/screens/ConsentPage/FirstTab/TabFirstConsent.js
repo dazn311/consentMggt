@@ -6,7 +6,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import CardUserInfo from "./CardUserInfo/CardUserInfo";
 import EventsObj from "./eventsObj/index";
-//
+
 import ChatEvents from "./ChatEvents/index";
 import CardMapInfo from "./CardMapInfo/index";
 
@@ -42,16 +42,15 @@ const TabFirstConsent = () => {
                     {isOpened.lPanel ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
                 </IconButton>
                 <div style={{opacity: isOpened.lPanel ? 1 : .1}}>
-
                     <CardUserInfo/>
                 </div>
             </div>
 
-            <div className="CardMapInfo" style={styleCardMapInfo}>
+            <div className="tab1__card-map-info" style={styleCardMapInfo}>
                 <CardMapInfo/>
             </div>
 
-            <div className="EventsObj"
+            <div className="tab1__events-obj"
                  style={{...styleEventsObj, maxWidth: isOpened.evn ? 400 : 78, minWidth: isOpened.evn ? 390 : 76}}>
                 <IconButton onClick={switchOpenEvn} color="primary" style={styleIconButton}>
                     {isOpened.evn ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
@@ -60,7 +59,7 @@ const TabFirstConsent = () => {
                 <EventsObj visableBtn={isOpened.evn}/>
             </div>
 
-            <div className="ChatEvents"  style={{...styleChatEvents, maxWidth: isOpened.chat ? 400 : 78, minWidth: isOpened.chat ? 390 : 76}}>
+            <div className="tab1__chat-events"  style={{...styleChatEvents, maxWidth: isOpened.chat ? 400 : 78, minWidth: isOpened.chat ? 390 : 76}}>
                 <IconButton onClick={switchOpenChat} color="primary" style={styleIconButton}>
                     {isOpened.chat ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
                 </IconButton>
