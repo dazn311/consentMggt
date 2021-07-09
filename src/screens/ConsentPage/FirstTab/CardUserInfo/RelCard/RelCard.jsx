@@ -14,7 +14,7 @@ import LoaderList from "../components/LoaderList";
 import {ListRel} from "./companentsRel/ListRel";
 
 const styleObjs = {
-    marginLeft: 4, borderLeft: '1px solid grey', paddingLeft: 4,
+    marginLeft: 4, borderLeft: '1px solid grey', paddingLeft: 4 , whiteSpace: 'nowrap',
     transform: 'rotate(-90deg)', position: 'absolute', left: 4, top: 100
 }
 const styleObjsAmount = {position: 'absolute', color: 'yellowgreen', bottom: -24}
@@ -24,12 +24,10 @@ const RelCard = observer(({length = null}) => {
     const classes = useStyles();
     // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
 
-
     if (!stateObjsMobx.successFetchObjArr || !stateObjsMobx.objsArr[11718]) {
         return <LoaderList title={'загрузка смеж.объектов...'}/>
     } else {
         // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
-
     }
 
     return (

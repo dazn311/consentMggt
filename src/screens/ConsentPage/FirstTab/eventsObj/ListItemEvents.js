@@ -5,28 +5,12 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import ElemEventObj from "./ElemEventObj";
 
-const ListItemEvents = ({ eventsList, visibleList = true }) => {
+const ListItemEvents = ({ selEvnId, activeId, eventsList, visibleList = true }) => {
   // console.log("eventsList", eventsList);
   return (
-    <ListItemText disableTypography style={{ maxHeight: 500, overflow: visibleList ? "auto" : "auto", maxWidth: visibleList ? 420 : 2,
-        // , maxWidth : 420
-        // , display: visibleList ? 'block' : 'none'
+    <ListItemText disableTypography style={{ maxHeight: 500, overflow: visibleList ? "auto" : "auto", maxWidth: visibleList ? 420 : 0,
         transition: "all 0.5s ease-out",
-      }}
-      // primary="Сотытия объекта"
-      secondary={
-        // <EventsList  eventsList={eventsList} />}
-        eventsList.map((ev) => { return <ElemEventObj key={uuIdv4()} event={ev} />  })
-      }
-    />
-
-    // <div >
-    //     {eventsList.length &&
-    //     eventsList.map(ev => {
-    //         return <ElemEventObj  event={ev} />
-    //     })
-    //     }
-    // </div>
+      }} secondary={  eventsList.map((ev) => <ElemEventObj key={uuIdv4()} selEvnId={selEvnId} activeId={activeId} event={ev} /> ) } />
   );
 };
 

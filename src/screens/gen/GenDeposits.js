@@ -6,7 +6,7 @@ import moment from 'moment/moment';
 // import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { Slide } from "@material-ui/core";
+// import { Slide } from "@material-ui/core";
 
 
 import Title from './Title';

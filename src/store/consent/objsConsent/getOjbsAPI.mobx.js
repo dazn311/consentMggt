@@ -1,11 +1,12 @@
 import axios from "axios";
 import {runInAction} from "mobx";
+// import stateObjsMobx from "./objsCons.mobx";
 
 const lstData = {
     objsLst: {
         url: 'https://ismggt.ru/query/objects/list',
         data: {
-            "objectType": 2, "organization": 0, "limit": 100, "offset": 0, "startDate": "2021-01-01",
+            "objectType": 2, "organization": 0, "limit": 200, "offset": 0, "startDate": "2021-01-01",
             "endDate": '', "objName": "", "orgName": '', "objKind": "", "objStatus": 10,
             "sortCol": "date", "sortType": "desc"
         },
@@ -38,7 +39,9 @@ export function fetchOrgDataA(userID) {
                     console.log('fetchOrgData -- then data', data[0])
                     sessionStorage.setItem('orgData', JSON.stringify(data[0]))
                     runInAction(() => {
-                        this.setSuccessFetchOrgData(data[0])
+                        this.setSuccessFetchOrgData()
+                        this.updateOrgData(data[0])
+                        this.fetchObjData(data[0].org_name)
                     })
                 })
                 .catch(error => {
@@ -49,8 +52,10 @@ export function fetchOrgDataA(userID) {
         } else {
             runInAction(() => {
                 let dataLocal = JSON.parse(orgData)
-                console.log('fetchOrgData -- then data', dataLocal)
-                this.setSuccessFetchOrgData(dataLocal)
+                // console.log('fetchOrgData -- then data 2', dataLocal)
+                this.setSuccessFetchOrgData()
+                this.updateOrgData(dataLocal)
+                this.fetchObjData(dataLocal.org_name)
             })
         }
     } catch (e) {
@@ -88,24 +93,6 @@ const fetchParam = ({typeF = '', dataFetch = {}}) => new Promise((resolve, rejec
     return false
 })
 //
-// export function startFetchA(orgName) {
-//     let res = {}
-//
-//     return fetchParam({typeF: 'objsLst', dataFetch: {orgName: orgName}})
-//         .then(objsLstRes => {
-//             res.objsLstData = objsLstRes
-//             return fetchParam({typeF: 'objData', dataFetch: {objID: objsLstRes.data.objects[0].objID}})
-//         })
-//         .then(objDataRes => {
-//             res.objData = objDataRes
-//             return fetchParam({typeF: 'recsLst', dataFetch: {objID: objDataRes.data.obj_id}})
-//         })
-//         .then(recsLstRes => {
-//             res.recsData = recsLstRes
-//             return res;
-//         })
-//         .catch(e => console.log(e))
-// }
 
 export function startFetchA(orgName) {
     let res = {}
@@ -154,9 +141,9 @@ export function fetchObjDataA(orgName) {
                     console.log('44res', res)
                     runInAction(() => {
                         this.setObjLstData(res.objsLstData)
-                        this.upendObjArr(res.objData.data)
+                        this.appendObjArr(res.objData.data)
                         if(res.relData){
-                            this.upendObjArr(res.relData.data)
+                            this.appendObjArr(res.relData.data)
                             this.selectRelObj(res.relData.data.obj_id, res.relData.data.obj_name)
                         }else {
                             this.selectRelObj(0, 'is not rel of this obj')
@@ -180,7 +167,7 @@ export function fetchObjDataA(orgName) {
                 let selectedObjsData = sessionStorage.getItem('selectedObjs')
 
                 this.setObjLstData(JSON.parse(objsLstData))
-                this.upendObjArrSessionExtract(JSON.parse(objData))
+                this.appendObjArrSessionExtract(JSON.parse(objData))
                 this.setSuccessFetchEvents(JSON.parse(recsData))
 
                 this.extractSessionStorage(JSON.parse(selectedObjsData))
@@ -195,5 +182,5 @@ export function fetchObjDataA(orgName) {
     }
 }
 
-
-export default {fetchOrgDataA, fetchObjDataA}
+const FetchFunc = {fetchOrgDataA, fetchObjDataA}
+export default FetchFunc

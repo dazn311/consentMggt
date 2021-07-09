@@ -22,26 +22,14 @@ import {useStyles} from "../cardUserComponents/ElemObj";
 const OrgCardConsent = observer(() => {
     const classes = useStyles();
 
-    useEffect(() => {
-        stateObjsMobx.fetchOrgData(531);
-    }, [])
-
-    useEffect(() => {
-        if (stateObjsMobx.successFetchOrg && !stateObjsMobx.successFetchObj) {
-            stateObjsMobx.fetchObjData(stateObjsMobx.orgData.org_name)
-        }
-    }, [stateObjsMobx.successFetchOrg])
-
-    if (!stateObjsMobx.orgData) {
-
-        return (<div>нет данных об организации</div>)
-    }
     if (stateObjsMobx.errorFetchOrg) {
         return (<div>Ошибка {stateObjsMobx.errorFetchOrgMessage}</div>)
     }
 
     if (stateObjsMobx.successFetchOrg) {
-        console.log('successFetchOrg',stateObjsMobx.successFetchOrg)
+        // console.log('successFetchOrg',stateObjsMobx.successFetchOrg)
+    }else {
+        return (<div>нет данных об организации..</div>)
     }
 
 
@@ -111,3 +99,21 @@ const OrgCardConsent = observer(() => {
 })
 
 export default OrgCardConsent
+
+
+
+// useEffect(() => {
+//     stateObjsMobx.fetchOrgData(531);
+// }, [])
+//
+// useEffect(() => {
+//     if (stateObjsMobx.successFetchOrg && !stateObjsMobx.successFetchObj) {
+//         stateObjsMobx.fetchObjData(stateObjsMobx.orgData.org_name)
+//     }
+// }, [stateObjsMobx.successFetchOrg])
+
+// console.log('stateObjsMobx.orgData',stateObjsMobx.orgData)
+// if (!stateObjsMobx.orgData) {
+//
+//     return (<div>нет данных об организации</div>)
+// }

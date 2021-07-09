@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from "react";
+import React  from "react";
 
 import ClearIcon from "@material-ui/icons/Clear";
 import CallMergeIcon from "@material-ui/icons/CallMerge";
@@ -7,7 +7,7 @@ import {Tooltip} from "@material-ui/core";
 
 const FilterBnt = ({eventsFilterID = 0, setFilterType}) => {
     return (
-        <div style={{marginLeft: -30, bottom: 0, display: "flex", flexDirection: "column", position: 'absolute'}}>
+        <div className='filter-bnt' style={{marginLeft: -30, bottom: 0, display: "flex", flexDirection: "column", position: 'absolute'}}>
             <Tooltip title={"Все события выбранного объекта"}>
                 <ClearIcon style={{color: eventsFilterID === 0 ? "greenyellow" : "grey", cursor: "pointer"}}
                            onClick={() => setFilterType(0)}/>

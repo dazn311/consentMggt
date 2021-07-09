@@ -62,17 +62,20 @@ class ObjsMobX {
 
         this.curRelId = null; // выделенный объект - выбранный пользователем /consent page 270521
         this.selectedObjs = {obj: {id: 0, objName: ''}, rel: {id: 0, relName: ''}};
-        // events
 
-        this.filterTypeEvents = 0;
+        // events
+        this.filterTypeEvents = 0; // 0 | 1 | 2
         this.objectsEvn = {amount: 0, startFetch: false, successFetch: false, errorFetch: false};
         this.selectedEvent = {recId: 0, data: null};
 
         this.showMap = false;
 
         makeObservable(this, {
+            // organisation
             successFetchOrg: observable,
+            orgData: observable,
             errorFetchOrg: observable,
+
             successFetchObj: observable,
             errorFetchObj: observable,
             successFetchObjArr: observable,
@@ -82,6 +85,8 @@ class ObjsMobX {
             objectsEvn: observable,
             filterTypeEvents: observable,
             showMap: observable,
+
+            selectedEvent: observable,
 
             setStartFetchOrgData: action,
             setSuccessFetchOrgData: action,
@@ -94,8 +99,10 @@ class ObjsMobX {
             fetchOrgData: action,
             fetchObjData: action,
             fetchObjById: action,
+
             setFilterEvents: action,
             filterEvents: computed,
+
             selBndForMap: computed,
         })
     }
@@ -109,11 +116,11 @@ class ObjsMobX {
     // objs this.objsArr[`${obj.obj_id}`] = obj
     async fetchObjById(objID) {
         if (this.objsArr[objID]) {
-            console.log('fetchObjById - такие данные уже есть', objID)
+            // console.log('fetchObjById - такие данные уже есть', objID)
         } else {
             const {data} = await axios.post('https://ismggt.ru/query/object/data', {"objID": objID})
             console.log('332 fetchObjById - data', data.data)
-            // this.setSuccessFetchOrgData(data.data)
+            this.setSuccessFetchOrgData(data.data)
 
         }
     }
@@ -132,7 +139,7 @@ class ObjsMobX {
 
         resBnd.objBnd = this.objsArr[objID] ? this.objsArr[objID].objBnd : null
         resBnd.relBnd = this.objsArr[relID] ? this.objsArr[relID].objBnd : null
-        console.log('selBndForMap', resBnd)
+        // console.log('selBndForMap', resBnd)
 
         return resBnd
     }
@@ -166,12 +173,15 @@ class ObjsMobX {
         this.errorFetchOrg = false
     }
 
-    setSuccessFetchOrgData(data) {
+    setSuccessFetchOrgData() {
         this.startFetchOrg = false
         this.successFetchOrg = true
         this.errorFetchOrg = false
-        this.orgData = data
         // this.fetchObjById(11718)
+    }
+
+    updateOrgData(data) {
+        this.orgData = data
     }
 
     setErrorFetchOrgData(mess) {
@@ -215,16 +225,16 @@ class ObjsMobX {
     }
 
 
-    upendObjArrSessionExtract(objsSession) {
+    appendObjArrSessionExtract(objsSession) {
         this.startFetchObjArr = false
         this.successFetchObjArr = true
         this.errorFetchObjArr = false
         this.objsArr = objsSession
-        console.log('toJS(stateObjsMobx)', toJS(stateObjsMobx))
+        // console.log('toJS(stateObjsMobx)', toJS(stateObjsMobx))
     }
 
-    upendObjArr(obj) {
-        console.log('upendObjArr', obj)
+    appendObjArr(obj) {
+        console.log('appendObjArr', obj)
         this.startFetchObjArr = false
         this.successFetchObjArr = true
         this.errorFetchObjArr = false
@@ -238,7 +248,7 @@ class ObjsMobX {
         sessionStorage.setItem('objsArrData', JSON.stringify(this.objsArr))
         // this.selectRelObj(obj.obj_relatives[0].obj_rel_id, obj.obj_relatives[0].obj_rel_name)
 
-        console.log(' stateObjsMobx ', toJS(stateObjsMobx))
+        // console.log(' stateObjsMobx ', toJS(stateObjsMobx))
     }
 
     setErrorFetchObjData(mess) {

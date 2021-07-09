@@ -6,7 +6,7 @@ import {Paper} from "@material-ui/core";
 
 //objects={stateObjsMobx.objsArr[11718].obj_relatives}
 export const ListRel = ({relatives = [],curRelId = 0}) => {
-    console.log('curRel', curRelId)
+    // console.log('curRel', curRelId)
     return (
         <Paper elevation={1}>
             <div style={{maxHeight: 280, overflow: 'auto'}}>

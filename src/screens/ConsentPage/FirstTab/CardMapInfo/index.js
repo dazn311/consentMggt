@@ -13,7 +13,7 @@ const CardMapInfoWrap = observer(() => {
     let [relBndS, setRelBndS] = useState([])
 
     React.useEffect(() => {
-        console.log('stateObjsMobx.showMap',stateObjsMobx.showMap)
+        // console.log('stateObjsMobx.showMap',stateObjsMobx.showMap)
         if(stateObjsMobx.showMap){
             setObjBndS(stateObjsMobx.selBndForMap.objBnd)
             setRelBndS(stateObjsMobx.selBndForMap.relBnd)
@@ -24,7 +24,7 @@ const CardMapInfoWrap = observer(() => {
         console.log('setCurObj')
     }
 
-    console.log('selectedObjs ', stateObjsMobx.selectedObjs )
+    // console.log('selectedObjs ', stateObjsMobx.selectedObjs )
 
     return (<>
         {stateObjsMobx.selectedObjs.obj.id && <CardMapInfo

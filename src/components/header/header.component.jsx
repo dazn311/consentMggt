@@ -2,28 +2,27 @@ import React from "react";
 import {
     BrowserRouter as
         // eslint-disable-next-line no-unused-vars
-        Switch, useLocation
+        Switch, useLocation, useHistory
 } from "react-router-dom";
 // import { Link } from "react-router-dom";
 
 import { connect } from 'react-redux';
 
 import AppBar from '@material-ui/core/AppBar';
+import Drawer from '@material-ui/core/Drawer';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import Typography from '@material-ui/core/Typography';
-import clsx from 'clsx';
-import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import List from '@material-ui/core/List';
-
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
+import { makeStyles, useTheme, withStyles } from '@material-ui/core/styles';
 
+import clsx from 'clsx';
 
 import MainListItems  from './listItems';
 import   ThemeItem   from './ThemeItems';
@@ -188,6 +187,7 @@ const Header = ({ currentUser, children, setTheme }) => {
     const [headerTitle, setHeaderTitle] = React.useState('Главная страница');
     const classes = useStyles();
 
+    let history = useHistory();
     const theme = useTheme();
     // const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -200,7 +200,9 @@ const Header = ({ currentUser, children, setTheme }) => {
         const headTitleCur2 = location.pathname.split('/')[2];
         const headTitleCur = location.pathname.split('/').pop();
 
-        console.log('headTitleCur2',headTitleCur2);
+        console.log('headTitleCur2',!!headTitleCur2);
+        console.log('headTitleCur',headTitleCur);
+        console.log('location.pathname',location.pathname);
 
         if (headTitleCur2 === 'ogh') {
             setHeaderTitle('События')
@@ -218,8 +220,9 @@ const Header = ({ currentUser, children, setTheme }) => {
             setHeaderTitle('Основная статистика')
         }else if (headTitleCur === 'consent') {
             setHeaderTitle('Согласование объектов')
-        }else if (headTitleCur === 'stats') {
-            setHeaderTitle('Главная страница')
+        }else if (!headTitleCur2) {
+            setHeaderTitle('Согласование объектов')
+            history.push('/stats/consent')
         }
 
         setOpen(false);

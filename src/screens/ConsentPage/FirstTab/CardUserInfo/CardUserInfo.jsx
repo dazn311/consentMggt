@@ -32,7 +32,7 @@ const CardUserInfo = ( ) => {
                     <ObjsCard  />
                 </List>
                 <List className={classes.root} style={{maxHeight: isOpened.rel ? 300 : 40}} >  
-                    <IconButton  onClick={switchOpenRel}  color="primary"  style={{position: 'absolute', top: 4,left: 0, padding: 4,cursor: 'pointer',zIndex: 1}}>
+                    <IconButton  onClick={switchOpenRel}  color="primary"  style={{position: 'absolute', top: 4,left: 0, padding: 4, cursor: 'pointer',zIndex: 1}}>
                         {isOpened.rel ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                     </IconButton> 
                     <RelCard />

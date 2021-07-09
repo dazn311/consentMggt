@@ -59,6 +59,6 @@ export const useStyles = makeStyles((theme) => ({
         borderRadius: '50%',
         justifyContent: 'center'
     },
-    ListItemTextRelObjs: {position: 'absolute', color: 'yellowgreen', bottom: -24},
+    ListItemTextRelObjs: {position: 'absolute', color: 'yellowgreen', bottom: -24, left: 16},
     ListItemTextButtonOpen: {position: 'absolute', color: 'yellowgreen', bottom: 34},
 }));

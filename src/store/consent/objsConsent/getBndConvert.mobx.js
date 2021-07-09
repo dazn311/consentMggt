@@ -69,6 +69,7 @@ export const convertWT = memoize((multiPolGeo) => {
                             return ')'
                         }
                     }
+                return ''
             case ',':
                 keyX = true
                 if (strX === '') {
@@ -95,6 +96,7 @@ export const convertWT = memoize((multiPolGeo) => {
                             return  ','
                         }
                     }
+                return ''
             case ' ':
                 keyX = false;
                 lastChar = charElement;

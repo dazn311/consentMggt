@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 // import {TransitionGroup} from 'react-transition-group'
+import RoutApp from './RoutApp'
 
 import {createMuiTheme, ThemeProvider, makeStyles} from '@material-ui/core/styles';
 import {ruRU} from '@material-ui/core/locale';
@@ -105,49 +106,7 @@ const App = () => {
     return (
         <ThemeProvider theme={darkThemeS ? darkTheme : lightTheme}>
             <div className={classes.root}>
-                {/*<TransitionGroup timeout={150}>*/}
-                <Router>
-                    <Header setTheme={setTheme}/>
-                    {/*<div className={classes.container}>*/}
-
-                    <Switch>
-                        <Route exact path="/stats/consent">
-                            <ConsentPage/>
-                        </Route>
-                        <Route exact path="/stats/ogh">
-                            <HistoriesChange/>
-                        </Route>
-                        <Route path="/stats/user/:iduser"
-                               render={props => <UserDetails {...props} />}>
-                            {/* <UserDetails /> */}
-                        </Route>
-                        <Route exact path="/stats/users">
-                            <UsersPage/>
-                        </Route>
-                        <Route path="/stats/obj/:idobj">
-                            <ObjCard/>
-                        </Route>
-                        <Route exact path="/stats/objs">
-                            <ObjPage/>
-                        </Route>
-                        <Route path="/stats/gen">
-                            <GeneralPage/>
-                        </Route>
-                        <Suspense fallback={<div>..Loading suspense</div>}>
-                            <Route exact path="/stats/dash">
-                                <Dashboard/>
-                            </Route>
-                        </Suspense>
-                        <Route exact path="/">
-                            <Redirect from='/' to="/stats/consent"/>
-                        </Route>
-                    </Switch>
-
-                    <Box pt={2} pb={2}>
-                        <Footer/>
-                    </Box>
-                </Router>
-                {/*</TransitionGroup>*/}
+                <RoutApp setTheme={setTheme} />
             </div>
         </ThemeProvider>
     );
