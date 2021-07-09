@@ -84,7 +84,12 @@ async function getMessagesByEventId(evId){
 const app = express();
 app.use(cors())
 app.use(express.json()); //work
+app.use(function (req, res, next){
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    next()
+}); //work
 
+///res.setHeader('Access-Control-Allow-Origin', '*')
 const server = http.createServer(app);
 
 

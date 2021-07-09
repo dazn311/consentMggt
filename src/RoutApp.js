@@ -1,4 +1,4 @@
-import React, {lazy, useState, Suspense} from 'react';
+import React, {lazy,  Suspense} from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -9,11 +9,11 @@ import Box from '@material-ui/core/Box';
 
 // import './App.styles.scss';
 
-import Header from './components/header/header.component';
 
 // import { fetchCurrentUserAsync } from './store/user/user.actions'
 
 
+import Header from './components/header/header.component';
 // import Dashboard from './screens/dashboard';
 import HistoriesChange from './screens/historyChanges/index';
 import UsersPage from './screens/usersPage/index';
@@ -23,7 +23,6 @@ import ObjCard from './screens/objCard';
 import GeneralPage from './screens/gen';
 import Footer from './components/footer';
 import ConsentPage from "./screens/ConsentPage/ConsentPage";
-import path from "path";
 
 const Dashboard = lazy(() =>
     import('./screens/dashboard')
@@ -33,7 +32,6 @@ const RoutApp = ({setTheme}) => {
     console.log('reload RoutApp')
     return (
         <Router>
-
             <Header setTheme={setTheme}/>
             <Switch>
                 <Route exact path="/stats/consent">
@@ -64,8 +62,6 @@ const RoutApp = ({setTheme}) => {
                     </Route>
                 </Suspense>
                 <Route exact path="/stats">
-                    {/*{console.log(path)}*/}
-                    {/*<ConsentPage/>*/}
                     <Redirect from='/stats' to="/stats/consent"/>
                 </Route>
                 <Route exact path="/">

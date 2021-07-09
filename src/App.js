@@ -1,40 +1,12 @@
-import React, {lazy, useState, Suspense} from 'react';
-// import { connect } from 'react-redux';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route, Redirect
-} from "react-router-dom";
+import React, { useState } from 'react';
 
-// import {TransitionGroup} from 'react-transition-group'
-import RoutApp from './RoutApp'
 
 import {createMuiTheme, ThemeProvider, makeStyles} from '@material-ui/core/styles';
 import {ruRU} from '@material-ui/core/locale';
-import Box from '@material-ui/core/Box';
 import {lightBlue} from '@material-ui/core/colors';
 
 import './App.styles.scss';
-
-import Header from './components/header/header.component';
-
-// import { fetchCurrentUserAsync } from './store/user/user.actions'
-
-
-// import Dashboard from './screens/dashboard';
-import HistoriesChange from './screens/historyChanges/index';
-import UsersPage from './screens/usersPage/index';
-import UserDetails from './screens/userDetails';
-import ObjPage from './screens/objPage';
-import ObjCard from './screens/objCard';
-import GeneralPage from './screens/gen';
-import Footer from './components/footer';
-import ConsentPage from "./screens/ConsentPage/ConsentPage";
-// import {Paper} from "@material-ui/core";
-
-const Dashboard = lazy(() =>
-    import('./screens/dashboard')
-)
+import RoutApp from './RoutApp'
 
 const darkTheme = createMuiTheme({
     palette: {
@@ -50,6 +22,7 @@ const darkTheme = createMuiTheme({
             // dark: blueGrey[700]
         },
         background: {
+            default: '#303030',
             // default: lightGreen[900],
             // paper: 'grey',
         },
@@ -57,6 +30,7 @@ const darkTheme = createMuiTheme({
         purple: '#a4a5d8',
         type: 'dark'
     },
+
 
 }, ruRU);
 
@@ -71,7 +45,7 @@ const lightTheme = createMuiTheme({
             main: lightBlue[500],
         },
         background: {
-            // default: lightGreen[900],
+            default: 'white',
             // paper: 'grey',
         },
         redLight: 'rgb(234 128 128 / 60%)',
@@ -97,15 +71,16 @@ const useStyles = makeStyles((theme) => ({
 
 const App = () => {
     const [darkThemeS, setDarkThemeS] = useState(true);
+    const [themeS, setThemeS] = useState(darkTheme);
     const classes = useStyles();
 
     const setTheme = () => {
-        setDarkThemeS(!darkThemeS);
+        setThemeS(lightTheme);
     }
     console.log('reload app')
     return (
-        <ThemeProvider theme={darkThemeS ? darkTheme : lightTheme}>
-            <div className={classes.root}>
+        <ThemeProvider theme={themeS}>
+            <div id='app-f' className={classes.root}>
                 <RoutApp setTheme={setTheme} />
             </div>
         </ThemeProvider>

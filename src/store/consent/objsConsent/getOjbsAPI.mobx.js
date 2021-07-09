@@ -140,6 +140,7 @@ export function fetchObjDataA(orgName) {
                 .then(res => {
                     console.log('44res', res)
                     runInAction(() => {
+                        this.setSuccessFetchObjLstData()
                         this.setObjLstData(res.objsLstData)
                         this.appendObjArr(res.objData.data)
                         if(res.relData){
@@ -166,6 +167,7 @@ export function fetchObjDataA(orgName) {
                 let recsData = sessionStorage.getItem('recsData')
                 let selectedObjsData = sessionStorage.getItem('selectedObjs')
 
+                this.setSuccessFetchObjLstData()
                 this.setObjLstData(JSON.parse(objsLstData))
                 this.appendObjArrSessionExtract(JSON.parse(objData))
                 this.setSuccessFetchEvents(JSON.parse(recsData))
@@ -182,5 +184,5 @@ export function fetchObjDataA(orgName) {
     }
 }
 
-const FetchFunc = {fetchOrgDataA, fetchObjDataA}
-export default FetchFunc
+const fetchFunc = {fetchOrgDataA, fetchObjDataA}
+export default fetchFunc

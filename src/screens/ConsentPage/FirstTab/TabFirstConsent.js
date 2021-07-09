@@ -35,7 +35,7 @@ const TabFirstConsent = () => {
             <div className="tab1__user-info" style={{
                 ...styleOrg,
                 maxWidth: isOpened.lPanel ? 400 : 98,
-                border: isOpened.lPanel ? 0 : '1px solid #607d8b'
+                border: isOpened.lPanel ? '1px solid rgb(77, 88, 77)' : '1px solid #607d8b'
             }}>
                 {/*иконки переключения видимости*/}
                 <IconButton onClick={switchOpenLPanel} color="primary" style={styleIconButton}>

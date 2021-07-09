@@ -19,9 +19,9 @@ class ObjsMobX {
     errorFetchOrgMessage;
     orgData;
 
-    startFetchObj;
-    successFetchObj;
-    errorFetchObj;
+    startFetchObjLst;
+    successFetchObjLst;
+    errorFetchObjLst;
     objectsData; // {9750: {}, 1020: {} }
     amRelOfObjectsData; // {9750: {}, 1020: {} }
 
@@ -46,9 +46,9 @@ class ObjsMobX {
 
         // Objects
         this.startFetchObj = false;
-        this.successFetchObj = false;
-        this.errorFetchObj = false;
-        this.objectsData = {amount: 0};
+        this.successFetchObjLst = false;
+        this.errorFetchObjLst = false;
+        this.objectsDataLst = {amount: 0, data: null};
         this.amRelOfObjectsData = 0;
 
         // relatives
@@ -76,8 +76,8 @@ class ObjsMobX {
             orgData: observable,
             errorFetchOrg: observable,
 
-            successFetchObj: observable,
-            errorFetchObj: observable,
+            successFetchObjLst: observable,
+            errorFetchObjLst: observable,
             successFetchObjArr: observable,
             errorFetchObjArr: observable,
             curObjId: observable,
@@ -210,18 +210,27 @@ class ObjsMobX {
 
     setStartFetchObjData() {
         this.startFetchObj = true
-        this.successFetchObj = false
-        this.errorFetchObj = false
+        this.successFetchObjLst = false
+        this.errorFetchObjLst = false
+    }
+    //setSuccessFetchOrgData() {
+    setSuccessFetchObjLstData() {
+        this.startFetchObjLst = false
+        this.successFetchObjLst = true
+        this.errorFetchObjLst = false
     }
 
     setObjLstData(obj) {
-        this.startFetchObj = false
-        this.successFetchObj = true
-        this.errorFetchObj = false
-
-        this.objectsData = obj
+        this.objectsDataLst = obj
         this.selectObj(obj.data.objects[0].objID, obj.data.objects[0].objName)
         this.amRelOfObjectsData = obj.data.objects[0].objRelatives ? obj.data.objects[0].objRelatives.length : 0
+    }
+
+    setErrorFetchObjData(mess) {
+        this.startFetchObjLst = false
+        this.successFetchObjLst = false
+        this.errorFetchObjLst = true
+        this.errorFetchObjMessage = mess
     }
 
 
@@ -238,6 +247,11 @@ class ObjsMobX {
         this.startFetchObjArr = false
         this.successFetchObjArr = true
         this.errorFetchObjArr = false
+        if(this.objsArr[`${obj.obj_id}`]){
+            console.log('appendObjArr 2 ', obj)
+            return
+        }
+
         let resConvert = convertWT(obj.obj_bounds.obj_bnd_geometry)
         if (resConvert) {
             let newObj = {...obj, objBnd: resConvert}
@@ -251,12 +265,7 @@ class ObjsMobX {
         // console.log(' stateObjsMobx ', toJS(stateObjsMobx))
     }
 
-    setErrorFetchObjData(mess) {
-        this.startFetchObj = false
-        this.successFetchObj = false
-        this.errorFetchObj = true
-        this.errorFetchObjMessage = mess
-    }
+
 
     // events
     setSuccessFetchEvents(data) {
@@ -294,29 +303,3 @@ window.toJS = toJS
 // window.stateObjs = toJS(stateObjsMobx)
 export default stateObjsMobx
 
-
-// objs this.objsArr[`${obj.obj_id}`] = obj
-// fetchObjById(objID) {
-//     if (this.objsArr[objID]) {
-//         console.log('fetchObjById - такие данные уже есть',objID)
-//     } else {
-//         axios.post('https://ismggt.ru/query/object/data', {"objID": objID})
-//             .then(({data}) => {
-//                 console.log('23 fetchObjById -- then data', data.data)
-//                 sessionStorage.setItem('objsDataOfAuthUser', JSON.stringify(data.data))
-//                     // this.setSuccessFetchObjArr(data)
-//                 this.setSuccessFetchObjArr(data.data)
-//             })
-//         // console.log('fetchObjById - data',data.data)
-//
-//     }
-// }
-
-
-// setSuccessFetchObjArr(data) {
-// this.startFetchObj = false
-// this.successFetchObj = true
-// this.errorFetchObj = false
-// this.objectsData = data
-// this.curObjId = data.data.objects[0].objID
-// }
