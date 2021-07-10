@@ -200,5 +200,5 @@ const mapDispatchToProps = (dispatch) => ({
     fetchLocalDataOfObjsForAuthUser: (objId) => dispatch(fetchLocalDataOfObjsForAuthUserAsync(objId)),
 });
 //fetchLocalDataOfObjsForAuthUserAsync
-// export default CardUserInfo;
+// export default OrgBlockInfo;
 export default connect(mapStateToProps, mapDispatchToProps)(CardUserInfo);

@@ -9,7 +9,7 @@ import EventsListPanel from "./EventsListPanel";
 import InfoPanel from "./eventComponents/InfoPanel.eventsObj.js";
 import FilterBnt from "./eventComponents/FilterBnt.eventsObj.js";
 
-const EventsObj = observer(({visableBtn}) => {
+const EventsBlock = observer(({visableBtn}) => {
 
   if (stateObjsMobx.objectsEvn.amount < 1) {
     return <div>Нет событий.</div>;
@@ -38,4 +38,4 @@ const EventsObj = observer(({visableBtn}) => {
 
 });
 
-export default EventsObj;
+export default EventsBlock;

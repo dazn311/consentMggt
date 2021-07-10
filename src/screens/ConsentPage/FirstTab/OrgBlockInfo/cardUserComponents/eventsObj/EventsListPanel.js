@@ -12,7 +12,7 @@ import VisibilityIcon from '@material-ui/icons/Visibility';
 // import {connect} from "react-redux";
 // import ElemEventObj from "./ElemEventObj";
 import ListItemEvents from "./ListItemEvents";
-// import {eventsObjList} from "../../../../../../api/eventsObj-api";
+// import {eventsObjList} from "../../../../../../api/EventsBlock-api";
 // import {visibleEventsObjSelector} from "../../../../../../store/consent/cons.selectors";
 // import {activeRelIdSelector, curObjIdSelector} from "../../../../../../store/consent/cons.selectors";
 

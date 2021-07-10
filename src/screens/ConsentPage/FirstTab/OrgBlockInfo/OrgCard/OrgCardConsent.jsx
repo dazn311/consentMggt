@@ -22,11 +22,11 @@ import {useStyles} from "../cardUserComponents/ElemObj";
 const OrgCardConsent = observer(() => {
     const classes = useStyles();
 
-    if (stateObjsMobx.errorFetchOrg) {
-        return (<div>Ошибка {stateObjsMobx.errorFetchOrgMessage}</div>)
+    if (stateObjsMobx.orgDataState.errorMessage) {
+        return (<div>Ошибка: {stateObjsMobx.orgDataState.errorMessage}</div>)
     }
 
-    if (stateObjsMobx.successFetchOrg) {
+    if (stateObjsMobx.orgDataState.success) {
         // console.log('successFetchOrg',stateObjsMobx.successFetchOrg)
     }else {
         return (<div>нет данных об организации..</div>)
@@ -47,11 +47,12 @@ const OrgCardConsent = observer(() => {
 
                 </ListItemAvatar>
                 <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <ListItemText primary={stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.org_name}/>
+                    {/*<ListItemText primary={stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.org_name}/>*/}
+                    <ListItemText primary={ stateObjsMobx.orgDataState.data.org_name}/>
                     <div>
                             <span className={classes.purple}>
-                                user_id: {stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.user_id} /
-                              orgID: {stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.user_org_id}</span>
+                                user_id: { stateObjsMobx.orgDataState.data.user_id } /
+                              orgID: { stateObjsMobx.orgDataState.data.user_org_id }</span>
                     </div>
                 </div>
             </ListItem>
@@ -62,7 +63,7 @@ const OrgCardConsent = observer(() => {
                     </Avatar>
                 </ListItemAvatar>
                 <div style={{display: 'flex', flexDirection: 'column'}}>
-                    <ListItemText primary={stateObjsMobx.orgData !== {} && stateObjsMobx.orgData.user_name}/>
+                    <ListItemText primary={stateObjsMobx.orgDataState.data.user_name}/>
                 </div>
             </ListItem>
             <Divider variant="inset" component="hr" className={classes.span}/>
@@ -73,7 +74,7 @@ const OrgCardConsent = observer(() => {
                     </Avatar>
                 </ListItemAvatar>
                 <ListItemText primary="Дата регистрации"
-                              secondary={new Intl.DateTimeFormat('ru-Ru').format(new Date(stateObjsMobx.orgData.user_reg_date))}/>
+                              secondary={new Intl.DateTimeFormat('ru-Ru').format(new Date(stateObjsMobx.orgDataState.data.user_reg_date))}/>
             </ListItem>
             <Divider variant="inset" component="li"/>
             <ListItem>
@@ -82,7 +83,7 @@ const OrgCardConsent = observer(() => {
                         <StarHalfIcon/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary="Статус" secondary={stateObjsMobx.orgData.user_status}/>
+                <ListItemText primary="Статус" secondary={stateObjsMobx.orgDataState.data.user_status}/>
             </ListItem>
             <Divider variant="inset" component="li"/>
             <ListItem>
@@ -91,29 +92,10 @@ const OrgCardConsent = observer(() => {
                         <DonutLarge/>
                     </Avatar>
                 </ListItemAvatar>
-                <ListItemText primary="Роль" secondary={stateObjsMobx.orgData.user_role}/>
+                <ListItemText primary="Роль" secondary={stateObjsMobx.orgDataState.data.user_role}/>
             </ListItem>
         </React.Fragment>
-
     );
 })
 
 export default OrgCardConsent
-
-
-
-// useEffect(() => {
-//     stateObjsMobx.fetchOrgData(531);
-// }, [])
-//
-// useEffect(() => {
-//     if (stateObjsMobx.successFetchOrg && !stateObjsMobx.successFetchObj) {
-//         stateObjsMobx.fetchObjData(stateObjsMobx.orgData.org_name)
-//     }
-// }, [stateObjsMobx.successFetchOrg])
-
-// console.log('stateObjsMobx.orgData',stateObjsMobx.orgData)
-// if (!stateObjsMobx.orgData) {
-//
-//     return (<div>нет данных об организации</div>)
-// }

@@ -6,13 +6,13 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import IconButton from '@material-ui/core/IconButton';
 
-import {useStyles} from "./CardUserInfo.style";
+import {useStyles} from "./OrgBlockInfo.style";
 
 import OrgCardConsent from "./OrgCard/OrgCardConsent";
 import ObjsCard from "./ObjsCard/ObjsCard";
 import RelCard from "./RelCard/RelCard";
 
-const CardUserInfo = ( ) => {
+const OrgBlockInfo = ( ) => {
     const [isOpened, setIsOpened] = useState({obj: true, rel: true, org: true})
     const classes = useStyles();
  
@@ -48,4 +48,4 @@ const CardUserInfo = ( ) => {
     
 }
 
-export default  CardUserInfo
+export default  OrgBlockInfo

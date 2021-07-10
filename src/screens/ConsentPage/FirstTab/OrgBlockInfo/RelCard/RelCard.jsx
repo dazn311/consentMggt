@@ -9,22 +9,20 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import HomeWorkIcon from '@material-ui/icons/HomeWork';
 
-import {useStyles} from "../cardUserComponents/ElemObj";
+import {useStyles} from "./RelCard.styles";
 import LoaderList from "../components/LoaderList";
 import {ListRel} from "./companentsRel/ListRel";
 
-const styleObjs = {
-    marginLeft: 4, borderLeft: '1px solid grey', paddingLeft: 4 , whiteSpace: 'nowrap',
-    transform: 'rotate(-90deg)', position: 'absolute', left: 4, top: 100
-}
-const styleObjsAmount = {position: 'absolute', color: 'yellowgreen', bottom: -24}
-
 ////////////////////////////////////
-const RelCard = observer(({length = null}) => {
+const RelCard = observer(() => {
     const classes = useStyles();
     // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
 
-    if (!stateObjsMobx.successFetchObjArr || !stateObjsMobx.objsArr[11718]) {
+    const {selectedObjs, objsArr, objListState} = stateObjsMobx;
+    const objID = selectedObjs['obj'].id
+
+    // if (!stateObjsMobx.successFetchObjArr || !stateObjsMobx.objsArr[11718]) {
+    if (!stateObjsMobx.successFetchObjArr || !objsArr[objID]) {
         return <LoaderList title={'загрузка смеж.объектов...'}/>
     } else {
         // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
@@ -37,12 +35,12 @@ const RelCard = observer(({length = null}) => {
                     <div>
                         <Avatar className={classes.MuiAvatarRoot}>
                             <HomeWorkIcon/>
-                            <ListItemText style={styleObjsAmount} secondary={stateObjsMobx.amRelOfObjectsData}/>
+                            <ListItemText  className={classes.styleObjsAmount}  secondary={objListState.amRel}/>
                         </Avatar>
-                        <div style={styleObjs}>Смеж. объекты</div>
+                        <div className={classes.styleObjs}  >Смеж. объекты</div>
                     </div>
                 </ListItemAvatar>
-                <ListRel relatives={stateObjsMobx.objsArr[11718].obj_relatives} curRelId={stateObjsMobx.selectedObjs.rel.id} />
+                <ListRel relatives={objsArr[objID].obj_relatives} curRelId={selectedObjs.rel.id} />
             </ListItem>
         </React.Fragment>
     );

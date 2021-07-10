@@ -7,23 +7,23 @@ import ListItem from '@material-ui/core/ListItem';
 
 
 import LoaderList from "../components/LoaderList";
-
 import {ListObjs} from "./companentsObjs/ListObjs";
 import ObjsAvatar from "./companentsObjs/ObjsAvatar";
 
 
 ////////////////////////////////////
 const ObjsCard = observer(() => {
+    let { success, objLst } = stateObjsMobx.objListState;
 
-    if (!stateObjsMobx.successFetchObjLst && !stateObjsMobx.objectsDataLst.data) {
+    if (!success && !objLst.amount) {
         return <LoaderList title={'загрузка смеж.объектов...'}/>
     }
 
     return (
         <React.Fragment>
             <ListItem>
-                <ObjsAvatar amount={stateObjsMobx.objectsDataLst.amount}/>
-                <ListObjs objects={stateObjsMobx.objectsDataLst.data.objects} curObjId={stateObjsMobx.curObjId}/>
+                <ObjsAvatar amount={objLst.amount}/>
+                <ListObjs objects={objLst.data.data.objects} curObjId={stateObjsMobx.selectedObjs['obj'].id} />
             </ListItem>
         </React.Fragment>
     );

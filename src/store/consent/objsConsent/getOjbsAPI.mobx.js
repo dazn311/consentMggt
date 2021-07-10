@@ -39,8 +39,8 @@ export function fetchOrgDataA(userID) {
                     console.log('fetchOrgData -- then data', data[0])
                     sessionStorage.setItem('orgData', JSON.stringify(data[0]))
                     runInAction(() => {
-                        this.setSuccessFetchOrgData()
                         this.updateOrgData(data[0])
+                        this.setSuccessFetchOrgData()
                         this.fetchObjData(data[0].org_name)
                     })
                 })
@@ -53,8 +53,8 @@ export function fetchOrgDataA(userID) {
             runInAction(() => {
                 let dataLocal = JSON.parse(orgData)
                 // console.log('fetchOrgData -- then data 2', dataLocal)
-                this.setSuccessFetchOrgData()
                 this.updateOrgData(dataLocal)
+                this.setSuccessFetchOrgData()
                 this.fetchObjData(dataLocal.org_name)
             })
         }
@@ -140,8 +140,8 @@ export function fetchObjDataA(orgName) {
                 .then(res => {
                     console.log('44res', res)
                     runInAction(() => {
-                        this.setSuccessFetchObjLstData()
                         this.setObjLstData(res.objsLstData)
+                        this.setSuccessFetchObjLstData()
                         this.appendObjArr(res.objData.data)
                         if(res.relData){
                             this.appendObjArr(res.relData.data)
@@ -167,8 +167,8 @@ export function fetchObjDataA(orgName) {
                 let recsData = sessionStorage.getItem('recsData')
                 let selectedObjsData = sessionStorage.getItem('selectedObjs')
 
-                this.setSuccessFetchObjLstData()
                 this.setObjLstData(JSON.parse(objsLstData))
+                this.setSuccessFetchObjLstData()
                 this.appendObjArrSessionExtract(JSON.parse(objData))
                 this.setSuccessFetchEvents(JSON.parse(recsData))
 

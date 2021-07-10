@@ -13,7 +13,7 @@ import './eventDetail.styles.scss';
 import './map-widget.css';
 import CartGenInfo from './CardGenInfo';
 // import CardEventInfo from './CardEventInfo';
-// import CardMapInfo from "./CardMapInfo";
+// import MapBlockInfo from "./MapBlockInfo";
 import CardYandexMap from "./CardYandexMap";
 
 // parrent data idObj={idObj} currObj={currObj} -- local.row ///
