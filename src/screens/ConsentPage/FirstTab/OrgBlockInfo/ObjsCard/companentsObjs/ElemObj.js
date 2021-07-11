@@ -3,8 +3,8 @@ import stateObjsMobx from '../../../../../../store/consent/objsConsent/objsCons.
 
 const ElemObj = ({obj, isActive}) => {
     const setIdObj = useCallback((objID, objName) => {
-        stateObjsMobx.selectObj(objID, objName)
-        stateObjsMobx.fetchObjById(objID)
+        stateObjsMobx.selElemOfObjsLst(objID, objName)
+        // stateObjsMobx.fetchObjById(objID)
     }, [])
     
     const styleObjLstItem = {

@@ -22,11 +22,13 @@ const RelCard = observer(() => {
     const objID = selectedObjs['obj'].id
 
     // if (!stateObjsMobx.successFetchObjArr || !stateObjsMobx.objsArr[11718]) {
-    if (!stateObjsMobx.successFetchObjArr || !objsArr[objID]) {
+    if (!stateObjsMobx.objArrState.success || !objsArr[objID]) {
         return <LoaderList title={'загрузка смеж.объектов...'}/>
-    } else {
+    } else if (!objsArr[objID]['obj_relatives']){
+        return <LoaderList title={'нет смеж.объектов...'}/>
         // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
     }
+
 
     return (
         <React.Fragment>

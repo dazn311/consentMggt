@@ -3,7 +3,7 @@ import stateObjsMobx from '../../../../../../store/consent/objsConsent/objsCons.
 
 const ElemRel = ({obj, isActive = false}) => {
 
-    const setIdObj = useCallback((objID, objName) => { stateObjsMobx.selectRelObj(objID, objName)  }, [])
+    const setIdObj = useCallback((objID, objName) => { stateObjsMobx.selElemOfRelLst(objID, objName)  }, [])
 
     const styleObjLstItem = {
         paddingLeft: 4,
