@@ -166,6 +166,8 @@ const LineChartWrap = ({fetchAmountUsers,fetchAmountNewEventsForGraphicAsync,fet
  
     
   // console.log('curDate2', curDate2);
+  // console.log('curDate', curDate);
+  console.log('curDate for save', curDate.toISOString().split('T')[0]);
 
   /////////////////////////// - fetchAll - ///////////////////////////////////
   const fetchAll = useCallback((ofsParam=0) => {
@@ -218,6 +220,8 @@ const LineChartWrap = ({fetchAmountUsers,fetchAmountNewEventsForGraphicAsync,fet
     const isData = dataBig.find(elem => { return elem[curDate2]})
 
     // console.log('isData',isData);
+    console.log('dataBig',dataBig);
+
     if(!isData){
       fetchAmountUsers(todayStart,todayEnd);
       fetchAmountNewEventsForGraphicAsync(todayStart,todayEnd);
