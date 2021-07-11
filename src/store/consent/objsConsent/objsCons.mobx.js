@@ -1,4 +1,4 @@
-import {fetchOrgDataA, fetchObjDataA} from "./getOjbsAPI.mobx";
+import {fetchOrgDataA, fetchObjDataA, eventFetchByObjIdA} from "./getOjbsAPI.mobx";
 import {
     // makeAutoObservable,
     makeObservable, observable, computed, action,
@@ -49,8 +49,6 @@ class ObjsMobX {
 
         // events
         this.filterTypeEvents = 0; // 0 | 1 | 2
-        this.objectsEvn = {amount: 0, startFetch: false, successFetch: false, errorFetch: false};
-        this.selectedEvent = {recId: 0, data: null};
         this.eventState = {start: false, success: false, errorMessage: '', amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null} };
 
         this.showMap = false;
@@ -64,11 +62,11 @@ class ObjsMobX {
 
             curObjId: observable,
             curRelId: observable,
-            objectsEvn: observable,
+            // objectsEvn: observable,
+            eventState: observable,
             filterTypeEvents: observable,
             showMap: observable,
 
-            selectedEvent: observable,
 
             selectObj: action,
             selectRelObj: action,
@@ -94,6 +92,7 @@ class ObjsMobX {
     ///// objects API ////
    async selElemOfObjsLst (objID, objName) {
         await this.fetchObjById(objID)
+        await this.eventFetchByObjId(objID)
         this.selectObj(objID, objName)
     }
     ///// relatives API ////
@@ -131,13 +130,8 @@ class ObjsMobX {
         }
     }
 
-
-    setFilterEvents(type = 0) {
-        this.filterTypeEvents = type
-        // console.log('setFilterEvents ',this.filterTypeEvents)
-    }
-
     // возвращает координаты объектов, которые активны в данный момент
+
     get selBndForMap() {
 
         const resBnd = {}
@@ -151,23 +145,35 @@ class ObjsMobX {
         return resBnd
     }
 
+    setFilterEvents(type = 0) {
+        this.filterTypeEvents = type
+        // console.log('setFilterEvents ',this.filterTypeEvents)
+    }
+    eventFetchByObjId(obj_id = 0) {
+         // перезапишится.. другая будет
+        console.log('eventFetchByObjId ',obj_id)
+    }
 
+
+    // // this.objectsEvn = {amount: 0, startFetch: false, successFetch: false, errorFetch: false};
+    //         this.selectedEvent = {recId: 0, data: null};
+    //         this.eventState = {start: false, success: false, errorMessage: '', amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null} };
     get filterEvents() {
         if (this.filterTypeEvents === 0) {
-            return this.objectsEvn
+            return this.eventState
         } else if (this.filterTypeEvents === 2) {
-            let newRecs = this.objectsEvn.data.recs.filter(rec => rec.rec_status === 5)
+            let newRecs = this.eventState.evnData.recs.filter(rec => rec.rec_status === 5)
             let newData = {recs: newRecs}
-            // let newEvent = {...this.objectsEvn, amount: newRecs.length, data: newData }
-            return {...this.objectsEvn, amount: newRecs.length, data: newData}
+            // let newEvent = {...this.eventState.evnData, amount: newRecs.length, data: newData }
+            return {...this.eventState, amount: newRecs.length, data: newData}
         } else if (this.filterTypeEvents === 1) {
-            let newRecs = this.objectsEvn.data.recs.filter(rec => ((rec.receip.objectID === this.selectedObjs.obj.id || rec.sender.objectID === this.selectedObjs.obj.id)
+            let newRecs = this.eventState.evnData.recs.filter(rec => ((rec.receip.objectID === this.selectedObjs.obj.id || rec.sender.objectID === this.selectedObjs.obj.id)
                 && (rec.receip.objectID === this.selectedObjs.rel.id || rec.sender.objectID === this.selectedObjs.rel.id)))
             let newData = {recs: newRecs}
-            // let newEvent = {...this.objectsEvn, amount: newRecs.length, data: newData }
-            return {...this.objectsEvn, amount: newRecs.length, data: newData}
+            // let newEvent = {...this.eventState, amount: newRecs.length, data: newData }
+            return {...this.eventState, amount: newRecs.length, data: newData}
         }
-        return this.objectsEvn
+        return this.eventState
     }
 
     fetchObjData(data) {
@@ -260,14 +266,16 @@ class ObjsMobX {
     }
 
     // events
+    //this.eventState = {start: false, success: false, errorMessage: '', amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null} };
     setSuccessFetchEvents(data) {
-        // console.log('setSuccessFetchEvents', data)
-        this.objectsEvn = {
+        console.log('setSuccessFetchEvents', data)
+        this.eventState = {
+            start: false,
+            success: true,
+            errorMessage: false,
             amount: data.amount,
-            startFetch: false,
-            successFetch: true,
-            errorFetch: false,
-            data: data.data
+            selectedRecId: data.data.recs[0].rec_id,
+            evnData: data.data // data.recs
         };
         // console.log('toJS(stateObjsMobx)', toJS(stateObjsMobx))
     }
@@ -288,6 +296,7 @@ let stateObjsMobx = new ObjsMobX();
 
 stateObjsMobx.fetchOrgData = fetchOrgDataA
 stateObjsMobx.fetchObjData = fetchObjDataA
+stateObjsMobx.eventFetchByObjId = eventFetchByObjIdA
 
 window.stateObjs = stateObjsMobx
 window.toJS = toJS

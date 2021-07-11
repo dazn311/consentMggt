@@ -18,17 +18,15 @@ const RelCard = observer(() => {
     const classes = useStyles();
     // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
 
-    const {selectedObjs, objsArr, objListState} = stateObjsMobx;
+    const {selectedObjs, objsArr} = stateObjsMobx;
     const objID = selectedObjs['obj'].id
 
-    // if (!stateObjsMobx.successFetchObjArr || !stateObjsMobx.objsArr[11718]) {
     if (!stateObjsMobx.objArrState.success || !objsArr[objID]) {
         return <LoaderList title={'загрузка смеж.объектов...'}/>
     } else if (!objsArr[objID]['obj_relatives']){
         return <LoaderList title={'нет смеж.объектов...'}/>
         // console.log('3 stateObjsMobx.objectsData',stateObjsMobx.objectsData.data.objects[0].objID)
     }
-
 
     return (
         <React.Fragment>
@@ -37,7 +35,7 @@ const RelCard = observer(() => {
                     <div>
                         <Avatar className={classes.MuiAvatarRoot}>
                             <HomeWorkIcon/>
-                            <ListItemText  className={classes.styleObjsAmount}  secondary={objListState.amRel}/>
+                            <ListItemText  className={classes.styleObjsAmount}  secondary={objsArr[objID].obj_relatives.length}/>
                         </Avatar>
                         <div className={classes.styleObjs}  >Смеж. объекты</div>
                     </div>

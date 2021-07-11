@@ -6,6 +6,7 @@ import DoneAllIcon from "@material-ui/icons/DoneAll";
 import {Tooltip} from "@material-ui/core";
 
 const FilterBnt = ({eventsFilterID = 0, setFilterType}) => {
+    // не все фильтры видны когда нет rel objs
     return (
         <div className='filter-bnt' style={{marginLeft: -30, bottom: 0, display: "flex", flexDirection: "column", position: 'absolute'}}>
             <Tooltip title={"Все события выбранного объекта"}>

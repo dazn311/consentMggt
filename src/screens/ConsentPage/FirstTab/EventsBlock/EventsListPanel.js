@@ -26,7 +26,7 @@ const EventsListPanel = ({ selEvnId, activeId, eventsList = [] }) => {
 
   return (
     <>
-      <ListItem  style={{ minHeight: 500, minWidth: 380 }}>
+      <ListItem  style={{ minHeight: 420, minWidth: 380, marginTop: 20 }}>
         <ListItemAvatar>
           <Avatar className={classes.MuiAvatarRoot}>
             <div>

@@ -56,7 +56,7 @@ const TabFirstConsent = () => {
                     {isOpened.evn ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
                 </IconButton>
 
-                <EventsBlock visableBtn={isOpened.evn}/>
+                <EventsBlock visibleBtn={isOpened.evn}/>
             </div>
 
             <div className="tab1__chat-events"  style={{...styleChatEvents, maxWidth: isOpened.chat ? 400 : 78, minWidth: isOpened.chat ? 390 : 76}}>

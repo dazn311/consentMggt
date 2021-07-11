@@ -10,7 +10,7 @@ export const ListObjs = ({objects, curObjId}) => {
 
     return (
         <Paper elevation={1}>
-            <div className={'list-objs'} style={{maxHeight: 280, overflow: 'auto'}}>
+            <div className={'list-objs'} style={{maxHeight: 270, minWidth: 240, overflow: 'auto'}}>
                 {objects.map(renderRow)}
             </div>
         </Paper>

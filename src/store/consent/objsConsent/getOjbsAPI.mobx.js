@@ -92,6 +92,7 @@ const fetchParam = ({typeF = '', dataFetch = {}}) => new Promise((resolve, rejec
 
     return false
 })
+
 //
 
 export function startFetchA(orgName) {
@@ -119,7 +120,7 @@ export function startFetchA(orgName) {
                     res.relData = null;
                     return res;
                 }
-            }else {
+            } else {
                 res.relData = null;
                 return res;
             }
@@ -127,6 +128,24 @@ export function startFetchA(orgName) {
         .then(relRes => {
             res.relData = relRes
             return res;
+        })
+        .catch(e => console.log(e))
+}
+
+export function eventFetchByObjIdA(obj_id) {
+     fetchParam({typeF: 'recsLst', dataFetch: {objID: obj_id}})
+        .then(recsData => {
+            console.log('44 recsData', recsData)
+            runInAction(() => {
+                this.setSuccessFetchEvents( recsData)
+
+                //сразу записать нужный формат
+                sessionStorage.setItem('recsData', JSON.stringify(recsData))
+            })
+
+
+
+
         })
         .catch(e => console.log(e))
 }
@@ -143,10 +162,10 @@ export function fetchObjDataA(orgName) {
                         this.setObjLstData(res.objsLstData)
                         this.setSuccessFetchObjLstData()
                         this.appendObjArr(res.objData.data)
-                        if(res.relData){
+                        if (res.relData) {
                             this.appendObjArr(res.relData.data)
                             this.selectRelObj(res.relData.data.obj_id, res.relData.data.obj_name)
-                        }else {
+                        } else {
                             this.selectRelObj(0, 'is not rel of this obj')
                         }
 
@@ -184,5 +203,5 @@ export function fetchObjDataA(orgName) {
     }
 }
 
-const fetchFunc = {fetchOrgDataA, fetchObjDataA}
+const fetchFunc = {fetchOrgDataA, fetchObjDataA, eventFetchByObjIdA}
 export default fetchFunc
