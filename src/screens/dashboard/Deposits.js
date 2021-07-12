@@ -36,7 +36,7 @@ const Deposits = ({amountOGH}) => {
             <hr color="gray" className={classes.hrStile} />
 
             <Typography component="p" variant="h5" className={classes.typographyStyle} >
-                {amountOGH.data.objMgtt}
+                {amountOGH.data.objMggt}
             </Typography>
             <Typography component="p">
                 принадлежащих нам

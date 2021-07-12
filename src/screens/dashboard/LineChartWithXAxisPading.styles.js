@@ -50,7 +50,7 @@
               mLeft = -35;
               mBottom = -0;
               mRight = 0;
-        } else if ( winWidth > 1024) { // Samsung A51
+        } else if ( winWidth > 1024 && winWidth < 1224) { // Samsung A51
              widthLine = 450;
              leftLine = 10;
              rightLine = 20;
@@ -58,6 +58,14 @@
               mLeft = -35;
               mBottom = -0;
               mRight = 0;
+        } else if ( winWidth > 1224) { // Samsung A51
+             widthLine = 550;
+             leftLine = 15;
+             rightLine = 20;
+             displayVal = 'flex';
+              mLeft = -25;
+              mBottom = -0;
+              mRight = 10;
         }
 
         const styleLblUsers2 =  { position: 'relative', color: 'green', display:  displayVal, alignItems: 'flex-start', justifyContent: 'center', maxHeight: 25 }

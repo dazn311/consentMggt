@@ -51,7 +51,7 @@ const TabFirstConsent = () => {
             </div>
 
             <div className="tab1__events-obj"
-                 style={{...styleEventsObj, maxWidth: isOpened.evn ? 400 : 78, minWidth: isOpened.evn ? 390 : 76}}>
+                 style={{...styleEventsObj, maxWidth: isOpened.evn ? 500 : 78, minWidth: isOpened.evn ? 390 : 76, overflow: 'hidden'}}>
                 <IconButton onClick={switchOpenEvn} color="primary" style={styleIconButton}>
                     {isOpened.evn ? <ExpandMoreIcon/> : <ExpandLessIcon/>}
                 </IconButton>

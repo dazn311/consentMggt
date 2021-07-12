@@ -86,7 +86,7 @@ const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchA
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth={false} className={classes.container}>
 
-                    <Grid item xs={12} md={5} lg={6} style={{maxWidth: 600, minWidth: 400}}>
+                    <Grid item xs={12} md={5} lg={6} style={{maxWidth: 660, minWidth: 400}}>
                         <Paper elevation={1} className={fixedHeightPaper}>
                             <h4 style={{textAlign: 'center', position: 'relative', marginTop: '0px', left: '0'}}> {lineHeader}</h4>
                             <LineChartWrap/>

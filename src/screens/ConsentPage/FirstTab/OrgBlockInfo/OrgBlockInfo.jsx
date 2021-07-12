@@ -25,7 +25,7 @@ const OrgBlockInfo = ( ) => {
                     </IconButton> 
                     <OrgCardConsent/>
                 </List> 
-                <List className={classes.root} style={{maxHeight: isOpened.obj ? 300 : 40, minHeight: isOpened.obj ? 200 : 40}} >
+                <List className={classes.root} style={{maxHeight: isOpened.obj ? 300 : 40, minHeight: isOpened.obj ? 200 : 40, overflow: 'hidden'}} >
                     <IconButton  onClick={switchOpenObj}  color="primary"  style={{position: 'absolute', top: 4,left: 0, padding: 4,cursor: 'pointer',zIndex: 1}}>
                         {isOpened.obj ? <ExpandMoreIcon /> : <ExpandLessIcon />}
                     </IconButton> 

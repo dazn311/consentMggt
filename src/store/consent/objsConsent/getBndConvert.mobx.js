@@ -18,7 +18,7 @@ function convertToProj4 (strX, strY) {
 }
 
 export const convertWT = memoize((multiPolGeo) => {
-    console.log('convertWT memoize')
+    // console.log('convertWT memoize')
     let lastChar = ''
         , strX = ''
         , strY = ''

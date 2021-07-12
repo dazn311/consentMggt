@@ -24,12 +24,13 @@ class LineChartWithXAxisPadding extends PureComponent {
         const styleLblEndedGraphic = isFetchingUserOnline ? styleLblEnded : {...styleLblEnded,  color: '#ccc'};
         const styleBtnUpdateUsersGraphic = isFetchingUserOnline ? styleBtnUpdateUsers  : {...styleBtnUpdateUsers,   transform: 'rotate(-45deg)', color: 'red'  };
 
-
+        // console.log('widthLine',widthLine)
         return (
             <div id='line-chart-with-axis-padding-f' style={{position: 'relative', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-                <div className='line-chart-wrap' style={{width: widthLine +10, minWidth: widthLine +8}} >
+                <div className='line-chart-wrap' style={{width: widthLine, minWidth: widthLine }} >
                     <LineChart width={widthLine} height={200} data={data} margin={{top: 8, left:  mLeft, bottom: mBottom, right:  mRight}}>
                         <CartesianGrid strokeDasharray="8 3"/>
+
                         <XAxis dataKey="name" padding={{left: leftLine, right: rightLine}}/>
                         <YAxis padding={{top: 5, bottom: 5}}/>
 
@@ -44,13 +45,14 @@ class LineChartWithXAxisPadding extends PureComponent {
                 </div>
 
 
-
                 <div className='line-chart__panel' style={{ position: 'relative', display: displayVal, flexWrap: 'wrap', maxWidth: 80,  justifyContent: 'center',  marginLeft: 20  }}>
-                    <div style={{ position: 'absolute', right: '12px', transform: 'rotate(270deg)',  top: '100px', whiteSpace: 'nowrap' }}>Текущие данные </div>
-                    <div className='line-chart__panel-change-date' style={styleLblUsersGraphicDate} disabled={!isFetchingUserOnline} >
-                        <ArrowLeftIcon className='arrow-prev' fontSize="default" onClick={() => { fetchAll(-1) }} color="secondary"/>
+
+                    <div style={{ position: 'absolute', right: '12px', transform: 'rotate(270deg)',  top: '100px', whiteSpace: 'nowrap' }}>Текущие данные</div>
+
+                    <div className='line-chart__panel-change-date' style={styleLblUsersGraphicDate} >
+                        <ArrowLeftIcon  className='arrow-prev' fontSize="default" onClick={() => { isFetchingUserOnline && fetchAll(-1) }} color="secondary"/>
                         <div style={{alignSelf: 'center'}}>{dateLabel.slice(8, 10)}/{dateLabel.slice(5, 7)} </div>
-                        <ArrowRightIcon className={isToday ? 'none': 'arrow-prev'} disabled={isToday} onClick={() => { fetchAll(1)  }} color={isToday ? 'disabled' : 'error'}/>
+                        <ArrowRightIcon className={isToday ? 'none': 'arrow-prev'} disabled={isToday} onClick={() => { isFetchingUserOnline &&  fetchAll(1)  }} color={isToday ? 'disabled' : 'error'}/>
                     </div>
 
                     <Avatar style={styleLblUsersGraphic}>{usersCount}</Avatar>
@@ -61,6 +63,7 @@ class LineChartWithXAxisPadding extends PureComponent {
                     <IconButton color="secondary" aria-label="add an alarm" onClick={() => { fetchAll(0)  }} >
                         <RefreshIcon id='btnUpdateGraphicUsers' style={styleBtnUpdateUsersGraphic}  />
                     </IconButton>
+
                 </div>
 
 

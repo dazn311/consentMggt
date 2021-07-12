@@ -36,7 +36,7 @@ export function fetchOrgDataA(userID) {
         if (JSON.stringify(orgData) === '{}' || orgData === null) { //This will check if the object is empty
             axios.post('https://ismggt.ru/query/user/info', {'userID': userID})
                 .then(({data}) => {
-                    console.log('fetchOrgData -- then data', data[0])
+                    // console.log('fetchOrgData -- then data', data[0])
                     sessionStorage.setItem('orgData', JSON.stringify(data[0]))
                     runInAction(() => {
                         this.updateOrgData(data[0])
@@ -135,7 +135,7 @@ export function startFetchA(orgName) {
 export function eventFetchByObjIdA(obj_id) {
      fetchParam({typeF: 'recsLst', dataFetch: {objID: obj_id}})
         .then(recsData => {
-            console.log('44 recsData', recsData)
+            // console.log('44 recsData', recsData)
             runInAction(() => {
                 this.setSuccessFetchEvents( recsData)
 
@@ -157,7 +157,7 @@ export function fetchObjDataA(orgName) {
         if (JSON.stringify(objsDataSessionStore) === '{}' || objsDataSessionStore === null) { //This will check if the object is empty
             startFetchA(orgName)
                 .then(res => {
-                    console.log('44res', res)
+                    // console.log('44res', res)
                     runInAction(() => {
                         this.setObjLstData(res.objsLstData)
                         this.setSuccessFetchObjLstData()
