@@ -12,22 +12,22 @@ import LineChartStyles from "./LineChartWithXAxisPading.styles";
 class LineChartWithXAxisPadding extends PureComponent {
 
     render() {
-        const { fetchAll, data,  isFetchingUserOnline, isToday, dateLabel, usersCount, eventsAmount,  endedAmount  } = this.props;
+        const { fetchAll, data,  isFetchingUserOnline, isToday = false, dateLabel, usersCount, eventsAmount,  endedAmount  } = this.props;
 
 
         let { styleLblUsers2, styleLblUsers,  styleLblEvents, styleLblEnded, styleBtnUpdateUsers, displayVal, widthLine, leftLine, rightLine,  mLeft, mBottom,  mRight } = LineChartStyles
-
+        console.log('isFetchingUserOnline',isFetchingUserOnline)
         //winWidth = window.innerWidth;
-        const styleLblUsersGraphicDate = !isFetchingUserOnline  ? styleLblUsers2 : { color: '#ccc'  }
-        const styleLblUsersGraphic = !isFetchingUserOnline ? styleLblUsers : {...styleLblUsers,color: '#ccc',backgroundColor: '#8884d8' };
-        const styleLblEventsGraphic = !isFetchingUserOnline  ?styleLblEvents: {...styleLblEvents, backgroundColor: '#91c1b4', color: '#ccc' }
-        const styleLblEndedGraphic = !isFetchingUserOnline ? styleLblEnded : {...styleLblEnded,  color: '#ccc'};
+        const styleLblUsersGraphicDate = isFetchingUserOnline  ? styleLblUsers2 : {...styleLblUsers2, color: '#ccc', opacity: 0.1  }
+        const styleLblUsersGraphic = isFetchingUserOnline ? styleLblUsers : {...styleLblUsers,color: '#ccc',backgroundColor: '#8884d8' };
+        const styleLblEventsGraphic = isFetchingUserOnline  ?styleLblEvents: {...styleLblEvents, backgroundColor: '#91c1b4', color: '#ccc' }
+        const styleLblEndedGraphic = isFetchingUserOnline ? styleLblEnded : {...styleLblEnded,  color: '#ccc'};
         const styleBtnUpdateUsersGraphic = isFetchingUserOnline ? styleBtnUpdateUsers  : {...styleBtnUpdateUsers,   transform: 'rotate(-45deg)', color: 'red'  };
 
 
         return (
             <div id='line-chart-with-axis-padding-f' style={{position: 'relative', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-                <div className='line-chart-wrap' style={{width: widthLine +10}} >
+                <div className='line-chart-wrap' style={{width: widthLine +10, minWidth: widthLine +8}} >
                     <LineChart width={widthLine} height={200} data={data} margin={{top: 8, left:  mLeft, bottom: mBottom, right:  mRight}}>
                         <CartesianGrid strokeDasharray="8 3"/>
                         <XAxis dataKey="name" padding={{left: leftLine, right: rightLine}}/>
@@ -47,9 +47,9 @@ class LineChartWithXAxisPadding extends PureComponent {
 
                 <div className='line-chart__panel' style={{ position: 'relative', display: displayVal, flexWrap: 'wrap', maxWidth: 80,  justifyContent: 'center',  marginLeft: 20  }}>
                     <div style={{ position: 'absolute', right: '12px', transform: 'rotate(270deg)',  top: '100px', whiteSpace: 'nowrap' }}>Текущие данные </div>
-                    <div className='line-chart__panel-change-date' style={styleLblUsersGraphicDate} >
+                    <div className='line-chart__panel-change-date' style={styleLblUsersGraphicDate} disabled={!isFetchingUserOnline} >
                         <ArrowLeftIcon className='arrow-prev' fontSize="default" onClick={() => { fetchAll(-1) }} color="secondary"/>
-                        <div style={{alignSelf: 'center'}}>{dateLabel.toISOString().slice(8, 10)}/{dateLabel.toISOString().slice(5, 7)} </div>
+                        <div style={{alignSelf: 'center'}}>{dateLabel.slice(8, 10)}/{dateLabel.slice(5, 7)} </div>
                         <ArrowRightIcon className={isToday ? 'none': 'arrow-prev'} disabled={isToday} onClick={() => { fetchAll(1)  }} color={isToday ? 'disabled' : 'error'}/>
                     </div>
 
