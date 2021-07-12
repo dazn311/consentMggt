@@ -35,7 +35,7 @@ const  ChipUsers = ({eventShortPoints}) =>{
     // setChipData((chips) => chips.filter((chip) => chip.name !== chipToDelete.name));
     // setChipData([...chipData,chipData[chipToDelete] = 'none']);
   };
-  // console.log('data',data);
+  console.log('eventShortPoints',eventShortPoints);
 
  
 

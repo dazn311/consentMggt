@@ -24,27 +24,27 @@ const GenOneDayPeriod = React.memo(({ data }) => {
 
     return (
         <React.Fragment>
-            <Title>Данные за последние сутки</Title>
+            <Title>Данные за сутки</Title>
             <hr color="white" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}} />
-            <Typography  variant="h6">
+            <Typography component="span"  variant="h6">
                 {daily_recs}
             </Typography>
             <Typography component="span"  >
-                Всего новых событий за сегодняшний день
+                Всего новых событий
             </Typography>
             <hr color="gray" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}}/>
             <Typography component="span" variant="h6">
                 {daily_messages}
             </Typography>
             <Typography component="span"  >
-                Всего сообщений за сегодняшний день
+                Всего сообщений
             </Typography>
             <hr color="gray" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}}/>
             <Typography component="span" variant="h6">
                 {daily_sogl_recs}
             </Typography>
             <Typography component="span"  >
-                Всего согласованых событий за сегодняшний день
+                Всего согласованых событий
             </Typography>
 
             <hr color="gray" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: '4px'}}/>

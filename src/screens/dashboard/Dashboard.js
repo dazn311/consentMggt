@@ -21,7 +21,7 @@ import ChipsArray from './Chips';
 import './dashboard.styles.scss';
 
 import {selectIsFetchingUserOnline, selectErrorFetch} from '../../store/adminPanelTrest/adminPanelTrest.selectors';
-import {fetchEventsPointShortAsync, setMessageError} from '../../store/adminPanelTrest/adminPanelTrest.actions';
+import {fetchEventsPointShortAsync, setMessageError, fetchAmountOGHToDayAsync} from '../../store/adminPanelTrest/adminPanelTrest.actions';
 
 import {selectGenStats} from '../../store/adminPanelTrest/StatisticPage.selectors';
 import useStyles from "./Dashboard.useStyles";
@@ -33,12 +33,13 @@ function Alert(props) {
 let lineHeader = 'Текущая информация по событиям и пользователям';
 // let maxWidthGridOGH = '295px';
 
-const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort}) => {
+const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchAmountOGHToDay}) => {
     const classes = useStyles();
 
     useEffect(() => {
         //start all fetch
         fetchEventsPointShort({limit: 1200, offset: 0});
+        fetchAmountOGHToDay()
         // fetchGenStats();
     }, [fetchEventsPointShort])
 
@@ -147,6 +148,7 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = (dispatch) => ({
     fetchEventsPointShort: ({limit, offset}) => dispatch(fetchEventsPointShortAsync({limit, offset})),
+    fetchAmountOGHToDay: () => dispatch(fetchAmountOGHToDayAsync()),
     setMessageError: () => dispatch(setMessageError()),
 });
 

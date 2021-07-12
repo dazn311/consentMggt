@@ -26,7 +26,7 @@ const GenAllPeriod = React.memo(({ data}) => {
 
     return (
         <React.Fragment>
-            <Title>Данные за весь период</Title>
+            <Title>За весь период</Title>
             <hr color="white" style={{width: '100%',opacity: 0.5, marginTop: 0, marginBottom: 0}} />
             <Typography component="span" variant="h6">
                 {total_recs}
