@@ -70,14 +70,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const App = () => {
-    const [darkThemeS, setDarkThemeS] = useState(true);
+    // const [darkThemeS, setDarkThemeS] = useState(true);
     const [themeS, setThemeS] = useState(darkTheme);
     const classes = useStyles();
 
     const setTheme = () => {
         setThemeS(lightTheme);
     }
-    console.log('reload app')
+    // console.log('reload app')
     return (
         <ThemeProvider theme={themeS}>
             <div id='app-f' className={classes.root}>

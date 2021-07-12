@@ -1,4 +1,4 @@
-import React, {lazy,  Suspense} from 'react';
+import React from 'react';
 import {
     BrowserRouter as Router,
     Switch,
@@ -14,7 +14,7 @@ import Box from '@material-ui/core/Box';
 
 
 import Header from './components/header/header.component';
-// import Dashboard from './screens/dashboard';
+import Dashboard from './screens/dashboard';
 import HistoriesChange from './screens/historyChanges/index';
 import UsersPage from './screens/usersPage/index';
 import UserDetails from './screens/userDetails';
@@ -24,12 +24,12 @@ import GeneralPage from './screens/gen';
 import Footer from './components/footer';
 import ConsentPage from "./screens/ConsentPage/ConsentPage";
 
-const Dashboard = lazy(() =>
-    import('./screens/dashboard')
-)
+// const Dashboard = lazy(() =>
+//     import('./screens/dashboard')
+// )
 
 const RoutApp = ({setTheme}) => {
-    console.log('reload RoutApp')
+    // console.log('reload RoutApp')
     return (
         <Router>
             <Header setTheme={setTheme}/>
@@ -56,11 +56,11 @@ const RoutApp = ({setTheme}) => {
                 <Route path="/stats/gen">
                     <GeneralPage/>
                 </Route>
-                <Suspense fallback={<div>..Loading suspense</div>}>
-                    <Route exact path="/stats/dash">
-                        <Dashboard/>
-                    </Route>
-                </Suspense>
+                {/*<Suspense fallback={<div>..Loading suspense</div>}>*/}
+                <Route exact path="/stats/dash">
+                    <Dashboard/>
+                </Route>
+                {/*</Suspense>*/}
                 <Route exact path="/stats">
                     <Redirect from='/stats' to="/stats/consent"/>
                 </Route>

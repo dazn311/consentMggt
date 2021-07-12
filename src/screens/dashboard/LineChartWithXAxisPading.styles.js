@@ -72,8 +72,8 @@
 
         const styleBtnUpdateUsers =  {position: 'relative', display:  displayVal, cursor: 'pointer', transition: 'transform 0.2s'}
 
-        console.log('winWidth',winWidth)
-        console.log('widthLine, leftLine, rightLine,  mLeft,  mBottom,  mRight',widthLine, leftLine, rightLine,  mLeft,  mBottom,  mRight)
+        // console.log('winWidth',winWidth)
+        // console.log('widthLine, leftLine, rightLine,  mLeft,  mBottom,  mRight',widthLine, leftLine, rightLine,  mLeft,  mBottom,  mRight)
 
 const LineChartStyles = { styleLblUsers2, styleLblUsers,  styleLblEvents, styleLblEnded, styleBtnUpdateUsers, displayVal,  widthLine, leftLine, rightLine,  mLeft,  mBottom,  mRight }
 export default LineChartStyles;

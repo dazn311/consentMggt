@@ -16,7 +16,7 @@ class LineChartWithXAxisPadding extends PureComponent {
 
 
         let { styleLblUsers2, styleLblUsers,  styleLblEvents, styleLblEnded, styleBtnUpdateUsers, displayVal, widthLine, leftLine, rightLine,  mLeft, mBottom,  mRight } = LineChartStyles
-        console.log('isFetchingUserOnline',isFetchingUserOnline)
+        // console.log('isFetchingUserOnline',isFetchingUserOnline)
         //winWidth = window.innerWidth;
         const styleLblUsersGraphicDate = isFetchingUserOnline  ? styleLblUsers2 : {...styleLblUsers2, color: '#ccc', opacity: 0.1  }
         const styleLblUsersGraphic = isFetchingUserOnline ? styleLblUsers : {...styleLblUsers,color: '#ccc',backgroundColor: '#8884d8' };

@@ -12,7 +12,7 @@ import {fetchAllForGraphicsAsync} from '../../store/adminPanelTrest/adminPanelTr
 ///////////////////// Line Chart /////////////////////////////
 const LineChartWrap = ({fetchAllForGraphics, selectCurrDay, selectCurrDayData, selectGraphSuccess, selectGraphAmount}) => {
     let { users, newRec, doneRec} = selectGraphAmount;
-    console.log('selectGraphSuccess',selectGraphSuccess)
+    // console.log('selectGraphSuccess',selectGraphSuccess)
     /////////////////////////// - fetchAll - ///////////////////////////////////
     const fetchAll = useCallback((ofsParam = 0) => {
 
