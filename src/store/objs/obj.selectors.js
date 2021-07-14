@@ -1,27 +1,31 @@
-import { createSelector } from 'reselect';
+import {createSelector} from 'reselect';
 
 const selectObj = state => state.obj;
 const selectAdmin = state => state.adminPanel;
 
 ///////////// FOR OBJ Card Details page//////////////
+
+export const curObjAllDataSelector = createSelector(
+    [selectObj],
+    obj => obj.curObjAllData
+);
 export const selectObjFilterSender = createSelector(
-  [selectObj],
+    [selectObj],
     obj => obj.curObjFilterSender
 );
-
 export const selectObjFilterOwn = createSelector(
-  [selectObj],
+    [selectObj],
     obj => obj.curObjFilterOwn
 );
 
 
 export const selectObjFilterDateStart = createSelector(
-  [selectObj],
+    [selectObj],
     obj => obj.curObjFilterDateStart
 );
 
 export const selectObjFilterDateEnd = createSelector(
-  [selectObj],
+    [selectObj],
     obj => obj.curObjFilterDateEnd
 );
 
@@ -31,53 +35,80 @@ export const selectCurrentObj2 = createSelector(
     selectAdmin => selectAdmin.objRect.data.recs.filter(rec => rec.sender.orgname.includes(selectObjFilterSender))
 );
 
-export const selectCurrentObj = createSelector(
+export const selectCurObjRecNotFilter = createSelector(
+    [selectAdmin],
+    selectAdmin => {
+        if (selectAdmin.objRect.amount) {
+            return selectAdmin.objRect.data.recs
+        } else {
+            return null
+        }
+    })
+
+
+export const selectCurObjRec = createSelector(
     [selectAdmin, selectObj],
     (selectAdmin, selectObj) => {
-        if (selectAdmin.objRect.data ){
-            if ( selectAdmin.objRect.data.recs && selectAdmin.objRect.data.recs.length  ) {
-                    let filter01 = [];
-                    const filter0 = selectAdmin.objRect.data.recs.filter(elem => {
-                        const recDate = new Date(elem.rec_date);
-                        const startDate = new Date(selectObj.curObjFilterDateStart);
-                        const endDate = new Date(selectObj.curObjFilterDateEnd + 'T23:23');
+        if (selectAdmin.objRect.amount) {
+            // if (selectAdmin.objRect.data.recs && selectAdmin.objRect.data.recs.length) {
+            //     console.log('44 selectAdmin', selectAdmin)
 
-                        return recDate >= startDate && recDate <= endDate && elem
-                    });
+            // return selectAdmin.objRect.data.recs
+            let filter01 = [];
+            const filter0 = selectAdmin.objRect.data.recs.filter(elem => {
+                const recDate = new Date(elem.rec_date);
+                const startDate = new Date(selectObj.curObjFilterDateStart);
+                const endDate = new Date(selectObj.curObjFilterDateEnd + 'T23:23');
 
-                    const filter11 = filter0.filter(elem => (elem.sender.objname || '').toLowerCase().includes(selectObj.curObjFilterSender));
-                    const filter12 = filter0.filter(elem => (elem.sender.orgname || '').toLowerCase().includes(selectObj.curObjFilterSender));
-                    const filter13 = filter0.filter(elem => (elem.sender.username || '').toLowerCase().includes(selectObj.curObjFilterSender));
+                return recDate >= startDate && recDate <= endDate && elem
+            });
 
-                    if (filter11.length) {
-                        filter01 = filter11;
-                    } else if (filter12.length) {
-                        filter01 = filter12;
-                    } else if (filter13.length) {
-                        filter01 = filter13
-                    }
+            const filter11 = filter0.filter(elem => (elem.sender.objname || '').toLowerCase().includes(selectObj.filterFieldObjs));
+            const filter12 = filter0.filter(elem => (elem.sender.orgname || '').toLowerCase().includes(selectObj.filterFieldOrg));
+            const filter13 = filter0.filter(elem => (elem.sender.username || '').toLowerCase().includes(selectObj.curObjFilterSender));
 
-                    if (filter01.length) {
-                        const filter21 = filter01.filter(elem => (elem.receip.objname || '').toLowerCase().includes(selectObj.curObjFilterOwn));
-                        const filter22 = filter01.filter(elem => (elem.receip.orgname || '').toLowerCase().includes(selectObj.curObjFilterOwn));
-                        const filter23 = filter01.filter(elem => (elem.receip.username || '').toLowerCase().includes(selectObj.curObjFilterOwn));
 
-                        if (filter21.length) {
-                            filter01 = filter21;
-                        } else if (filter22.length) {
-                            filter01 = filter22;
-                        } else if (filter23.length) {
-                            filter01 = filter23
-                        }
+            if (filter11.length === 0) {
+                return []
+            } else if (filter12.length === 0) {
+                return []
+            } else if (filter13.length === 0) {
+                return []
+            }
 
-                        if (filter21.length === 0 && filter22.length === 0 && filter23.length === 0) {
-                            return []
-                        } else {
-                            return filter01
-                        }
-                    }
+            if (filter11.length) {
+                filter01 = filter11;
+            } else if (filter12.length) {
+                filter01 = filter12;
+            } else if (filter13.length) {
+                filter01 = filter13
+            }
+
+            console.log('44 filter01', filter01)
+
+            if (filter01.length) {
+                const filter21 = filter01.filter(elem => (elem.receip.objname || '').toLowerCase().includes(selectObj.curObjFilterOwn));
+                const filter22 = filter01.filter(elem => (elem.receip.orgname || '').toLowerCase().includes(selectObj.curObjFilterOwn));
+                const filter23 = filter01.filter(elem => (elem.receip.username || '').toLowerCase().includes(selectObj.curObjFilterOwn));
+
+                if (filter21.length) {
+                    filter01 = filter21;
+                } else if (filter22.length) {
+                    filter01 = filter22;
+                } else if (filter23.length) {
+                    filter01 = filter23
+                }
+
+                if (filter21.length === 0 && filter22.length === 0 && filter23.length === 0) {
+                    return []
+                } else {
+                    return filter01
+                }
+            }
+            // }
+        } else {
+            return [];
         }
-        }else { return []; }
     }
 )
 

@@ -19,7 +19,7 @@ function ConsentPage( ) {
         <Container maxWidth={false} className={classes.container}>
           <Grid container spacing={3}>
             {/* Recent Orders */}
-            <Grid item xs={12}>
+            <Grid item >
               <Paper className={classes.paper}>
                 <TabFirstConsent  />
                 {/*<TabMenuConsent idObj={idObj}  />*/}

@@ -11,13 +11,13 @@ const CardMapInfoWrap = observer(() => {
     let [objBndS, setObjBndS] = useState([])
     let [relBndS, setRelBndS] = useState([])
 
-    React.useLayoutEffect(() => {
-        // console.log('stateObjsMobx.showMap',stateObjsMobx.showMap)
-        if(stateObjsMobx.showMap){
-            setObjBndS(stateObjsMobx.selBndForMap.objBnd)
-            setRelBndS(stateObjsMobx.selBndForMap.relBnd)
-        }
-    },[stateObjsMobx.showMap])
+    // React.useLayoutEffect(() => {
+    //     // console.log('stateObjsMobx.showMap',stateObjsMobx.showMap)
+    //     if(stateObjsMobx.showMap){
+    //         setObjBndS(stateObjsMobx.selBndForMap.objBnd)
+    //         setRelBndS(stateObjsMobx.selBndForMap.relBnd)
+    //     }
+    // },[stateObjsMobx.showMap])
 
     const setCurObj = () => {
         console.log('setCurObj')
@@ -111,37 +111,37 @@ export default  CardMapInfoWrap
 //     // fetchAuthUser: (userID) => dispatch(fetchAuthUserAsync(userID)),
 // });
 
-
-const reMapRecsDataS = (firstPointOfBnd, recsLength) => {
-    // console.log('reMapRecsDataS - firstPointOfBnd', firstPointOfBnd)
-    // console.log('reMapRecsDataS - recsLength', recsLength)
-
-    let newArr = []
-    let lat = firstPointOfBnd[0]
-    let lng = firstPointOfBnd[1]
-    let x = 0
-    let xRadius = (4 / 3000.0)
-    let yRadius = (6 / 3000.0)
-    let y = 0
-
-    for (let i = 0; i < recsLength; i++) {
-        // x = (i / 3000.0) *  Math.cos(i*5)
-        x = xRadius *  Math.cos(i*15)
-        y = yRadius *  Math.sin(i*15)
-        // y = radius *  sin(angle)
-        lat = firstPointOfBnd[0] + x
-        lng = firstPointOfBnd[1] + y
-        lat = parseFloat(lat.toFixed(5))
-        lng = parseFloat(lng.toFixed(5))
-
-        let newPoint = [lat, lng]
-
-        x += 1
-        y += 1
-
-        newArr.push(newPoint)
-    }
-    return newArr
-}
+//
+// const reMapRecsDataS = (firstPointOfBnd, recsLength) => {
+//     // console.log('reMapRecsDataS - firstPointOfBnd', firstPointOfBnd)
+//     // console.log('reMapRecsDataS - recsLength', recsLength)
+//
+//     let newArr = []
+//     let lat = firstPointOfBnd[0]
+//     let lng = firstPointOfBnd[1]
+//     let x = 0
+//     let xRadius = (4 / 3000.0)
+//     let yRadius = (6 / 3000.0)
+//     let y = 0
+//
+//     for (let i = 0; i < recsLength; i++) {
+//         // x = (i / 3000.0) *  Math.cos(i*5)
+//         x = xRadius *  Math.cos(i*15)
+//         y = yRadius *  Math.sin(i*15)
+//         // y = radius *  sin(angle)
+//         lat = firstPointOfBnd[0] + x
+//         lng = firstPointOfBnd[1] + y
+//         lat = parseFloat(lat.toFixed(5))
+//         lng = parseFloat(lng.toFixed(5))
+//
+//         let newPoint = [lat, lng]
+//
+//         x += 1
+//         y += 1
+//
+//         newArr.push(newPoint)
+//     }
+//     return newArr
+// }
 
 

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useHistory} from "react-router-dom";
 // import _ from "lodash";
 
@@ -29,7 +29,7 @@ import {setCurObjAsync} from '../../../store/objs/obj.actions';
 import {fetchDataForEventShortPoints} from '../../../store/adminPanelTrest/adminPanelTrest.selectors';
 import {selectObjsInfoPage} from '../../../store/adminPanelTrest/StatisticPage.selectors';
 
-import EventDetail from './EventDetail';
+// import EventDetail from './EventDetail';
 
 const useStyles = makeStyles({
     progress: {
@@ -64,26 +64,36 @@ const LinearIndeterminate = () => {
     );
 }
 
+const randomTabElement = (text) => {
+    return (
+        <Random
+            text={ text ? text : 'нет данных'}
+            effect="verticalFadeOut"
+            effectDirection="down"
+            effectChange={3.0}
+        />
+    );
+}
+
 ////////////////////////////
 
 // let pageCoutnt = 0;
 const TabObjs = ({setObjCurrForDetailPage, tabValue, selectObjsInfo, setPageT, offset, isLoading, setCurObj}) => {
 
     const [page, setPage] = React.useState(1);
-    const [orgRow, setOrgName] = useState({});
-    const [isOpenDetail, setIsOpenDetail] = useState(false);
+    // const [orgRow, setOrgName] = useState({});
+    // const [isOpenDetail, setIsOpenDetail] = useState(false);
 
     const history = useHistory();
+    const classes = useStyles();
+
 
     useEffect(() => {
         // console.log('TabObjs --offset',offset);
         if (offset === '0') {
             setPage(1);
         }
-
     }, [offset])
-
-    const classes = useStyles();
 
     const handleChangePage = (event, newPage) => {
         setPageT(newPage);
@@ -91,15 +101,14 @@ const TabObjs = ({setObjCurrForDetailPage, tabValue, selectObjsInfo, setPageT, o
     };
 
     // для детальной информации
-    const closeDetail = () => {
-        setIsOpenDetail(false);
-    }
-
+    // const closeDetail = () => {
+    //     setIsOpenDetail(false);
+    // }
 
     const showEvents = (row) => {
-        setOrgName(row);
+        // setOrgName(row);
         setObjCurrForDetailPage(row);
-        setCurObj(row);
+        // setCurObj(row);
         // history.push(`/stats/objs/${row.objID}`);
 
         history.push({
@@ -111,7 +120,6 @@ const TabObjs = ({setObjCurrForDetailPage, tabValue, selectObjsInfo, setPageT, o
 
     let  openGreen = false;
     let openRed = !tabValue
-
 
     return (
         <React.Fragment>
@@ -136,76 +144,27 @@ const TabObjs = ({setObjCurrForDetailPage, tabValue, selectObjsInfo, setPageT, o
                                     <TableRow key={index} onClick={() => { showEvents(row) }}
                                               style={{backgroundColor: index % 2 === 0 ? '#80808038' : '', opacity: isLoading ? .3 : 1, scale: isLoading ? .3 : 1}}>
                                         <TableCell align="left" style={{backgroundColor: row.color, padding: '6px 0px 6px 0px', width: '4px', maxWidth: '4px'}}/>
-                                        <TableCell component="th" scope="row" style={{scale: isLoading ? .3 : 1}}>
-                                            {!isLoading ? row.objName : <Random
-                                                text={row.objName}
-                                                effect="verticalFadeOut"
-                                                effectDirection="down"
-                                                effectChange={3.0}
-                                            />}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            {!isLoading ? row.organization.orgname : <Random
-                                                text={row.organization.orgname}
-                                                effect="verticalFadeOut"
-                                                effectDirection="down"
-                                                effectChange={3.0}
-                                            />}
-                                        </TableCell>
-                                        <TableCell align="right">
-                                            {!isLoading ? row.objType : <Random
-                                                text={row.objType}
-                                                effect="verticalFadeOut"
-                                                effectDirection="down"
-                                                effectChange={3.0}
-                                            />}
-
-                                        </TableCell>
+                                        <TableCell align="left"  scope="row" style={{scale: isLoading ? .3 : 1}}>{!isLoading ? row.objName : randomTabElement(row.objName) }</TableCell>
+                                        <TableCell align="right">{!isLoading ? row.organization.orgname : randomTabElement(row.organization.orgname)  }</TableCell>
+                                        <TableCell align="right">{!isLoading ? row.objType : randomTabElement(row.objType)   }</TableCell>
                                         <TableCell align="right">{row.objRecsAmount}</TableCell>
-                                        {/* <TableCell align="right">{row.objOwn > 0 ? 'МГГТ' : 'Смежн'}</TableCell> */}
                                         <TableCell align="right">{new Intl.DateTimeFormat('ru-Ru').format(new Date(row.objCreationDate))}</TableCell>
 
                                     </TableRow>
-                                )) : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map((_, index) => (
+                                )) : Array(15).fill(null).map((_, index) => (
                                 <TableRow key={index} style={{backgroundColor: index % 2 === 0 ? '#80808038' : ''}}>
                                     <TableCell className={index % 2 === 0 ? classes.cell : classes.cellOpacity} align="left" style={{width: '4px', maxWidth: '4px'}}/>
-                                    <TableCell className={index % 2 === 0 ? classes.cell : classes.cellOpacity} component="th" scope="row">
-                                        {tabValue ? <LinearIndeterminate/>
-                                            : (isLoading ? <Random
-                                                text={'нет данных'}
-                                                effect="verticalFadeOut"
-                                                effectDirection="down"
-                                                effectChange={3.0}
-                                            /> : 'нет данных')}
+                                    <TableCell className={index % 2 === 0 ? classes.cell : classes.cellOpacity} align="left" component="th" scope="row">
+                                        {tabValue ? <LinearIndeterminate/> : (isLoading ? randomTabElement : 'нет данных')}
                                     </TableCell>
                                     <TableCell className={index % 2 === 0 ? classes.cell : classes.cellOpacity} align="right">{tabValue ? <LinearIndeterminate/>
-                                        : (isLoading ? <Random
-                                            text={'нет данных'}
-                                            effect="verticalFadeOut"
-                                            effectDirection="down"
-                                            effectChange={3.0}
-                                        /> : 'нет данных')}   </TableCell>
+                                        : (isLoading ? randomTabElement : 'нет данных')}   </TableCell>
                                     <TableCell className={index % 2 === 0 ? classes.cell : classes.cellOpacity} align="right">{tabValue ? <LinearIndeterminate/>
-                                        : (isLoading ? <Random
-                                            text={'нет данных'}
-                                            effect="verticalFadeOut"
-                                            effectDirection="down"
-                                            effectChange={3.0}
-                                        /> : 'нет данных')}   </TableCell>
+                                        : (isLoading ? randomTabElement : 'нет данных')}   </TableCell>
                                     <TableCell className={index % 2 === 0 ? classes.cell : classes.cellOpacity} align="right">{tabValue ? <LinearIndeterminate/>
-                                        : (isLoading ? <Random
-                                            text={'нет данных'}
-                                            effect="verticalFadeOut"
-                                            effectDirection="down"
-                                            effectChange={3.0}
-                                        /> : 'нет данных')}   </TableCell>
+                                        : (isLoading ? randomTabElement : 'нет данных')}   </TableCell>
                                     <TableCell className={index % 2 === 0 ? classes.cell : classes.cellOpacity} align="right">{tabValue ? <LinearIndeterminate/>
-                                        : (isLoading ? <Random
-                                            text={'нет данных'}
-                                            effect="verticalFadeOut"
-                                            effectDirection="down"
-                                            effectChange={3.0}
-                                        /> : 'нет данных')}   </TableCell>
+                                        : (isLoading ? randomTabElement : 'нет данных')}   </TableCell>
 
                                 </TableRow>))
 
@@ -218,7 +177,7 @@ const TabObjs = ({setObjCurrForDetailPage, tabValue, selectObjsInfo, setPageT, o
 
             </TableContainer>
 
-            <EventDetail orgRow={orgRow} isOpen={isOpenDetail} closeDetail={closeDetail}/>
+            {/*<EventDetail orgRow={orgRow} isOpen={isOpenDetail} closeDetail={closeDetail}/>*/}
             <MessAlert openRed={openRed} openGreen={openGreen}/>
         </React.Fragment>
     );

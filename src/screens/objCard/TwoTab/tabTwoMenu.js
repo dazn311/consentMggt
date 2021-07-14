@@ -27,8 +27,9 @@ import {
 } from '../../../store/adminPanelTrest/adminPanelTrest.actions';
 
 import {  selectObjsInfoPage } from '../../../store/adminPanelTrest/StatisticPage.selectors';
-import {  selectCurrentObj } from '../../../store/objs/obj.selectors';
+import {  selectCurObjRec } from '../../../store/objs/obj.selectors';
 import { selectErrorFetch } from '../../../store/adminPanelTrest/adminPanelTrest.selectors';
+import { objCurrentSelector } from '../../../store/adminPanelTrest/objspages.selectors';
 
 
 import { setCurFilterSenderAsync, setCurFilterOwnAsync, setCurDateStartAsync, setCurDateEndAsync} from '../../../store/objs/obj.actions'
@@ -40,16 +41,26 @@ import { setCurFilterSenderAsync, setCurFilterOwnAsync, setCurDateStartAsync, se
 //   return { objectType: '2', organization: '0',limit: '15', offset: '0', dateStart: '2021-01-01', dateEnd: endDate,  objKind:'allKind', objStatus:'10', sortCol:'date', sortType:'desc'  }
 // }
 
-
+//selectCurObjRec={selectCurObjRec}
 ////////////////////////////////////////////////
-const TabTwoMenu = ({ selectObjs,selectObjsInfoPage, selectErrorFetch, setMessageError, selectCurrentObj, setCurFilterSender, setCurFilterOwn, setCurDateStart, setCurDateEnd }) => {
+const TabTwoMenu = ({ objCurrentSel, selectObjs,selectObjsInfoPage, selectErrorFetch, setMessageError, curObjRec, setCurFilterSender, setCurFilterOwn, setCurDateStart, setCurDateEnd }) => {
 
   const [amObjsValue, setAmObjsValue] = useState({totalAmount: 0, withRecs: 0, withoutRecs: 0, tabFiltValueLength: 0, tabValueLength: 0, inWork: 0,inEndWork: 0 }); // выводить статистику
   // const [amObjsValueCurrent, setAmObjsValueCurrent] = useState({totalAmount: 0, withRecs: 0, withoutRecs: 0, tabFiltValueLength: 0, tabValueLength: 0, inWork: 0,inEndWork: 0 }); // выводить статистику
 
-  const [isLoading, setIsLoading] = useState(false); // выводить статистику
+  const [isLoading, setIsLoading] = useState(true); // выводить статистику
 
   const classes = useStyles();
+
+  console.log('curObjRec',curObjRec)
+  console.log('selectObjs',selectObjs)
+  console.log('objCurrentSel',objCurrentSel)
+
+  // React.useEffect(()=> {
+  //   if(curObjRec){
+  //     setIsLoading(false)
+  //   }
+  // },[curObjRec])
 
   useEffect(() => {
     if (selectObjsInfoPage.totalAmount > amObjsValue.totalAmount){
@@ -63,7 +74,7 @@ const TabTwoMenu = ({ selectObjs,selectObjsInfoPage, selectErrorFetch, setMessag
 
   const handleClose = (event, reason) => {
     setMessageError('');
-    setIsLoading(false);
+    setIsLoading(true);
   };
 
   ///////////////////////////////////////////
@@ -88,7 +99,7 @@ const TabTwoMenu = ({ selectObjs,selectObjsInfoPage, selectErrorFetch, setMessag
   return (
       <React.Fragment> 
         <div className={classes.seeMore}>
-          <StateElements   selectObjs={selectObjs} />
+          <StateElements   objCurrentSel={objCurrentSel} curObjRec={curObjRec} />
           <div className={classes.datePick}>
             <SearchPanel  setSearchTextObj={setSearchTextObj} setSearchTextOrg={setSearchTextOrg} />
 
@@ -97,9 +108,8 @@ const TabTwoMenu = ({ selectObjs,selectObjsInfoPage, selectErrorFetch, setMessag
               <DatePickerEnd setDateEnd={setDateEnd} />
             </div>
 
-
           </div>
-            <TabObjsEvent tabValue={selectCurrentObj} isLoading={isLoading} amObjsValue={amObjsValue} isOpenD={true}   />
+            <TabObjsEvent tabValue={curObjRec}   isLoading={isLoading}   isOpenD={true}   />
            
         </div>
         <Grid item xs={12} style={{display: selectErrorFetch ? 'block': 'none'}} >
@@ -117,9 +127,10 @@ const TabTwoMenu = ({ selectObjs,selectObjsInfoPage, selectErrorFetch, setMessag
 
 
 const mapStateToProps = createStructuredSelector ({
-  selectCurrentObj: selectCurrentObj, // события короткие данные для таблицы
+  curObjRec: selectCurObjRec, // события короткие данные для таблицы
   selectObjsInfoPage: selectObjsInfoPage, // события короткие данные для таблицы
   selectErrorFetch: selectErrorFetch,
+  objCurrentSel: objCurrentSelector,
 });
 
 const mapDispatchToProps = (dispatch) => ({

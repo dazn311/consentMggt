@@ -24,8 +24,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     marginLeft: 0
-  },   
-  appBarSpacer: theme.mixins.toolbar,
+  },
+  appBarSpacer: {...theme.mixins.toolbar, minHeight: 34,
+    '@media (min-width: 600px)':{
+      minHeight: 44,
+    }
+  },
   content: {
     // flexGrow: 1,
     // height: '100vh',
@@ -59,7 +63,7 @@ const GenDashboard = React.memo(({fetchGenStats, genStatsAll}) => {
 
   useEffect(() => {
     if(!genStatsAll.total_objects){
-      console.log('GenDashboard - fetch start')
+      // console.log('GenDashboard - fetch start')
       fetchGenStats()
     }
   }, [ genStatsAll.total_objects, fetchGenStats ])

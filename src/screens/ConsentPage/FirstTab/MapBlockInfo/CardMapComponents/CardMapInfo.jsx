@@ -8,7 +8,7 @@ import {
     TileLayer,
     // Popup,
     // Circle,
-    CircleMarker,
+    // CircleMarker,
     // Polyline,
     Polygon,
     // Rectangle,

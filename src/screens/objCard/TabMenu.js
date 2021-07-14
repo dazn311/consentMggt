@@ -4,26 +4,22 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
-// import { connect } from 'react-redux';
-// import { createStructuredSelector } from 'reselect';
-
 import { makeStyles } from '@material-ui/core/styles';
-// import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
 
 // import TabOGH from './TabOGH' 
-import TabOneMenu from './FirstTab/tabOneMenu'
+import TabOneMenu from './FirstTab/TabFirst-objCard'
 import TabTwoMenu from './TwoTab/tabTwoMenu'
+
 import {selectObjsInfoPage
     // , selectObjsPage
 } from "../../store/adminPanelTrest/StatisticPage.selectors";
-import {selectCurrentObj} from "../../store/objs/obj.selectors";
+import {selectCurObjRec, selectCurObjRecNotFilter} from "../../store/objs/obj.selectors";
 import {selectErrorFetch} from "../../store/adminPanelTrest/adminPanelTrest.selectors";
-// import {fetchObjectsListAsync, setMessageError} from "../../store/adminPanelTrest/adminPanelTrest.actions";
-// import TabThirdMenu from './ThirdTab/tabThirdMenu'
+import {objCurrentSelector} from "../../store/adminPanelTrest/objspages.selectors";
 
 
 function TabPanel(props) {
@@ -53,10 +49,7 @@ TabPanel.propTypes = {
 };
 
 function a11yProps(index) {
-  return {
-    id: `scrollable-auto-tab-${index}`,
-    'aria-controls': `scrollable-auto-tabpanel-${index}`,
-  };
+  return { id: `scrollable-auto-tab-${index}`, 'aria-controls': `scrollable-auto-tabpanel-${index}`  };
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -67,7 +60,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TabMenu = ({idObj, currObj, selectCurrentObj}) => {
+
+
+
+const TabMenu = ({idObj, currObj, selectCurObjRec, objCurrentSel, selectCurObjRecNotFilter}) => {
 
     const [value, setValue] = useState(0);
     const [showTab2, setShowTab2] = useState(false);
@@ -76,21 +72,26 @@ const TabMenu = ({idObj, currObj, selectCurrentObj}) => {
      const handleChange = (event, newValue) => {
         setValue(newValue);
     };
-    // console.log('selectCurrentObj', selectCurrentObj)
-    // console.log('currObj', currObj)
-    // console.log('idObj', idObj)
 
-    useEffect(() => {
-        if (selectCurrentObj) {
-            if (selectCurrentObj.length) {
+    // console.log('selectCurObjRec', selectCurObjRec) // []
+    // console.log('objCurrentSel', objCurrentSel) //{objID: 21679, objName: "Красноказарменная площадь ОО", objRelatives: Array(3), objAsuID: 0, objStatus: 1, …}
+    // console.log('currObj', currObj) //currObj {objID: 21679, objName: "Красноказарменная площадь ОО", objRelatives: Array(3), objAsuID: 0, objStatus: 1, …}
+    // console.log('idObj', idObj) //21679
+
+
+    React.useEffect(() => {
+        if (selectCurObjRecNotFilter) {
+            // if (selectCurObjRec) {
                 setShowTab2(true);
-            }else {
-                setShowTab2(false);
-            }
+            // }else {
+            //     setShowTab2(false);
+            // }
         }else {
             setShowTab2(false);
         }
-    },[selectCurrentObj])
+    },[selectCurObjRecNotFilter])
+
+// debugger
 
     return (
             <div className={classes.root}>
@@ -112,7 +113,7 @@ const TabMenu = ({idObj, currObj, selectCurrentObj}) => {
                   <TabOneMenu idObj={idObj} currObj={currObj} />
               </TabPanel>
               <TabPanel value={value} index={1}>
-                  {showTab2 && <TabTwoMenu idObj={idObj} selectObjs={currObj} />}
+                  {showTab2 && <TabTwoMenu idObj={idObj} selectObjs={selectCurObjRec} selectCurObjRec={selectCurObjRec} />}
 
               </TabPanel>
             </div>
@@ -121,9 +122,11 @@ const TabMenu = ({idObj, currObj, selectCurrentObj}) => {
 
 
 const mapStateToProps = createStructuredSelector ({
-    selectCurrentObj: selectCurrentObj, // события короткие данные для таблицы
+    selectCurObjRecNotFilter: selectCurObjRecNotFilter, // события короткие данные для таблицы
+    selectCurObjRec: selectCurObjRec, // события короткие данные для таблицы
     selectObjsInfoPage: selectObjsInfoPage, // события короткие данные для таблицы
     selectErrorFetch: selectErrorFetch,
+    objCurrentSel: objCurrentSelector,
 });
 
 

@@ -20,12 +20,12 @@ export const ListObjs = ({objects, curObjId}) => {
         return (<ElemObj key={uuIdv4()} obj={props} isActive={props.objID === curObjId}/>)
     }
 
-}
 
-{/*<FixedSizeList height={300} width={300} itemSize={21} itemCount={100}>*/
-}
-{/*    {renderRow}*/
-}
-{/*</FixedSizeList>*/
+    // {/*<FixedSizeList height={300} width={300} itemSize={21} itemCount={100}>*/
+    // }
+    // {/*    {renderRow}*/
+    // }
+    // {/*</FixedSizeList>*/
+    // }
 }
 

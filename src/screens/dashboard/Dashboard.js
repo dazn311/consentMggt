@@ -41,7 +41,7 @@ const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchA
         fetchEventsPointShort({limit: 1200, offset: 0});
         fetchAmountOGHToDay()
         // fetchGenStats();
-    }, [fetchEventsPointShort])
+    }, [fetchEventsPointShort,fetchAmountOGHToDay])
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
     const winWidth = window.innerWidth;
@@ -86,7 +86,7 @@ const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchA
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth={false} className={classes.container}>
 
-                    <Grid item xs={12} md={5} lg={6} style={{maxWidth: 660, minWidth: 400}}>
+                    <Grid item xs={12} md={6} lg={6} style={{maxWidth: 660, minWidth: 550}}>
                         <Paper elevation={1} className={fixedHeightPaper}>
                             <h4 style={{textAlign: 'center', position: 'relative', marginTop: '0px', left: '0'}}> {lineHeader}</h4>
                             <LineChartWrap/>
@@ -95,12 +95,12 @@ const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchA
 
 
 
-                    <Grid item xs={12} md={3} lg={3}>
+                    <Grid item xs={12} md={5} lg={3}>
                         <Paper elevation={1} className={fixedHeightPaper}>
                             <Deposits/> {/* Количество ОГХ */}
                         </Paper>
                     </Grid>
-                    <Grid item xs={12} md={3} lg={3}>
+                    <Grid item xs={12} md={5} lg={3}>
                         <Paper elevation={1} className={fixedHeightPaper}>
                             <NewOGH/> {/* Новые ОГХ */}
                         </Paper>

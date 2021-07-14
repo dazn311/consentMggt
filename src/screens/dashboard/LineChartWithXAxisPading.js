@@ -27,7 +27,7 @@ class LineChartWithXAxisPadding extends PureComponent {
         // console.log('widthLine',widthLine)
         return (
             <div id='line-chart-with-axis-padding-f' style={{position: 'relative', display: 'flex', justifyContent: 'space-between', width: '100%'}}>
-                <div className='line-chart-wrap' style={{width: widthLine, minWidth: widthLine }} >
+                <div className='line-chart-wrap' style={{width: widthLine, minWidth: widthLine  }} >
                     <LineChart width={widthLine} height={200} data={data} margin={{top: 8, left:  mLeft, bottom: mBottom, right:  mRight}}>
                         <CartesianGrid strokeDasharray="8 3"/>
 

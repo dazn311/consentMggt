@@ -1,51 +1,17 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { useLocation } from "react-router-dom";
+
 import CssBaseline from '@material-ui/core/CssBaseline';
-// import Box from '@material-ui/core/Box';
-// import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-// import Link from '@material-ui/core/Link';
 
-import { useLocation } from "react-router-dom";
-
-// import Header from '../../components/header/header.component';
-import TabMenu from './TabMenu'
-   
+import useStyles from './ObjCard.styles';
 import './historyChanges.styles.scss';
 
+import TabMenu from './TabMenu'
 
- 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    marginLeft: 0
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 1,
-    height: '92vh',
-    overflow: 'auto',
-  },
-  container: {
-    paddingTop: theme.spacing(1),
-    paddingBottom: theme.spacing(1),
-    paddingLeft: theme.spacing(1),
-  },
-  paper: {
-    padding: theme.spacing(1),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
-  },
-  fixedHeight: {
-    height: 240,
-  },
-}));
-//<HistoryChanges eventShortPoints={eventShortPoints}/>
-
-export default function ObjCard({eventShortPoints, idObj}) {
+export default function ObjCard({ idObj }) {
   const classes = useStyles();
   const location = useLocation();
   const currObj = location.row;

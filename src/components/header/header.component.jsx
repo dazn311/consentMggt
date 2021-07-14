@@ -14,7 +14,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
 import PersonIcon from '@material-ui/icons/Person';
-import { useTheme, withStyles, createMuiTheme } from '@material-ui/core/styles';
+import { useTheme, withStyles } from '@material-ui/core/styles';
 
 import clsx from 'clsx';
 
@@ -26,25 +26,6 @@ import BlackDrop from '../blackDrop/BlackDrop.component';
 import { selectCurrentUser } from '../../store/user/user.selectors';
 
 import './header.styles.scss';
-
-// const drawerWidth = 240;
-// const drawerMinWidth = 57;
-
-const theme = createMuiTheme({
-    overrides: {
-        MuiToolbar: {
-            regular: {
-                backgroundColor: "#ffff00",
-                color: "#000000",
-                height: "32px",
-                minHeight: "32px",
-                '@media (min-width: 600px)': {
-                    minHeight: "48px"
-                }
-            },
-        },
-    }
-});
 
 const Header = ({ currentUser, children, setTheme }) => {
     const [open, setOpen] = React.useState(false);
@@ -58,10 +39,6 @@ const Header = ({ currentUser, children, setTheme }) => {
     React.useEffect(() => {
         const headTitleCur2 = location.pathname.split('/')[2];
         const headTitleCur = location.pathname.split('/').pop();
-
-        // console.log('headTitleCur2',!!headTitleCur2);
-        // console.log('headTitleCur',headTitleCur);
-        // console.log('location.pathname',location.pathname);
 
         if (headTitleCur2 === 'ogh') {
             setHeaderTitle('События')
@@ -86,7 +63,7 @@ const Header = ({ currentUser, children, setTheme }) => {
 
         setOpen(false);
 
-    }, [location]);
+    }, [location,history]);
 
 
     const handleDrawerOpen = () => {

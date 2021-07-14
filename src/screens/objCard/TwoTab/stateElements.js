@@ -33,18 +33,28 @@ const useStyles = makeStyles((theme) => ({
 
 
 ///////////////////////////////////////////
-export default function StateElements({ selectObjs}) {
+export default function StateElements({ objCurrentSel, curObjRec}) {
+
 
   const classes = useStyles();
-  if (!selectObjs) {
+
+  if (!curObjRec || !objCurrentSel) {
+
     return (<div>Нет данных..</div>)
   }
-  return ( 
+
+  // debugger;
+
+  return (
     <React.Fragment>
       <Grid container alignItems="center" className={classes.root}>
-          <div className={classes.amObjs}>   <span style={{color:'#5a809e'}}>{selectObjs && selectObjs.objName}</span><span style={{color:'grey'}}> (objID: {selectObjs && selectObjs.objID})</span></div>
+        <div className={classes.amObjs}>   <span style={{color:'#5a809e'}}>{objCurrentSel && objCurrentSel.objName}</span><span style={{color:'grey'}}> (objID: {objCurrentSel && objCurrentSel.objID})</span></div>
+
         <Divider orientation="vertical" flexItem  />
-          <div className={classes.amObjs}>Всего событий: <span style={{color:'green'}}>{selectObjs.objRelatives && selectObjs.objRelatives.length}</span> <span style={{color:'grey'}}> ({selectObjs.objRelatives && selectObjs.objRelatives.length})</span></div>
+        {curObjRec.length
+        ? <div className={classes.amObjs}>Всего событий: <span style={{color:'green'}}>{ curObjRec.length}</span> <span style={{color:'grey'}}> ({curObjRec.length})</span></div>
+        : ''}
+
         {/*<Divider orientation="vertical" flexItem />*/}
         {/*  <div className={classes.amObjs}>не имеют события: <span style={{color:'red'}}>{amObjsValue.withoutRecs}</span> <span style={{color:'grey'}}> ({amObjsValueCurrent.withoutRecs})</span></div>*/}
         {/*<Divider orientation="vertical" flexItem />  */}

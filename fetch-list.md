@@ -50,8 +50,8 @@ historyChanges path="/stats/ogh"
 
 ===========
 ObjPage  path="/stats/objs)
-	TabOneMenu from './FirstTab/tabOneMenu'
-		-TabOneMenu	  //290421 ObjPage page - TabOneMenu
+	TabFirstObjCard from './FirstTab/tabOneMenu'
+		-TabFirstObjCard	  //290421 ObjPage page - TabFirstObjCard
 			selectObjsPage, // события короткие данные для таблицы
 			selectObjsInfoPage, // события короткие данные для таблицы
 
@@ -96,8 +96,8 @@ ObjPage  path="/stats/objs)
 	
 =====================
 UsersPage
-	TabOneMenu from './FirstTab/tabOneMenu'
-		-TabOneMenu   //290421 UsersPage page - TabOneMenu
+	TabFirstObjCard from './FirstTab/tabOneMenu'
+		-TabFirstObjCard   //290421 UsersPage page - TabFirstObjCard
 			selectAllUsersFromDb
 			
 			fetchAllUsers();	//fetchAllUsersFromDB
@@ -112,7 +112,7 @@ UsersPage
 
 =========================
 UserDetails
-	-TabOneMenu
+	-TabFirstObjCard
 		
 
 

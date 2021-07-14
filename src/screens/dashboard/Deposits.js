@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
-import moment from 'moment/moment';
+// import moment from 'moment/moment';
 
 // import Link from '@material-ui/core/Link';
 import {makeStyles} from '@material-ui/core/styles';

@@ -1,5 +1,4 @@
 import React, {useCallback, useEffect, useState} from 'react';
-
 import {connect} from 'react-redux';
 import {createStructuredSelector} from 'reselect';
 
@@ -19,21 +18,24 @@ const boundsInit = [[55.975113, 37.274017], [55.541198, 37.996513]];
 let localMap;
 
 
-const CardYandexMap = ({
-                           selectedObj,
-                           objAdress = 'Зорге, 1',
-                           orgName,
-                           setCurObj,
-                           fullDataOfActiveObForMapForRelatives
-                       }) => {
+const CardYandexMap = ({ objAddress = 'Зорге, 1',  setCurObj }) => {
     // const [draggable, setDraggable] = useState(false)
     const [position, setPosition] = useState(positionInit)
+    const mapRef = React.useRef(null)
+
+    React.useLayoutEffect(() => {
+        mapRef.current = new window.ymaps.Map('mapYandex', {center: positionInit, zoom: 16}, {
+            searchControlProvider: 'yandex#search'
+        });
+    },[])
 
     const handleLoad = useCallback((center) => {
-        window.ymaps.ready(['ext.paintOnMap']).then(() => {
-            localMap = new window.ymaps.Map('mapYandex', {center: center, zoom: 16}, {
-                searchControlProvider: 'yandex#search'
-            });
+        console.log('start hedn')
+        // window.ymaps.ready(['ext.paintOnMap']).then(() => {
+        // window.ymaps.ready().then(() => {
+        //     localMap = new window.ymaps.Map('mapYandex', {center: center, zoom: 16}, {
+        //         searchControlProvider: 'yandex#search'
+        //     });
 
             const circle = new window.ymaps.GeoObject({
                 geometry: {
@@ -43,7 +45,7 @@ const CardYandexMap = ({
                 },
                 // Свойства.
                 properties: {
-                    hintContent: objAdress,
+                    hintContent: objAddress,
                     balloonContent: 'поправь меня'
                 }
             }, {
@@ -76,7 +78,7 @@ const CardYandexMap = ({
                         let firstGeoObject = res.geoObjects.get(0);
 
                         let nameCurObj = firstGeoObject.properties._data.name;
-                        if (objAdress !== nameCurObj) {
+                        if (objAddress !== nameCurObj) {
                             let newData = {...setCurObj, objName: nameCurObj};
                             setCurObj(newData)
                         }
@@ -86,7 +88,7 @@ const CardYandexMap = ({
 
                 });
 
-            localMap.geoObjects.add(circle);
+            mapRef.current.geoObjects.add(circle);
 
             ///////////
             let paintProcess;
@@ -102,18 +104,18 @@ const CardYandexMap = ({
 
             let currentIndex = 0;
 
-            localMap.events.add('mousedown', function (e) {
+        mapRef.current.events.add('mousedown', function (e) {
                 if (e.get('altKey')) {
                     if (currentIndex === styles.length - 1) {
                         currentIndex = 0;
                     } else {
                         currentIndex += 1;
                     }
-                    paintProcess = new window.ymaps.ext.paintOnMap(localMap, e, {style: styles[currentIndex]});
+                    paintProcess = new window.ymaps.ext.paintOnMap(mapRef.current, e, {style: styles[currentIndex]});
                 }
             });
             //
-            localMap.events.add('mouseup', function (e) {
+        mapRef.current.events.add('mouseup', function (e) {
                 if (paintProcess) {
                     let coordinates = paintProcess.finishPaintingAt(e);
                     paintProcess = null;
@@ -122,63 +124,62 @@ const CardYandexMap = ({
                         new window.ymaps.Polyline(coordinates, {}, styles[currentIndex])
                     // : new window.ymaps.Polygon([coordinates], {}, styles[currentIndex]);
 
-                    localMap.geoObjects.add(geoObject);
+                    mapRef.current.geoObjects.add(geoObject);
                 }
             });
 
 
-        })
+        // })
 
-    },[objAdress, setCurObj])
+    },[objAddress, setCurObj])
 
 
     ////////////////
 
-    useEffect(() => {
-        window.ymaps.ready(() => {
-        });
-    }, [handleLoad])
+    // useEffect(() => {
+    //     handleLoad(positionInit)
+    // }, [handleLoad])
 
-
-    useEffect(() => {
-
-        const setAdresToMap = (dataSearch) => {
-
-            window.ymaps.ready(() => {
-                // localMap.destroy();// Деструктор карты
-                // const adress = fullDataOfActiveObForMapForRelatives ? fullDataOfActiveObForMapForRelatives : objAdress;
-                window.ymaps.geocode(dataSearch, {
-                    boundedBy: boundsInit,
-                    // boundedBy: localMap.getBounds(),
-                    strictBounds: true,
-                    results: 1
-                })
-                    .then(function (res) {
-                        let centerCurObj = null
-                        let firstGeoObject = res.geoObjects.get(0);
-                        console.log('firstGeoObject', firstGeoObject)
-                        if (firstGeoObject === undefined) {
-                            // setAdresToMap(orgName) //
-                            centerCurObj = positionInit
-                        } else {
-                            centerCurObj = firstGeoObject.geometry.getCoordinates();
-
-                        }
-
-                        if (position !== centerCurObj) {
-                            setPosition(centerCurObj);
-                        }
-
-                        handleLoad(centerCurObj);
-                    }, function (err) {
-                        alert(err.message);
-                    });
-            })
-        }
-
-        setAdresToMap(objAdress)
-
-    }, [objAdress,handleLoad, position])
+    //
+    // useEffect(() => {
+    //
+    //     const setAddressToMap = (dataSearch) => {
+    //         console.log('dataSearch',dataSearch)
+    //         // window.ymaps.ready(() => {
+    //             // localMap.destroy();// Деструктор карты
+    //             // const adress = fullDataOfActiveObForMapForRelatives ? fullDataOfActiveObForMapForRelatives : objAddress;
+    //             mapRef.current.geocode(dataSearch, {
+    //                 boundedBy: boundsInit,
+    //                 // boundedBy: localMap.getBounds(),
+    //                 strictBounds: true,
+    //                 results: 1
+    //             })
+    //                 .then(function (res) {
+    //                     let centerCurObj = null
+    //                     let firstGeoObject = res.geoObjects.get(0);
+    //                     console.log('firstGeoObject', firstGeoObject)
+    //                     if (firstGeoObject === undefined) {
+    //                         // setAddressToMap(orgName) //
+    //                         centerCurObj = positionInit
+    //                     } else {
+    //                         centerCurObj = firstGeoObject.geometry.getCoordinates();
+    //
+    //                     }
+    //
+    //                     if (position !== centerCurObj) {
+    //                         setPosition(centerCurObj);
+    //                     }
+    //
+    //                     handleLoad(centerCurObj);
+    //                 }, function (err) {
+    //                     alert(err.message);
+    //                 });
+    //         // })
+    //     }
+    //
+    //     // setAddressToMap(objAddress)
+    //
+    // }, [objAddress])
 
 
     return (

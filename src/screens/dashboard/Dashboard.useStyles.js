@@ -5,8 +5,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     marginLeft: theme.spacing(0)
-  },  
-  appBarSpacer: theme.mixins.toolbar,
+  },
+  appBarSpacer: {...theme.mixins.toolbar, minHeight: 34,
+    '@media (min-width: 600px)':{
+      minHeight: 44,
+    }
+  },
   content: {
     flexGrow: 1,
     // height: '100vh',
