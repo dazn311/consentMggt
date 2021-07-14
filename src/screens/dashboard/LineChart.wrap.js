@@ -8,6 +8,7 @@ import LineChartComp from './LineChartWithXAxisPading';
 import {selectCurrDay, selectCurrDayData, selectGraphSuccess, selectGraphAmount} from '../../store/adminPanelTrest/adminPanelTrest.selectors';
 
 import {fetchAllForGraphicsAsync} from '../../store/adminPanelTrest/adminPanelTrest.actions';
+import dataInitial, {dataInitialMos} from "./graphDataEmty";
 
 ///////////////////// Line Chart /////////////////////////////
 const LineChartWrap = ({fetchAllForGraphics, selectCurrDay, selectCurrDayData, selectGraphSuccess, selectGraphAmount}) => {
@@ -31,9 +32,11 @@ const LineChartWrap = ({fetchAllForGraphics, selectCurrDay, selectCurrDayData, s
 
     //
 
-
-    if (selectCurrDay.length === 0) {
-        return (<div> loading..</div>)
+// debugger
+    if (!selectCurrDayData) {
+        return (
+            <LineChartComp data={dataInitialMos} isFetchingUserOnline={selectGraphSuccess} dateLabel={'0000-00-00'} usersCount={0} eventsAmount={0} endedAmount={0} fetchAll={()=>{}}/>
+        )
     }
 
     return (

@@ -1,22 +1,12 @@
-import React  from 'react'; 
-import { makeStyles } from '@material-ui/core/styles';
+import React  from 'react';
+
 import Typography from '@material-ui/core/Typography';
 
+import lastDate from './gen.services';
 
 import Title from './Title';
- 
-const useStyles = makeStyles({
-    depositContext: {
-        flex: 1,
-        fontSize: 11,
-        padding: '8px 0'
-    },
-});
+import useStyles from './gen.styles'
 
-let endDate = new Date();
-endDate = endDate.toISOString();
-let lastDate = endDate.split('T')[0].split('-');
- 
 const GenOneDayPeriod = React.memo(({ data }) => {
     const classes = useStyles();
 
@@ -56,5 +46,4 @@ const GenOneDayPeriod = React.memo(({ data }) => {
     );
 })
 
- 
 export default GenOneDayPeriod;

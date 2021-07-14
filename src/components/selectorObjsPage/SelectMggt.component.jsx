@@ -21,10 +21,12 @@ const useStyles = makeStyles((theme) => ({
   // }
 }));
 
+let idCount = 0
 export default function SelectMggt({caption, defaultVal, valueItems, setType}) {
   const classes = useStyles();
   // const [age, setAge] = React.useState(30);
 
+    idCount += 1
   const handleChange = (event) => {
     // setAge(event.target.value);
     
@@ -37,13 +39,14 @@ export default function SelectMggt({caption, defaultVal, valueItems, setType}) {
     <div>
        
        <FormControl variant="filled" className={classes.formControl}>
-        <InputLabel id="demo-simple-select-filled-label">{caption}</InputLabel>
+        <InputLabel id="simple-select-filled-label">{caption}</InputLabel>
         <Select
-          labelId="demo-simple-select-filled-label"
-          id="demo-simple-select-filled"
+          labelId="simple-select-filled-label"
+          id={`select-filled-${idCount}`}
           defaultValue={defaultVal}
           value={defaultVal}
           onChange={handleChange}
+          style={{height:40}}
         >
            {/* {valueItems, setType, type=30}// valueItems 10 Смежные МГГТ  Все*/}
            {/* valueForBtnMggt = {other:'0',mggt:'1',all:'2'}; */}

@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.purple //'#a4a5d8'
   },
     p: {margin: '0 4px', borderBottom:'1px solid grey'},
-    divOrg: {display:'flex', flexDirection:'column', borderBottom:'1px solid #ff000021'}
+    divOrg: {display:'flex', flexDirection:'column' }
 }));
 
 const p = (objIdSme, classes) => {
@@ -53,11 +53,11 @@ const p = (objIdSme, classes) => {
 }
 
 //selectedObj - curr obj
-const CartGenInfo = ({ objRect, objCurrentSel, objRelativesSel, currObj}) => {
+const CartGenInfo = ({ objRect, objCurrentSel, objRelativesSel = []}) => {
   const classes = useStyles();
 
   // if (!currObj) { return(<div>нет данных об организации</div>) }
-  if (!objCurrentSel || !objRelativesSel.length) { return(<div>нет данных об организации.</div>) }
+  if (!objCurrentSel ) { return(<div>нет данных об организации.</div>) }
 // debugger
   let SmeObjList = objRelativesSel && objRelativesSel.map((objIdSme, index)  => {
       const newRec = objRect && objRect.find(rec  =>  objIdSme === rec.receip.objectID  )

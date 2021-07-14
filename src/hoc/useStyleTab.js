@@ -21,7 +21,7 @@ export const useStyles = makeStyles((theme) => ({
         width: window.innerWidth > 500 ? 'calc(100% - 8px)' : '100%'
 
     },
-    btnSearch: {height:  '41px', marginLeft: 2, marginTop: 8, backgroundColor: theme.palette.primary.main},
+    btnSearch: {alignSelf:  'center', marginLeft: 2, backgroundColor: theme.palette.primary.main},
     btnSearchMobile: {height:  '43px', marginLeft: 0, marginTop: 8, width: '100%', backgroundColor: theme.palette.primary.main},
     datePick: {
         display: 'flex',

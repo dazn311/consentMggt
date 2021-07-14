@@ -1,37 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { createStructuredSelector } from 'reselect';
-import moment from 'moment/moment';
 
-// import Link from '@material-ui/core/Link';
-import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-// import { Slide } from "@material-ui/core";
-
-
-import Title from './Title';
-
-import { selectAmountOGH } from '../../store/adminPanelTrest/adminPanelTrest.selectors';
 // import CircularProgress from "@material-ui/core/CircularProgress/CircularProgress";
 
-const useStyles = makeStyles({
-    depositContext: {
-        flex: 1,
-        fontSize: 11,
-        padding: '8px 0'
-    },
-});
+import Title from './Title';
+import lastDate from './gen.services';
+import useStyles from './gen.styles'
 
- 
-const GenDeposits = React.memo(({amountOGH, data }) => {
+const GenDeposits = React.memo(({data }) => {
     const classes = useStyles();
-
     const {total_objects, total_mggt_objects, total_users} = data;
-
-
-    let tt = moment(amountOGH.dataTime).toISOString();
-    let lastDate = tt.split('T')[0].split('-');
-
 
     return (
         <React.Fragment>
@@ -71,9 +49,5 @@ const GenDeposits = React.memo(({amountOGH, data }) => {
 })
 
 
-const mapStateToProps = createStructuredSelector ({
-    amountOGH: selectAmountOGH, 
-});
- 
 
-export default connect(mapStateToProps)(GenDeposits);
+export default GenDeposits

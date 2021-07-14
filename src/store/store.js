@@ -1,15 +1,24 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'
+import { persistStore, persistReducer  } from 'redux-persist';
+
+// import storage from 'redux-persist/lib/storage'
+import sessionStorage from 'redux-persist/lib/storage/session'
 
 import logger from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
 
-import rootReducer from './root-reducer';
+import   { rootReducer} from './root-reducer';
+
+// const persistConfig = {
+//         key: 'root',
+//         storage,
+// }
 
 const persistConfig = {
-        key: 'root',
-        storage,
+    key: 'root',
+    // storage,
+    storage: sessionStorage,
+    whitelist: ['adminPanel,obj']
 }
 
 const middlewares = [ReduxThunk];
