@@ -1,34 +1,35 @@
 import React, {useRef, useState} from 'react';
 
-import * as L from 'leaflet';
-import 'proj4leaflet';
+import L from "proj4leaflet";
+// import L from "leaflet";
 
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 import {
-    MapComponent,
     TileLayer,
-    Popup,
+    // Popup,
     // Circle,
     // CircleMarker,
     // Polyline,
     Polygon,
     // Rectangle,
-    Map,
-    Marker
-
-    // SVGOverlay
+    Map
+    // , Marker, SVGOverlay
 } from 'react-leaflet'
 
 import "leaflet/dist/leaflet.css";
 
-let DefaultIcon = L.icon({
-    iconUrl: 'https://static1.squarespace.com/static/58c9e16237c5813452abfd18/t/5ad62def352f53ede18773ba/1622151102743/',
-    shadowUrl: iconShadow,
-    iconSize: 40,
-    iconAnchor: [0, 24]
-});
-//
+import {Slide} from "@material-ui/core";
+
+// let DefaultIcon = L.icon({
+//     iconUrl: 'https://static1.squarespace.com/static/58c9e16237c5813452abfd18/t/5ad62def352f53ede18773ba/1622151102743/',
+//     shadowUrl: iconShadow,
+//     iconSize: 40,
+//     iconAnchor: [0, 24]
+// });
+
+
+const def_msk = '+proj=tmerc +lat_0=55.6666666667 +lon_0=37.5 +x_0=0 +y_0=0 +k_0=1. +a=6377397 +rf=299.15 +towgs84=396,165,557.7,-0.05,0.04,0.01,0 +no_defs';
 
 
 ///////////////////////////////////////////////////objAddress = 'Зорге, 1', objBnd = '', id = 0, setCurObj///////////////////////////////
@@ -36,46 +37,21 @@ const CardMapInfo = ({bnd, showMap = false}) => {
     const [purpleOptions] = useState({shapeOptions: {color: '#f00'}})
     const [yellowOptions] = useState({fillOpacity: .1, color: "orange", fill: 'red'})
 
+    const sliderRef = useRef(null)
     const localMapRef = useRef(null)
 
-    L.Marker.prototype.options.icon = DefaultIcon;
+    let crsMos = new L.CRS( def_msk, { resolutions: [8192,4096,2048]} )
 
-    return (
-            <Map  key={'map567890'}
-                 dragging={true}
-                 zoom={15}
-                 scrollWheelZoom={false}
-                 bounds={bnd.objBnd && bnd.objBnd.coordinates}
-                 ref={localMapRef}
-                // crs={L.CRS.EPSG4326}
-                // crs={crsMos}
-                // CRS
-            >
-                {bnd.relBnd
-                && <Polygon
-                    key={1}
-                    lineCap={'butt'}
-                    color={'#ff9800'}
-                    opacity={0.5}
-                    draggable={true}
-                    pathOptions={yellowOptions}
-                    positions={bnd.relBnd ? bnd.relBnd.coordinates : []}
-                />}
+    let map = L.map('map', {
+        crs: crsMos,
+        continuousWorld: true,
+        worldCopyJump: false
+    });
 
-                {bnd.objBnd &&
-                // && <TileLayer>
-                    <Polygon key={2} draggable={true} pathOptions={purpleOptions} positions={bnd.objBnd.coordinates}/>
+    L.tileLayer('http://tile.example.com/example/{z}/{x}/{y}.png').addTo(map);
+    // L.Marker.prototype.options.icon = DefaultIcon;
 
-                // </TileLayer>
-                    }
-
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">MosGeoTrest</a> '
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
-
-            </Map>
-    );
+    return (  <div id={'map'}></div> );
 }
 
 
@@ -317,6 +293,7 @@ export default CardMapInfo
 // },[localMapRef.current])
 
 
+
 //<Slide direction="down" in={showMap} mountOnEnter unmountOnExit ref={sliderRef} timeout={2000} children={localMapRef}>
 //             <Map key={'map567890'}
 //                  dragging={true}
@@ -353,58 +330,6 @@ export default CardMapInfo
 //
 //             </Map>
 //         </Slide>
-
-
-
-// import {Slide} from "@material-ui/core";
-
-// import {Slide} from "@material-ui/core";
-//
-// let DefaultIcon = L.icon({
-//     iconUrl: 'https://static1.squarespace.com/static/58c9e16237c5813452abfd18/t/5ad62def352f53ede18773ba/1622151102743/',
-//     shadowUrl: iconShadow,
-//     iconSize: 40,
-//     iconAnchor: [0, 24]
-// });
-//
-//
-// const def_msk = '+proj=tmerc +lat_0=55.6666666667 +lon_0=37.5 +x_0=0 +y_0=0 +k_0=1. +a=6377397 +rf=299.15 +towgs84=396,165,557.7,-0.05,0.04,0.01,0 +no_defs';
-
-
-
-// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-// import L from "proj4leaflet";
-// import L from "leaflet";
-
-
-// let crsMos = new L.Proj.CRS('EPSG:4326',def_msk, {resolutions: [8192, 4096, 2048, 1024, 512, 256, 128]})
-// let crsMos = new L.Proj.CRS('EPSG:8901', '+proj=utm +zone=32 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs',
-//     {
-//         resolutions: [
-//             131073, 65537, 32769, 16385, 8193, 4097, 2049, 1025, 513, 257,
-//             129,
-//             65, 33, 17, 9, 5, 3, 2
-//         ],
-//         origin: [9629.222929, -1987.333308],
-//         bounds:  L.bounds( [9629.056505, -1989.108605], [9629.222929, -1987.333308]),
-//     })
-////9629.056505 -1989.108605,9629.222929 -1987.333308,
-
-// let map = L.map('map', {
-//     crs: crsMos,
-//     zoomControl: false,
-//     zoomSnap: 0.1,
-//     continuousWorld: true,
-//     worldCopyJump: false
-// }).setView([59.877812, 8.590628], 5);
-//.setView([9629.056505, -1989.108605], 13);
-
-//9629.056505 -1989.108605,9629.222929 -1987.333308, - moscow
-
-// L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-//     minZoom: 7,
-//     maxZoom: 18
-// }).addTo(map);
 
 
 

@@ -18,7 +18,7 @@ const persistConfig = {
     key: 'root',
     // storage,
     storage: sessionStorage,
-    whitelist: ['adminPanel,obj']
+    // whitelist: ['adminPanel,obj']
 }
 
 const middlewares = [ReduxThunk];
