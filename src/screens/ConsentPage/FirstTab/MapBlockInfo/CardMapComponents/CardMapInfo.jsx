@@ -4,18 +4,19 @@ import * as L from 'leaflet';
 import 'proj4leaflet';
 
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
+// import {ZoomControl} from './ZoomControl';
 
 import {
-    MapComponent,
+    // MapComponent,
     TileLayer,
-    Popup,
+    // Popup,
     // Circle,
     // CircleMarker,
     // Polyline,
     Polygon,
     // Rectangle,
     Map,
-    Marker
+    // Marker
 
     // SVGOverlay
 } from 'react-leaflet'
@@ -37,6 +38,7 @@ const CardMapInfo = ({bnd, showMap = false}) => {
     const [yellowOptions] = useState({fillOpacity: .1, color: "orange", fill: 'red'})
 
     const localMapRef = useRef(null)
+    // const zoomMapRef = useRef(null)
 
     L.Marker.prototype.options.icon = DefaultIcon;
 
@@ -68,6 +70,8 @@ const CardMapInfo = ({bnd, showMap = false}) => {
 
                 // </TileLayer>
                     }
+                    {/*<ZoomControl positions={bnd.objBnd.coordinates} ref={zoomMapRef}  />*/}
+
 
                 <TileLayer
                     attribution='&copy; <a href="http://osm.org/copyright">MosGeoTrest</a> '

@@ -7,13 +7,14 @@ import {
 } from "mobx"
 
 import {convertWT} from "./getBndConvert.mobx";
+// import {convertWT} from "./bndConvert.mobx";
 
 
 import axios from "axios";
 
 
 class ObjsMobX {
-    objectsEvn; //{amount: 0,startFetch: false, successFetch: false, errorFetch: false};
+    // objectsEvn; //{amount: 0,startFetch: false, successFetch: false, errorFetch: false};
 
     objsArr;  // get bound by id
     objArrState;
@@ -34,11 +35,11 @@ class ObjsMobX {
         //Objects & relatives
 
         // здесь только стейт загруженного объекта и данные только одного объекта
-        this.objState = {start: false, success: false, errorMessage: '', objData: {amount: 0, data: null} };
-        this.relState = {start: false, success: false, errorMessage: '', relData: {amount: 0, data: null} };
+        this.objState = {start: false, success: false, errorMessage: '', objData: {amount: 0, data: null}};
+        this.relState = {start: false, success: false, errorMessage: '', relData: {amount: 0, data: null}};
 
 
-        this.objArrState = {start: false, success: false, errorMessage: ''  };
+        this.objArrState = {start: false, success: false, errorMessage: ''};
         this.objsArr = {}; // {9750: {}, 1020: {} }
 
         this.relativesData = null;
@@ -49,7 +50,7 @@ class ObjsMobX {
 
         // events
         this.filterTypeEvents = 0; // 0 | 1 | 2
-        this.eventState = {start: false, success: false, errorMessage: '', amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null} };
+        this.eventState = {start: false, success: false, errorMessage: '', amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null}};
 
         this.showMap = false;
 
@@ -90,13 +91,15 @@ class ObjsMobX {
     }
 
     ///// objects API ////
-   async selElemOfObjsLst (objID, objName) {
+    async selElemOfObjsLst(objID, objName) {
+        this.eventToDefaultState()
         await this.fetchObjById(objID)
         await this.eventFetchByObjId(objID)
         this.selectObj(objID, objName)
     }
+
     ///// relatives API ////
-   async selElemOfRelLst (objID, objName) {
+    async selElemOfRelLst(objID, objName) {
         await this.fetchRelById(objID)
         this.selectRelObj(objID, objName)
     }
@@ -116,6 +119,7 @@ class ObjsMobX {
 
         }
     }
+
     // objs this.objsArr[`${obj.obj_id}`] = obj
     async fetchRelById(objID) {
         if (this.objsArr[objID]) {
@@ -149,9 +153,10 @@ class ObjsMobX {
         this.filterTypeEvents = type
         // console.log('setFilterEvents ',this.filterTypeEvents)
     }
+
     eventFetchByObjId(obj_id = 0) {
-         // перезапишится.. другая будет
-        console.log('eventFetchByObjId ',obj_id)
+        // перезапишится.. другая будет
+        console.log('eventFetchByObjId ', obj_id)
     }
 
 
@@ -239,15 +244,15 @@ class ObjsMobX {
 
 
     appendObjArrSessionExtract(objsSession) {
-        this.objArrState = {...this.objArrState, start: false , success: true, errorMessage: ''}
+        this.objArrState = {...this.objArrState, start: false, success: true, errorMessage: ''}
         this.objsArr = objsSession
         // console.log('toJS(stateObjsMobx)', toJS(stateObjsMobx))
     }
 
     appendObjArr(obj) {
-        this.objArrState = {...this.objArrState, start: false , success: true, errorMessage: ''}
-        if(this.objsArr[`${obj.obj_id}`]){
-            // console.log('уже есть такой ', obj)
+        this.objArrState = {...this.objArrState, start: false, success: true, errorMessage: ''}
+        if (this.objsArr[`${obj.obj_id}`]) {
+            console.log('уже есть такой ', obj)
             return
         }
 
@@ -267,12 +272,16 @@ class ObjsMobX {
 
     // events
     //this.eventState = {start: false, success: false, errorMessage: '', amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null} };
+    eventToDefaultState() {
+        this.eventState = {start: false, success: false, errorMessage: '', amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null}};
+    }
+
     setSuccessFetchEvents(data) {
-        console.log('setSuccessFetchEvents', data)
+        // console.log('setSuccessFetchEvents', data)
         this.eventState = {
             start: false,
             success: true,
-            errorMessage: false,
+            errorMessage: null,
             amount: data.amount,
             selectedRecId: data.data.recs[0].rec_id,
             evnData: data.data // data.recs
@@ -281,7 +290,8 @@ class ObjsMobX {
     }
 
     setErrorFetchEvents(mess) {
-        this.objectsEvn = {amount: 0, startFetch: false, successFetch: false, errorFetch: mess, data: null};
+        this.eventState = {start: false, success: false, errorMessage: mess, amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null}};
+        // this.objectsEvn = {amount: 0, startFetch: false, successFetch: false, errorFetch: mess, data: null};
     }
 
     // bound for map

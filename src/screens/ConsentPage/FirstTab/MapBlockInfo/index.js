@@ -1,23 +1,12 @@
-import React, {  useState} from 'react';
+import React  from 'react';
 import {observer} from 'mobx-react'
 import stateObjsMobx from '../../../../store/consent/objsConsent/objsCons.mobx';
 
 import CardMapInfo from "./CardMapComponents/CardMapInfo";
 
-let objAddress = ''
+// let objAddress = ''
 
 const CardMapInfoWrap = observer(() => {
-
-    let [objBndS, setObjBndS] = useState([])
-    let [relBndS, setRelBndS] = useState([])
-
-    // React.useLayoutEffect(() => {
-    //     // console.log('stateObjsMobx.showMap',stateObjsMobx.showMap)
-    //     if(stateObjsMobx.showMap){
-    //         setObjBndS(stateObjsMobx.selBndForMap.objBnd)
-    //         setRelBndS(stateObjsMobx.selBndForMap.relBnd)
-    //     }
-    // },[stateObjsMobx.showMap])
 
     const setCurObj = () => {
         console.log('setCurObj')
@@ -28,9 +17,7 @@ const CardMapInfoWrap = observer(() => {
     return (<>
         {stateObjsMobx.selectedObjs.obj.id
         && <CardMapInfo
-            objAddress={objAddress}
-            objBnd={objBndS} // stateObjsMobx.selBndForMap.objBnd
-            relBnd={relBndS}
+            // objAddress={objAddress}
             bnd={stateObjsMobx.selBndForMap}
             showMap={stateObjsMobx.showMap}
             // recsDataP={'recsDataS'}

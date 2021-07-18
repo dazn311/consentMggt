@@ -1,18 +1,22 @@
+// import fs from 'fs'
 const fs = require('fs')
 const path = require('path'),
-      fileConfig = path.join(__dirname, 'buildVersion.js');
+// import path from 'path'
 
+ fileConfig =  path.join(__dirname, 'buildVersion.js');
 
-const formatDateISO = (data) => {
-    let newDate = data || '2021-01-01T07:07:28.296Z';
-    newDate = newDate.split('T');
-    const dateArr = newDate[0].split('-');
-    const timeArr = newDate[1].slice(0,5);
+//
+// const formatDateISO = (data) => {
+//     let newDate = data || '2021-01-01T07:07:28.296Z';
+//     newDate = newDate.split('T');
+//     const dateArr = newDate[0].split('-');
+//     const timeArr = newDate[1].slice(0,5);
+//
+//     return dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0] + ' (' + timeArr + ')'
+// }
 
-    return dateArr[2] + '.' + dateArr[1] + '.' + dateArr[0] + ' (' + timeArr + ')'
-}
 const formatDateISOLocale = (data) => {
-    let newDate = data || '2021-01-01T07:07:28.296Z';
+    //let newDate = data || '2021-01-01T07:07:28.296Z';
 
     let tzOffset = (new Date()).getTimezoneOffset() * 60000; //offset in milliseconds
     let localISOTime = (new Date(Date.now() - tzOffset)).toISOString();//.slice(0, -1);
@@ -21,7 +25,7 @@ const formatDateISOLocale = (data) => {
     // console.log('tzOffset',tzOffset)
     // console.log('localISOTime',localISOTime)
 
-    newDate = localISOTime.split('T');
+    let newDate = localISOTime.split('T');
     const dateArr = newDate[0].split('-');
     const timeArr = newDate[1].slice(0,5);
 
@@ -44,7 +48,7 @@ const formatDateISOLocale = (data) => {
         }).then((file) => {
             console.log('read file then')
 
-            let CodeAsString = "Code as String to save"
+            // let CodeAsString = "Code as String to save"
             let newDate = formatDateISOLocale(new Date().toISOString());
             const contextBuild = `export const buildVersion = "${newDate}";`
 

@@ -44,6 +44,7 @@
     "leaflet": "^1.7.1",
     "leaflet-geosearch": "^3.3.2",
     "lodash": "^4.17.20",
+    "mapquest": "^0.2.0",
     "mobx": "^6.3.2",
     "mobx-react": "^7.2.0",
     "moment": "^2.29.1",
