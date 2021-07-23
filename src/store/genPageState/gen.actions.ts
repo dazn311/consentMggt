@@ -1,18 +1,18 @@
-import  { ActionTypesGenPage, SelectState, IActionData } from './gen.types';
-import memoize from 'lodash/memoize'
+import  { ActionTypesGenPage, SelectState, IActionData, IAction } from './gen.types';
+// import memoize from 'lodash/memoize'
 import {Dispatch} from "redux";
 
 type errorMessageTypes = string
 type genDataTypes = SelectState
 
-export const setErrorFetchGenPage = (errorMessage: errorMessageTypes) => ({
+export const setErrorFetchGenPage = (errorMessage: errorMessageTypes):IAction => ({
     type: ActionTypesGenPage.error,
     payload: errorMessage
 });
 
 ///////////////////////////////////////////////////////////////////
 
-export const setGenStatsPage = (items: genDataTypes): IActionData => ({
+export const setGenStatsPage = (items: genDataTypes): IAction => ({
   type: ActionTypesGenPage.genStates,
   payload: items
 });
@@ -45,7 +45,7 @@ export const setMessageError = (mess: errorMessageTypes) => {
 //220721 GenDashboard page
 
 export const fetchGenStatsAsync = () => {
-    return async (dispatch: Dispatch) => {
+    return async (dispatch: Dispatch<IAction>) => {
         try {
             const data = await postData(rootURL + '/query/stats/daily', {})
             dispatch(setGenStatsPage(data))
