@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
         width: drawerMinWidth,
         flexShrink: 0,
         whiteSpace: 'nowrap',
+        color: theme.palette.primary.main,
     },
     drawerOpen: {
         width: drawerWidth,
@@ -41,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'flex-start',
+        backgroundColor: theme.palette.primary.main,
         // padding: theme.spacing(0, 1),
         [theme.breakpoints.down('sm')]: {
             marginLeft: 0,
@@ -130,6 +132,7 @@ const useStyles = makeStyles((theme) => ({
     container: {
         paddingTop: theme.spacing(4),
         paddingBottom: theme.spacing(4),
+        color: theme.palette.primary.main,
     },
     paper: {
         padding: theme.spacing(2),
@@ -140,7 +143,7 @@ const useStyles = makeStyles((theme) => ({
     small: {
         width: theme.spacing(3),
         height: theme.spacing(3),
-        color: theme.palette.primary.dark,
+        color: theme.palette.primary.main,
     },
     large: {
         width: theme.spacing(7),

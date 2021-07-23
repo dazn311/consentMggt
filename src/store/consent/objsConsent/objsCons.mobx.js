@@ -6,8 +6,8 @@ import {
     toJS
 } from "mobx"
 
-import {convertWT} from "./getBndConvert.mobx";
-// import {convertWT} from "./bndConvert.mobx";
+// import {convertWT} from "./getBndConvert.mobx";
+import {convertWT} from "./bndConvert.mobx";
 
 
 import axios from "axios";
@@ -53,6 +53,7 @@ class ObjsMobX {
         this.eventState = {start: false, success: false, errorMessage: '', amount: 0, selectedRecId: 0, evnData: {amount: 0, data: null}};
 
         this.showMap = false;
+        this.showCanvas = false;
 
         makeObservable(this, {
             // organisation
@@ -66,7 +67,9 @@ class ObjsMobX {
             // objectsEvn: observable,
             eventState: observable,
             filterTypeEvents: observable,
+
             showMap: observable,
+            showCanvas: observable,
 
 
             selectObj: action,

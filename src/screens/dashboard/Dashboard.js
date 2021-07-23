@@ -34,6 +34,7 @@ let lineHeader = 'Текущая информация по событиям и �
 // let maxWidthGridOGH = '295px';
 
 const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchAmountOGHToDay}) => {
+    const [showError, setShowError] = React.useState(true);
     const classes = useStyles();
 
     useEffect(() => {
@@ -74,8 +75,8 @@ const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchA
         //   return;
         // }
 
-        // setOpen(false);
-        setMessageError(null);
+        setShowError(false);
+        setMessageError(false);
     };
 
 
@@ -85,26 +86,29 @@ const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchA
             <main className={classes.content}>
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth={false} className={classes.container}>
+                    <Grid item xs={12} md={12} lg={12} style={{ display: 'flex', flexWrap: window.innerWidth < 1122 ? 'wrap':'nowrap', flexDirection: 'row'}} >
 
-                    <Grid item xs={12} md={6} lg={6} style={{maxWidth: 660, minWidth: 550}}>
-                        <Paper elevation={1} className={fixedHeightPaper}>
-                            <h4 style={{textAlign: 'center', position: 'relative', marginTop: '0px', left: '0'}}> {lineHeader}</h4>
-                            <LineChartWrap/>
-                        </Paper>
+                        <Grid item xs={12} md={6} lg={6} style={{maxWidth: 660, minWidth: 550}}>
+                            <Paper elevation={1} className={fixedHeightPaper}>
+                                <h4 style={{textAlign: 'center', position: 'relative', marginTop: '0px', left: '0'}}> {lineHeader}</h4>
+                                <LineChartWrap/>
+                            </Paper>
+                        </Grid>
+
+                        <Grid item xs={12} md={3} lg={3}>
+                            <Paper elevation={1} className={fixedHeightPaper}>
+                                <Deposits/> {/* Количество ОГХ */}
+                            </Paper>
+                        </Grid>
+                        <Grid item xs={12} md={3} lg={3}>
+                            <Paper elevation={1} className={fixedHeightPaper}>
+                                <NewOGH/> {/* Новые ОГХ */}
+                            </Paper>
+                        </Grid>
+
                     </Grid>
 
 
-
-                    <Grid item xs={12} md={5} lg={3}>
-                        <Paper elevation={1} className={fixedHeightPaper}>
-                            <Deposits/> {/* Количество ОГХ */}
-                        </Paper>
-                    </Grid>
-                    <Grid item xs={12} md={5} lg={3}>
-                        <Paper elevation={1} className={fixedHeightPaper}>
-                            <NewOGH/> {/* Новые ОГХ */}
-                        </Paper>
-                    </Grid>
 
 
                     <Grid item xs={12}>
@@ -124,7 +128,7 @@ const Dashboard = ({selectErrorFetch, genStatsAll, fetchEventsPointShort, fetchA
 
                     <Grid item xs={12} style={{display: selectErrorFetch ? 'block' : 'none'}}>
                         <Paper className={classes.paper}>
-                            <Snackbar open={selectErrorFetch} autoHideDuration={6000} onClose={handleClose}>
+                            <Snackbar style={{display: showError ? 'block': 'none'}} open={selectErrorFetch} autoHideDuration={3000} onClose={handleClose}>
                                 <Alert onClose={handleClose} severity="error">
                                     {selectErrorFetch}
                                 </Alert>

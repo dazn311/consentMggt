@@ -1,6 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {observer} from 'mobx-react'
-import stateObjsMobx from "../../../../../store/consent/objsConsent/objsCons.mobx";
+
 import * as L from 'leaflet';
 import 'proj4leaflet';
 
@@ -8,23 +7,22 @@ import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 // import {ZoomControl} from './ZoomControl';
 
 import {
+    // MapComponent,
     TileLayer,
     // Popup,
     // Circle,
-    CircleMarker,
+    // CircleMarker,
     // Polyline,
     Polygon,
     // Rectangle,
     Map,
-    Marker,
-    useLeaflet,
-    LayerGroup, MapComponent
-    // SVGOverlay,
+    // Marker
 
+    // SVGOverlay
 } from 'react-leaflet'
 
 import "leaflet/dist/leaflet.css";
-import CanvasEvents from "./CanvasEvents";
+import useCanvas from "./UseCanvas";
 
 let DefaultIcon = L.icon({
     iconUrl: 'https://static1.squarespace.com/static/58c9e16237c5813452abfd18/t/5ad62def352f53ede18773ba/1622151102743/',
@@ -34,167 +32,72 @@ let DefaultIcon = L.icon({
 })
 //
 
-const icon = L.icon({
-    iconSize: [25, 41],
-    iconAnchor: [10, 41],
-    popupAnchor: [2, -40],
-    iconUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-icon.png",
-    shadowUrl: "https://unpkg.com/leaflet@1.6/dist/images/marker-shadow.png"
-});
 
 ///////////////////////////////////////////////////objAddress = 'Зорге, 1', objBnd = '', id = 0, setCurObj///////////////////////////////
 const CardMapInfo = ({bnd, showMap = false}) => {
-    const [map, setMap] = useState(null);
-
-    const [markers, setMarkers] = useState([
-        {latitude: 55.744001078068414, longitude: 37.81608378319693, popup: "This is Littleton, CO."},
-        // {latitude: 55.744201058068414, longitude: 37.81638778319693, popup: "This is Denver, CO."},
-        // {latitude: 55.744104078068414, longitude: 37.81658778319693, popup: "This is Aurora, CO."},
-        {latitude: 55.744505078068414, longitude: 37.81698778319693, popup: "This is Golden, CO."}
-    ])
-
     const [purpleOptions] = useState({shapeOptions: {color: '#f00'}})
     const [yellowOptions] = useState({fillOpacity: .1, color: "orange", fill: 'red'})
 
     const localMapRef = useRef(null)
-    const markerRefTmp = useRef(null)
 
+    const [isDrawing,BntDiv] = useCanvas()
     // const zoomMapRef = useRef(null)
 
+    L.Marker.prototype.options.icon = DefaultIcon;
 
-    function AddMarkerOnClick() {
-        const onClick = () => {
-            console.log('localMapRef', localMapRef.current.props.bounds[0])
-            const newMarket = {latitude: localMapRef.current.props.bounds[0][0] + 0.0002, longitude: localMapRef.current.props.bounds[0][1] + 0.0008, popup: "This is MGGTs 2, CO."}
-            const newMarkersValue = [...markers, newMarket ]
-
-            setMarkers(newMarkersValue)
-            // if (localMapRef.current ) { //.getZoom() === 6) {
-            //     L.marker([55.744801078068414, 37.81698378319693], {icon})
-            //         .addTo(localMapRef.current)
-            //         .addEventListener("click", () => localMapRef.current.setZoom(4));
-            // }
-        };
-
-        return <button style={{backgroundColor: 'blanchedalmond', marginTop: 100,zIndex: 1000}} onClick={onClick}>Add marker on click</button>;
-    }
-
-
-
-    const CustomMarkers = () => {
-        const map = useLeaflet();
-        return markers.map((el, i) => (
-            <Marker
-                key={i}
-                draggable
-                position={[el.latitude, el.longitude]}
-                icon={icon}
-                eventHandlers={{
-                    click: () => {
-                        console.log("marker clicked", el);
-                        // console.log(map.getZoom());
-                    }
-                }}
-            />
-        ));
-    };
-
-    const addMarker = (e) => {
-        console.log('addMarker latlng', e.latlng)
-        const newMarket = {latitude: e.latlng.lat + 0.0005, longitude: e.latlng.lng + 0.0005, popup: "This is MGGTs, CO."}
-        const newMarkersValue = [...markers, newMarket ]
-
-        setMarkers(newMarkersValue)
-    }
-
-    L.Marker.prototype.options.icon = icon;
-    // console.log('bnd',bnd)
-    console.log('map', map)
-    console.log('stateObjsMobx.showCanvas', stateObjsMobx.showCanvas)
     return (
-        <>
-            <Map key={'map567890'}
+            <>
+                <Map  key={'map567890'}
+                      dragging={false}
+                      zoom={15}
+                      scrollWheelZoom={false}
+                      bounds={bnd.objBnd && bnd.objBnd.bBox}
+                    // bounds={bnd.objBnd && bnd.objBnd.coordinates}
+                      ref={localMapRef}
+                    // crs={L.CRS.EPSG4326}
+                    // crs={crsMos}
+                    // CRS
+                >
+                    {bnd.relBnd
+                    && <Polygon
+                        key={1}
+                        lineCap={'butt'}
+                        color={'#ff9800'}
+                        opacity={0.7}
+                        draggable={true}
+                        pathOptions={yellowOptions}
+                        positions={bnd.relBnd ? bnd.relBnd.bnd[0] : []}
+                        // positions={bnd.relBnd ? bnd.relBnd.coordinates : []}
+                    />}
 
-                          dragging={!stateObjsMobx.showCanvas}
-                          zoom={15}
-                          scrollWheelZoom={false}
-                          bounds={bnd.objBnd && bnd.objBnd.bBox}
-                          // center={bnd.objBnd && bnd.objBnd.bBox[0]}
-                            ref={localMapRef}
-                          whenCreated={setMap}
-                          style={{height: "80vh"}}
-                          eventHandlers={{
-                              // addMarker
-                              click: (e) => {
-                                  addMarker(e);
-                              }
-                          }}
+                    {bnd.objBnd &&
+                    // && <TileLayer>
+                    <Polygon key={2} draggable={true} pathOptions={purpleOptions} positions={bnd.objBnd.bnd[0]}/>
+                        // <Polygon key={2} draggable={true} pathOptions={purpleOptions} positions={bnd.objBnd.coordinates}/>
 
-            >
-
-                {bnd.relBnd
-                && <Polygon
-                    key={1}
-                    lineCap={'butt'}
-                    color={'#ff9800'}
-                    opacity={0.7}
-                    draggable={true}
-                    pathOptions={yellowOptions}
-                    positions={bnd.relBnd ? bnd.relBnd.bnd[0] : []}
-                />}
-
-                {bnd.objBnd &&
-                // && <TileLayer>
-                <Polygon key={2} draggable={true} pathOptions={purpleOptions} positions={bnd.objBnd.bnd[0]}/>
-
-                    // </TileLayer>
-                }
-
-                {bnd.objBnd && <CircleMarker
-                    ref={markerRefTmp}
-                    opacity={1}
-                    fillColor={'green'}
-                    weight={2}
-                    radius={10}
-                    // center={localMapRef.current.center}
-                    center={[markers[0].latitude, markers[0].longitude]}
-                    // center={evt.rec_bnd}
-                    // onClick={(e) => {handleMarkerClick(e, evt)}}
-                    //color={evt.rec_status === 5 ? 'green' : 'blue'}
-                    // onClick={() => console.log('click marker')}
-                    onClick={addMarker}
-
-                    draggable={true}
-
-                    // eventHandlers={eventHandlers}
-                    // eventHandlers={(e) => eventHandlersEventMarker(e, idx)}
-                    key={`markerEvt-${1}`}
-                    // position={evt.rec_bnd}
-                />}
+                        // </TileLayer>
+                    }
+                    {/*<ZoomControl positions={bnd.objBnd.coordinates} ref={zoomMapRef}  />*/}
 
 
-                {/*<div style={{backgroundColor: 'rebeccapurple'}} ><button>idfsf</button></div>*/}
-                <TileLayer
-                    attribution='&copy; <a href="http://osm.org/copyright">MosGeoTrest</a> '
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                />
+
+                    <TileLayer
+                        attribution='&copy; <a href="http://osm.org/copyright">MosGeoTrest</a> '
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+
+                {/*{ bnd.objBnd && <CanvasEvents/> }*/}
+                {/*{ bnd.objBnd && <ActivateCanvas /> }*/}
+                { bnd.objBnd && <BntDiv /> }
+                </Map>
 
 
-                <LayerGroup key={'layerGr-77'}>
-
-                    <CustomMarkers/>
-                    <AddMarkerOnClick map={map}/>
-                </LayerGroup>
-
-            </Map>
-            {bnd.objBnd && <CanvasEvents/>}
-
-        </>
+            </>
     );
 }
 
 
-export default observer(CardMapInfo)
+export default CardMapInfo
 
 
 // import AssistantPhotoIcon from '@material-ui/icons/AssistantPhoto';
@@ -470,6 +373,7 @@ export default observer(CardMapInfo)
 //         </Slide>
 
 
+
 // import {Slide} from "@material-ui/core";
 
 // import {Slide} from "@material-ui/core";
@@ -483,6 +387,7 @@ export default observer(CardMapInfo)
 //
 //
 // const def_msk = '+proj=tmerc +lat_0=55.6666666667 +lon_0=37.5 +x_0=0 +y_0=0 +k_0=1. +a=6377397 +rf=299.15 +towgs84=396,165,557.7,-0.05,0.04,0.01,0 +no_defs';
+
 
 
 // import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'

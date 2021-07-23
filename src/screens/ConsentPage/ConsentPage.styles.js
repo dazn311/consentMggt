@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     padding: theme.spacing(1),
     display: 'flex',
-    overflow: 'hidden',
     flexDirection: 'column',
+    // overflow: 'hidden',
   },
   fixedHeight: {
     height: 240,

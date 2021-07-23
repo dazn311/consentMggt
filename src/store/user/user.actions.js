@@ -161,7 +161,7 @@ export const fetchCurrentUserAsyncOld = (id)  => {
 };
 
 
-// fetch for App.js get logined user in this app
+// fetch for App.tsx get logined user in this app
 export const fetchCurrentUserAsync = (id)  => {
     // console.log('👉 fetchCurrentUserAsync start:' );
     // return (dispatch) => {
@@ -173,7 +173,7 @@ export const fetchCurrentUserAsync = (id)  => {
     // };
 };
 
-// fetch for App.js get logined user in this app
+// fetch for App.tsx get logined user in this app
 // export const fetchCurrentUserAllDataAsync = (id)  => {
 //   console.log('👉 fetchCurrentUserAllDataAsync start:' );
 //   return (dispatch) => {

@@ -92,7 +92,7 @@ export const setCurDateEndAsync = (date)  => {
 //   return  'demo'; // parses JSON response into native JavaScript objects
 // }
 
-// fetch for App.js get logined user in this app
+// fetch for App.tsx get logined user in this app
 // export const fetchCurrentUserAsync = (id)  => {
   // console.log('👉 fetchCurrentUserAsync start:' );
   // return (dispatch) => {
@@ -104,7 +104,7 @@ export const setCurDateEndAsync = (date)  => {
   // };
 // };
 
-// fetch for App.js get logined user in this app
+// fetch for App.tsx get logined user in this app
 // export const fetchCurrentUserAllDataAsync = (id)  => {
 //   console.log('👉 fetchCurrentUserAllDataAsync start:' );
 //   return (dispatch) => {

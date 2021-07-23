@@ -16,6 +16,7 @@ import StarHalfIcon from '@material-ui/icons/StarHalf';
 import DonutLarge from '@material-ui/icons/DonutLarge';
 
 import {useStyles} from "../cardUserComponents/ElemObj";
+import LoaderList from "../components/LoaderList";
 
 ////////////////////////////////////
 // @observer
@@ -29,7 +30,7 @@ const OrgCardConsent = observer(() => {
     if (stateObjsMobx.orgDataState.success) {
         // console.log('successFetchOrg',stateObjsMobx.successFetchOrg)
     }else {
-        return (<div>нет данных об организации..</div>)
+        return (<LoaderList title={'загрузка...'}/>)
     }
 
 

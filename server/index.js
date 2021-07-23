@@ -6,14 +6,9 @@ import http from "http";
 import {Server} from "socket.io"
 import cors from "cors";
 
-// import  Pool  from 'pg'
-// import * as pg from 'pg'
-// const { Pool } = pg
-
 import PG from 'pg';
 
 const Pool = PG.Pool;
-
 
 const pool = new Pool({
     user: "mggt_alex",
@@ -54,31 +49,18 @@ async function query(q,data){
 
 
 async function getMessagesByEventId(evId){
-    console.log('getMessagesByEventId start', evId)
     return new Promise ((resolve, reject) => {
-        //SELECT * FROM public.mggt_message WHERE msg_rec_id = 9750;
-        let queryText  = ` SELECT * FROM public.mggt_message WHERE msg_rec_id = 3265;`; // good
-        // let queryText  = ` SELECT * FROM public.mggt_message WHERE msg_rec_id = ${evId};`; // good
+        let queryText  = ` SELECT * FROM public.mggt_message WHERE msg_rec_id = 3265;`;// = 3265;`; // good = ${evId};`;
         query(queryText)
             .then(function(data){
-                console.log('21data.rows',data.rows)
                 let result = {
                     evMes: data.rows
                 }
                 resolve(result);
-                // if(data.rows){
-                //     resolve({data: data.rows});
-                // }else {
-                //     resolve([])
-                // }
-
-
             })
             .catch(function(err){console.log(err)});
     });
 }
-
-
 
 
 const app = express();
@@ -103,12 +85,13 @@ app.post('/query/event/messages', cors(), async function(req, res){
 
     try {
         let resEventMessages = await getMessagesByEventId(evId);
-        console.log('resEventMessages',resEventMessages)
+        // console.log('resEventMessages',resEventMessages)
         let result = {
             eventId: evId,
             test: evId,
             messages: resEventMessages.evMes
         }
+        console.log(' resEventMessages.evMes - ',resEventMessages.evMes);
         res.send(result);
     } catch (e){
         console.log(' error - ',e);
@@ -139,7 +122,7 @@ io.on("connection", async (socket) => {
 
     // получить данные из бд
     let resEventMessages = await getMessagesByEventId(roomId);
-    console.log('resEventMessages', resEventMessages)
+    // console.log('resEventMessages.evMes', resEventMessages.evMes)
     socket.to(roomId).to(socket.id).emit('salut-event',   resEventMessages.evMes);
 
 
@@ -156,8 +139,13 @@ io.on("connection", async (socket) => {
     socket.on(NEW_CHAT_MESSAGE_EVENT, (data) => {
         let newData = {...data, date: new Date()}
         setMessagesOfRoom(roomId, newData, messagesAllRoom)
-        // console.log(`NEW_CHAT_MESSAGE_EVENT messagesAllRoom`, messagesAllRoom);
-
+        console.log(`NEW_CHAT_MESSAGE_EVENT `, newData);
+//NEW_CHAT_MESSAGE_EVENT  {
+//   userName: 'ЖКХиБ ВАО',
+//   body: 'new mess',
+//   senderId: '0sjMvD2or17jfE5oAAAB',
+//   date: 2021-07-19T12:56:05.700Z -- date format
+// }
         io.to(roomId).emit(NEW_CHAT_MESSAGE_EVENT, newData);
     });
 
@@ -201,6 +189,17 @@ function setMessagesOfRoom(roomId, data, messages) {
 
     return messages
 }
+
+
+
+
+
+
+
+// import  Pool  from 'pg'
+// import * as pg from 'pg'
+// const { Pool } = pg
+
 
 
 // console.log(` socket.on NEW_CHAT_MESSAGE_EVENT data `,data);

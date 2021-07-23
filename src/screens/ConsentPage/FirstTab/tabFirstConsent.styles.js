@@ -6,21 +6,7 @@ const styleConsent = {
   justifyContent: "flex-start",
 };
 
-const styleOrg = {
-  display: "flex",
-  flexDirection: "column",
-  flexWrap: "nowrap",
-  justifyContent: "flex-start",
-  border: "2px solid #4D584D",
-  // minWidth: 350,
-  // width: 350,
-  minHeight: 450,
-  height: 'min-content',
-  marginRight: 8,
-  position: "relative",
-  overflow: "unset",
-  transition: "all .5s ease-in-out",
-};
+
 const styleIconButton = {
   position: "absolute",
   top: 4,
@@ -76,4 +62,4 @@ const styleChatEvents = {
   transition: "all .5s ease-in-out",
 };
 
-export { styleConsent, styleOrg, styleCardMapInfo, styleEventsObj, styleChatEvents, styleIconButton };
+export { styleConsent, styleCardMapInfo, styleEventsObj, styleChatEvents, styleIconButton };
