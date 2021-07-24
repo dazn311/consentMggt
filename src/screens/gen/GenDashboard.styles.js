@@ -21,7 +21,7 @@ const useGenStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(2),
     paddingBottom: theme.spacing(2),
     paddingLeft: theme.spacing(1),
-    // minWidth: 1400,
+    minWidth: 1200,
   },
   paper: {
     padding: theme.spacing(2),

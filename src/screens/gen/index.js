@@ -4,10 +4,12 @@ import GenDashboard from './GenDashboard';
 
 
 const AuthDash = () => {
-    let currentUser = {username: 'demo'};
+    // let currentUser = {username: 'demo'};
 
     return (
-        <GenDashboard currentUser={currentUser}/>
+        <GenDashboard
+            // currentUser={currentUser}
+        />
     )
 }
 

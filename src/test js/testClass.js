@@ -25,10 +25,10 @@ function Person(first, last, age, gender, interests) {
     this.gender = gender;
     this.interests = interests;
     this.newValue = 5;
-};
+}
 
 Person.prototype.greeting = function() {
-    console.log('Hi! I\'m ' + this.name.first + ' '+ this.name.last + '.'+ ' '+ this.newValue + '.');
+    console.log('Hi! I\'m ' + this.name.first + ' '+ this.name.last + '.' + ' '+ this.newValue + '.');
 };
 
 // const person = new Person('Alex', 'RG', 12, 'm','IBM')
@@ -67,10 +67,35 @@ Teacher.prototype.greeting = function() {
 };
 
 const teach2 = new Teacher('Alex', 'RG', 12, 'm','IBM','PC')
-const person1 = new Person('Alex', 'RG', 12, 'm','IBM')
+// const person1 = new Person('Alex', 'RG', 12, 'm','IBM')
 // console.log('Teacher prototype greet', Teacher.prototype.greeting) // [Function (anonymous)]
 
 teach2.newValue = 7
-person1.greeting()
-teach2.greeting()
-console.log(teach2);
+// person1.greeting()
+// teach2.greeting()
+// console.log(teach2);
+
+///
+class Avocada {
+    get weight() {
+        return this.#weight;
+    }
+    set weight(value) {
+        this.#weight = value;
+    }
+    get height() {
+        return this._height;
+    }
+    constructor(weight) {
+        this.#weight = weight
+    }
+    #weight = 333;
+    _height = 3;
+
+}
+let av = new Avocada(44);
+av.weight = 77
+console.log(av._height)
+console.log(av.height)
+console.log(av.weight)
+console.log(av.weight)

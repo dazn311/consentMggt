@@ -18,6 +18,7 @@
     "@testing-library/user-event": "^12.6.0",
     "@types/express": "^4.17.12",
     "@types/jest": "^26.0.24",
+    "@types/material-ui": "^0.21.9",
     "@types/node": "^16.3.3",
     "@types/react": "^17.0.14",
     "@types/react-dom": "^17.0.9",

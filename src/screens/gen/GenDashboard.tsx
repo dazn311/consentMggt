@@ -4,37 +4,26 @@ import {Dispatch} from "redux";
 
 import {createStructuredSelector} from 'reselect';
 
-import clsx from 'clsx';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-
-import GenDeposits from './GenDeposits';
-import GenAllPeriod from './GenAllPeriod';
-import GenOneDayPeriod from './GenOneDayPeriod';
 
 import {selectGenStats} from '../../store/genPageState/gen.selectors';
 import { fetchGenStatsAsync } from '../../store/genPageState/gen.actions';
 
-import {Slide} from "@material-ui/core";
 import useGenStyles from "./GenDashboard.styles";
+import CardInfo from "./components/CardInfo";
+import {SelectStateTransform} from "../../store/genPageState/gen.types";
 
-interface SelectState {
-    readonly daily_messages: number;
-    readonly daily_recs: number;
-    readonly daily_sogl_recs: number;
-    readonly total_messages: number;
-    readonly total_mggt_objects: number;
-    readonly total_objects: number;
-    readonly total_recs: number;
-    readonly total_rel_objects: number;
-    readonly total_sogl_objects: number;
-    readonly total_sogl_recs: number;
-    readonly total_users: number;
-}
+// interface SelectState {
+//     title: string,
+//     data: object
+// }
+
+type dataEntre = SelectStateTransform[] | any
+
 interface State {
-    readonly selectGenStats: SelectState;
+    readonly selectGenStats: dataEntre;
 }
 
 interface DesiredSelection {
@@ -43,20 +32,19 @@ interface DesiredSelection {
 
 interface propsGen {
     fetchGenStats: any;
-    genStats: SelectState;
+    genStats: dataEntre;
 }
+
 
 const GenDashboard: React.FC = React.memo(({fetchGenStats, genStats}:propsGen) => {
     const classes = useGenStyles();
-
+    // console.log('genStats',genStats)
     useEffect(() => {
-        if (genStats.total_objects === 0) {
-            // console.log('GenDashboard - fetch start')
+        if (genStats[0].data[0].desc === 0) {
             fetchGenStats()
+                .then((d:any) => console.log('then',d) )
         }
     }, [fetchGenStats])
-
-    const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
     return (
         <div className={classes.root}>
@@ -65,31 +53,7 @@ const GenDashboard: React.FC = React.memo(({fetchGenStats, genStats}:propsGen) =
                 <div className={classes.appBarSpacer}/>
                 <Container maxWidth={false} className={classes.container}>
                     <Grid container spacing={2}>
-
-                            <Slide direction="up" in={true} mountOnEnter unmountOnExit>
-                                <Grid item xs={12} md={4} lg={4}>
-                                    <Paper className={fixedHeightPaper}>
-                                        <GenDeposits data={genStats}/> {/* Количество ОГХ */}
-                                    </Paper>
-                                </Grid>
-                            </Slide>
-
-                            <Slide direction="down" in={true} mountOnEnter unmountOnExit>
-                                <Grid item xs={12} md={4} lg={4}>
-                                    <Paper className={fixedHeightPaper}>
-                                        <GenAllPeriod data={genStats}/> {/* Количество ALl */}
-                                    </Paper>
-                                </Grid>
-                            </Slide>
-
-                            <Slide direction="left" in={true} mountOnEnter unmountOnExit>
-                                <Grid item xs={12} md={4} lg={4}>
-                                    <Paper className={fixedHeightPaper}>
-                                        <GenOneDayPeriod data={genStats}/>
-                                    </Paper>
-                                </Grid>
-                            </Slide>
-
+                        {genStats && genStats.map((d:SelectStateTransform) =>  <CardInfo dataIn={d}  directionType='up' /> )}
                     </Grid>
                 </Container>
             </main>

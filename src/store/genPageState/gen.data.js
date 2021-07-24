@@ -1,17 +1,15 @@
 const INITIAL_STATE_GEN_PAGE = {
-    genStats: {  //290421 dashboard page
-        "total_objects": 0,
-        "total_mggt_objects": 0,
-        "total_rel_objects": 0,
-        "total_sogl_objects": 0,
-        "total_recs": 0,
-        "total_sogl_recs": 0,
-        "daily_recs": 0,
-        "daily_sogl_recs": 0,
-        "total_messages": 0,
-        "daily_messages": 0,
-        "total_users": 0
-    },
+    genStats: [
+        {
+            title: `За весь период`,
+            data: [
+                {caption: 'Всего событий', desc: 0},
+                {caption: 'Всего сообщений', desc: 0},
+                {caption: 'Всего согласовано объектов', desc: 0},
+                {caption: 'Всего согласованых событий', desc: 0},
+            ]
+        },
+    ]
 };
 
 export default INITIAL_STATE_GEN_PAGE

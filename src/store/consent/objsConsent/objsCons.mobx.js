@@ -32,6 +32,7 @@ class ObjsMobX {
         this.objListState = {start: false, success: false, errorMessage: '', objLst: {amount: 0, data: null}, amRel: 0};
 
 
+
         //Objects & relatives
 
         // здесь только стейт загруженного объекта и данные только одного объекта
@@ -43,6 +44,7 @@ class ObjsMobX {
         this.objsArr = {}; // {9750: {}, 1020: {} }
 
         this.relativesData = null;
+
         this.curObjId = null; // выделенный объект - выбранный пользователем /consent page 270521
 
         this.curRelId = null; // выделенный объект - выбранный пользователем /consent page 270521
